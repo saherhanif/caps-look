@@ -6,7 +6,7 @@ const NavBar = () => {
   return (
     <div>
       <nav>
-        <div className={style.div}>
+        <div style={{marginTop:'160px'}}>
           <Link to="/" className={style.link}>
             Home
           </Link>
