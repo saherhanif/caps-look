@@ -1,27 +1,11 @@
-nav {
-  background-color: #2e2d44;
+.navbar {
+  background-color: #2E2D44;
+  height: 6vh;
+  display: flex;
   width: auto;
-  text-align: center;
-  height: 100%;
-  position: fixed;
-}
-.link {
-  color: azure;
-  font-size: 18px;
-  padding: 14px;
-  padding-right: 30px;
-  text-decoration: none;
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-.link:focus {
-  color: rgb(209, 86, 86);
-}
-hr {
-  background-color: rgb(209, 86, 86);
-  height: 4px;
-  width: 15vh;
-  border-color: #2e2d44;
-  margin-top: 230px;
-  margin-bottom: 30px;
-}
 
+  img {
+    height: 90%;
+    margin: auto;
+  }
+}
