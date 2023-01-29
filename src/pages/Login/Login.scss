@@ -1,0 +1,52 @@
+.LoginFeilds{
+    
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    align-items: center ;
+    width: fit-content;
+    height: 100%;
+  
+}
+
+.LoginContainer{
+
+display: flex;
+justify-content: center;
+align-items: center;
+background-image: url("cut.jpg");
+background-size: 1060px;
+background-repeat: no-repeat;
+background-position: center;
+height: 100vh;
+
+
+
+}
+.rem{
+    margin-bottom: 150px;
+    color: aliceblue;
+}
+
+.LIButton{
+    width: 100%;
+    height: 30px;
+    background-color: #595786 !important;
+
+}
+
+h1{
+    color: #595786;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 800;
+    text-shadow: 0px 2px 2px #1a0c3a4e;
+    margin-bottom: 260px;
+    margin-top: 120px;
+
+
+    
+}
+.passwordI{
+display:inline
+
+}
