@@ -12,10 +12,6 @@ const ContentsTable = (props) => {
             {props.columns.map((e) => {
               return <h3 className={style.MaininfoText}>{e.title}</h3>
             })}
-            {/* <h3 className={style.MaininfoText}>Name</h3>
-            <h3 className={style.MaininfoText}>Scrums Number</h3>
-            <h3 className={style.MaininfoText}>Employee Number</h3>
-            <h3 className={style.MaininfoText}>Iterations Number</h3> */}
           </div>
         </div>
         {props.source.map((data) => {
@@ -23,15 +19,10 @@ const ContentsTable = (props) => {
             <div className={style.childContainer}>
               <div className={style.childInfoBar}>
                 <div className={style.childinfoText}>
-                  {/* <h3 className={style.childinfoText}>{data[props.columns[]]}</h3>
-                  <h3 className={style.childinfoText}>{data.Snumber}</h3>
-                  <h3 className={style.childinfoText}>{data.Enumber}</h3>
-                  <h3 className={style.childinfoText}>{data.Inumber}</h3> */}
                   {props.columns.map((e) => {
                     return (
                       <h3 className={style.childinfoText}>
                         {data[e.dataIndex]}
-                        {/* e.dataIndex = 'iteration_number' -> data['iteration_number'] -> data.iteration_number */}
                       </h3>
                     )
                   })}

@@ -24,14 +24,13 @@ const Projects = () => {
   const columns = [
     { title: 'name', dataIndex: 'project_name' },
     { title: 'scrum number', dataIndex: 'scrum_number' },
-    { title: 'employees number',dataIndex:'employee_number' },
+    { title: 'employees number', dataIndex: 'employee_number' },
     { title: 'iteration number', dataIndex: 'iteration_number' }
   ]
 
   return (
     <div>
-      <PageContainer
-      >
+      <PageContainer>
         <SearchBar />
         <ContentsTable source={projects} columns={columns} />
       </PageContainer>
