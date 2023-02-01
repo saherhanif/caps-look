@@ -10,8 +10,6 @@ const PageContainer = (props) => {
         <br />
         <hr className={style.Line} />
       </div>
-      {/* <div>{props.component}</div>
-      <div>{props.secondComponent}</div> */}
       {props.children}
     </div>
   )

@@ -48,21 +48,3 @@ const Projects = () => {
 
 export default Projects
 
-// const Table = (props ) => {
-//   // props.onClick
-
-//   return (
-//     <div className={props.className}>
-//       1
-//     </div>
-//   )
-// }
-
-// <Table
-// columns={[]}
-// data={[]}
-// onEdit={() => 1}
-// onArchive={() => 1}
-
-// className = "test"
-// />
