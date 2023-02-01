@@ -11,7 +11,6 @@ const Projects = () => {
     try {
       const result = await fetch('http://localhost:4000/Products')
       const res = await result.json()
-      console.log(1, res)
       setProjects(res)
     } catch (err) {
       throw new Error('No data found !!!')
