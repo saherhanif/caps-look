@@ -1,17 +1,17 @@
-import React from "react"
-import ReactDOM from "react-dom/client"
-import App from "./App"
-import 'primeicons/primeicons.css';
-import 'primeflex/primeflex.css';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';   // theme
-import 'primereact/resources/primereact.css'; 
-import { BrowserRouter as Router } from "react-router-dom";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import 'primeicons/primeicons.css'
+import 'primeflex/primeflex.css'
+import 'primereact/resources/themes/lara-light-indigo/theme.css' // theme
+import 'primereact/resources/primereact.css'
+import { BrowserRouter as Router } from 'react-router-dom'
 
-
-const root = ReactDOM.createRoot(document.getElementById("root"))
+const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <Router> <App /></Router>
-   
+    <Router>
+      <App />
+    </Router>
   </React.StrictMode>
 )
