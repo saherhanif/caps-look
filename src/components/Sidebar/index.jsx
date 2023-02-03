@@ -6,7 +6,7 @@ import { AiOutlineSetting } from 'react-icons/ai'
 const Sidebar = () => {
   return (
     <nav className={style.sidebar}>
-      <Link to="/" className={style.link}>
+      <Link to="/home" className={style.link}>
         Home
       </Link>
       <Link to="/Sites" className={style.link}>
