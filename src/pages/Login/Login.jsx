@@ -12,8 +12,6 @@ function Login() {
   return (
     <div className={style.LoginContainer}>
       <form className={style.LoginFeilds}>
-        
-
         <span className="p-input-icon-left">
           <i className="pi pi-user" />
           <InputText
@@ -37,7 +35,11 @@ function Login() {
           />
         </div>
 
-        <div className={"flex align-items-center align-self-start "+ style.remember}>
+        <div
+          className={
+            'flex align-items-center align-self-start ' + style.remember
+          }
+        >
           <Checkbox
             inputId="rememberMe"
             name="remember"
