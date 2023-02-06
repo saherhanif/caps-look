@@ -1,8 +1,9 @@
 .navbar {
   background-color: #2e2d44;
-  height: 50px;
+  height: 6vh;
   display: flex;
-  width: auto;
+  width: 100vw;
+  position: fixed;
 
   .capslooklogo {
     height: 90%;

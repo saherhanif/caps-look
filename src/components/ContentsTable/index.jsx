@@ -6,27 +6,37 @@ import { BiArchiveIn } from 'react-icons/bi'
 const ContentsTable = (props) => {
   return (
     <div className={style.innerContainer}>
-      <div>
-        <div className={style.MainInfoBar}>
-          <div className={style.MaininfoText}>
-            {props.columns.map((e) => {
-              return <h3 className={style.MaininfoText}>{e.title}</h3>
-            })}
-          </div>
-        </div>
+      <div className={style.tableHeader}>
+        {props.columns.map((e) => {
+          return (
+            <h3
+              style={{
+                width: `${100 / props.columns.length}%`
+              }}
+              className={style.MaininfoText}
+            >
+              {e.title}
+            </h3>
+          )
+        })}
+      </div>
+      <div className={style.tableBody}>
         {props.source.map((data) => {
           return (
-            <div className={style.childContainer}>
-              <div className={style.childInfoBar}>
-                <div className={style.childinfoText}>
-                  {props.columns.map((e) => {
-                    return (
-                      <h3 className={style.childinfoText}>
-                        {data[e.dataIndex]}
-                      </h3>
-                    )
-                  })}
-                </div>
+            <div className={style.dataRow}>
+              <div className={style.dataContainer}>
+                {props.columns.map((e) => {
+                  return (
+                    <h3
+                      style={{
+                        width: `${100 / props.columns.length}%`
+                      }}
+                      className={style.dataNode}
+                    >
+                      {data[e.dataIndex]}
+                    </h3>
+                  )
+                })}
               </div>
               <button className={style.EditContainer}>
                 <CiEdit className={style.innerIcons} />
@@ -38,6 +48,7 @@ const ContentsTable = (props) => {
           )
         })}
       </div>
+      1 1
     </div>
   )
 }

@@ -9,7 +9,7 @@ const Projects = () => {
   const [projects, setProjects] = useState([{}])
   const getProjects = async () => {
     try {
-      const result = await fetch('http://localhost:4000/Products')
+      const result = await fetch('http://localhost:4000/Projects')
       const res = await result.json()
       setProjects(res)
     } catch (err) {
@@ -22,26 +22,29 @@ const Projects = () => {
 
   const columns = [
     { title: 'name', dataIndex: 'project_name' },
-    { title: 'scrum number', dataIndex: 'scrum_number' },
-    { title: 'employees number', dataIndex: 'employee_number' },
-    { title: 'iteration number', dataIndex: 'iteration_number' }
+    { title: 'scrum #', dataIndex: 'scrum_number' },
+    { title: 'Emp #', dataIndex: 'employee_number' },
+    { title: 'iteration #', dataIndex: 'iteration_number' }
   ]
 
   return (
-    <div>
-      <PageContainer>
-        <SearchBar />
+    <PageContainer>
+      <SearchBar PlaceholderItem={'Search a Project'} />
+      <div style={{ width: '90%' }}>
         <ContentsTable source={projects} columns={columns} />
-      </PageContainer>
+      </div>
+
       <br />
       <div className={style.buttonsContainer}>
-        <button className={style.PageButton}> Create Project </button>
+        <div className={style.Create}>
+          <button> Create Project </button>
+        </div>
+        <div className={style.export}>
+          <button>Export as CSV</button>
+        </div>
+        <br />
       </div>
-      <br />
-      <div className={style.export}>
-        <button> Export as CSV </button>
-      </div>
-    </div>
+    </PageContainer>
   )
 }
 

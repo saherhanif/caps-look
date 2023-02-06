@@ -2,8 +2,11 @@
   background-color: #2e2d44;
   height: auto;
   width: 12vw;
+  height: 94vh;
   display: flex;
   flex-direction: column;
+  position: fixed;
+  top: 6vh;
 
   .link {
     color: azure;
