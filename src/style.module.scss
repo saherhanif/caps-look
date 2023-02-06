@@ -1,12 +1,13 @@
 .pageBody {
   display: flex;
+  padding-top: 6vh;
 
   .mainPage {
     width: 88vw;
-    height: 40vw;
-    padding: 50px 200px;
-    background-image: url(./amdocs-logo.jpg);
-    background-size: 50% 100%;
+    margin-left: auto;
+    padding: 20px 50px;
+    background-image: url(./Amdocs_logo_BG_2.JPG);
+    background-size: 100% 100%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
     background-repeat: no-repeat;
   }

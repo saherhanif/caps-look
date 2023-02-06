@@ -1,7 +1,8 @@
 import React from 'react'
 import { BsSearch } from 'react-icons/bs'
 import style from './style.module.scss'
-const SearchBar = () => {
+import { AutoComplete } from 'primereact/autocomplete'
+const SearchBar = (props) => {
   return (
     <div
       style={{
@@ -12,7 +13,7 @@ const SearchBar = () => {
       <input
         type="search"
         className={style.searchbar}
-        placeholder="Search Project..."
+        placeholder={props.PlaceholderItem}
       />
       <button className={style.srchico}>
         {' '}
