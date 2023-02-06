@@ -4,9 +4,15 @@ import { useState, useEffect } from 'react'
 import SearchBar from '../../components/SearchBar'
 import PageContainer from '../../components/PageContainer'
 import ContentsTable from '../../components/ContentsTable'
+import { Button} from 'primereact/button'
+import PopUpMessage from './PopUpDialog'
+import { Dialog } from 'primereact/dialog'
+  
 
 const Projects = () => {
   const [projects, setProjects] = useState([{}])
+  const [visible, setVisible] = React.useState(false)
+
   const getProjects = async () => {
     try {
       const result = await fetch('http://localhost:4000/Projects')
@@ -37,13 +43,24 @@ const Projects = () => {
       <br />
       <div className={style.buttonsContainer}>
         <div className={style.Create}>
-          <button> Create Project </button>
+          <Button label="Create Project" onClick={() => setVisible(true)} />
+          
+
         </div>
         <div className={style.export}>
           <button>Export as CSV</button>
         </div>
         <br />
+
       </div>
+      <Dialog
+        header="Caps Lock"
+        style={{ textAlign: 'center' }}
+        visible={visible}
+        onHide={() => setVisible(false)}
+      >
+        <PopUpMessage />
+      </Dialog>
     </PageContainer>
   )
 }
