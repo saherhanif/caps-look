@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import SearchBar from '../../components/SearchBar'
 import PageContainer from '../../components/PageContainer'
 import ContentsTable from '../../components/ContentsTable'
+import { CSVLink } from 'react-csv'
 
 const Projects = () => {
   const [projects, setProjects] = useState([{}])
@@ -40,8 +41,18 @@ const Projects = () => {
           <button> Create Project </button>
         </div>
         <div className={style.export}>
+        <CSVLink
+          style={{
+            textDecoration: 'none'
+          }}
+          data={projects}
+          onClick={() => {
+            console.log('exporting')
+          }}
+        >
           <button>Export as CSV</button>
-        </div>
+        </CSVLink>
+      </div>
         <br />
       </div>
     </PageContainer>
