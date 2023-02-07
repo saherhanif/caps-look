@@ -7,7 +7,7 @@ import ContentsTable from '../../components/ContentsTable'
 import { Button} from 'primereact/button'
 import PopUpMessage from './PopUpDialog'
 import { Dialog } from 'primereact/dialog'
-  
+import { CSVLink } from 'react-csv'
 
 const Projects = () => {
   const [projects, setProjects] = useState([{}])
@@ -48,8 +48,18 @@ const Projects = () => {
 
         </div>
         <div className={style.export}>
+        <CSVLink
+          style={{
+            textDecoration: 'none'
+          }}
+          data={projects}
+          onClick={() => {
+            console.log('exporting')
+          }}
+        >
           <button>Export as CSV</button>
-        </div>
+        </CSVLink>
+      </div>
         <br />
 
       </div>
