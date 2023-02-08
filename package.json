@@ -16,7 +16,8 @@
     "react-router-dom": "^6.7.0",
     "react-scripts": "5.0.1",
     "sass": "^1.57.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "react-csv":"^2.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
