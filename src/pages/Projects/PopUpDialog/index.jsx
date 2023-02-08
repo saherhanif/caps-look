@@ -5,22 +5,25 @@ import { Calendar } from 'primereact/calendar'
 
 const PopUpMessage = () => {
   const [data, setData] = React.useState({
-    pinumber: '',
-    date: ' ',
-    pname: ''
+    PiNumber: '',
+    StartDate: ' ',
+    ProjectName: ''
   })
   const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
 
-  const createProject = async () => {
+  const createProject = async (req, res) => {
     try {
       const body = data
-      await fetch('http://localhost:4000/AddingProject', {
+      await fetch(`${process.env.REACT_APP_API_URL}/AddingProject`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
+      res.status(200).json({
+        massage: 'adding project is succssesfully'
+      })
     } catch (err) {
-      throw new Error('failed to add project')
+      res.status(500).json({ message: `failed to add project, `, err })
     }
   }
   return (
@@ -34,30 +37,30 @@ const PopUpMessage = () => {
       }}
     >
       <InputText
-        id="pname"
-        value={data.pname}
-        name="pname"
+        id="ProjectName"
+        value={data.ProjectName}
+        name="ProjectName"
         placeholder="project name"
-        onChange={onChange('pname')}
+        onChange={onChange('ProjectName')}
       />
 
       <br />
       <InputText
-        id="piNumber"
-        value={data.pinumber}
+        id="PiNumber"
+        value={data.PiNumber}
         type="number"
-        name="piNumber"
+        name="PiNumber"
         placeholder="pi number"
         style={{ width: '208px' }}
-        onChange={onChange('pinumber')}
+        onChange={onChange('PiNumber')}
       />
       <br />
       <Calendar
         id="icon"
-        value={data.date}
-        onChange={onChange('date')}
+        value={data.StartDate}
+        onChange={onChange('StartDate')}
         showIcon
-        name="date"
+        name="StartDate"
         placeholder="choose date"
         style={{ width: '208px' }}
       />

@@ -13,13 +13,16 @@ const Projects = () => {
   const [projects, setProjects] = useState([{}])
   const [visible, setVisible] = React.useState(false)
 
-  const getProjects = async () => {
+  const getProjects = async (req, res) => {
     try {
-      const result = await fetch('http://localhost:4000/Projects')
+      const result = await fetch(`${process.env.REACT_APP_API_URL}/ProjectPage`)
       const res = await result.json()
-      setProjects(res)
+      setProjects(res.data)
+      res.status(200).json({
+        massage: 'projects retrieved succssesfully'
+      })
     } catch (err) {
-      throw new Error('No data found !!!')
+      res.status(500).json({ message: `failed to retrieve projects, `, err })
     }
   }
   useEffect(() => {
