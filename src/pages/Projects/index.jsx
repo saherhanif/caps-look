@@ -41,18 +41,18 @@ const Projects = () => {
           <button> Create Project </button>
         </div>
         <div className={style.export}>
-        <CSVLink
-          style={{
-            textDecoration: 'none'
-          }}
-          data={projects}
-          onClick={() => {
-            console.log('exporting')
-          }}
-        >
-          <button>Export as CSV</button>
-        </CSVLink>
-      </div>
+          <CSVLink
+            style={{
+              textDecoration: 'none'
+            }}
+            data={projects}
+            onClick={() => {
+              console.log('exporting')
+            }}
+          >
+            <button>Export as CSV</button>
+          </CSVLink>
+        </div>
         <br />
       </div>
     </PageContainer>
