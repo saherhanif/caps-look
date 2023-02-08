@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import SearchBar from '../../components/SearchBar'
 import PageContainer from '../../components/PageContainer'
 import ContentsTable from '../../components/ContentsTable'
-import { Button} from 'primereact/button'
+import { Button } from 'primereact/button'
 import PopUpMessage from './PopUpDialog'
 import { Dialog } from 'primereact/dialog'
 import { CSVLink } from 'react-csv'
@@ -44,8 +44,6 @@ const Projects = () => {
       <div className={style.buttonsContainer}>
         <div className={style.Create}>
           <Button label="Create Project" onClick={() => setVisible(true)} />
-          
-
         </div>
         <div className={style.export}>
           <CSVLink
@@ -61,7 +59,6 @@ const Projects = () => {
           </CSVLink>
         </div>
         <br />
-
       </div>
       <Dialog
         header="Caps Lock"
