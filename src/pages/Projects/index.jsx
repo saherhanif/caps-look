@@ -11,29 +11,26 @@ import React from 'react'
 const RESPONSE_STATUS = {
   FAIL: false,
   SUCCESS: true
-};
-
+}
 
 const Projects = () => {
   const [projects, setProjects] = useState([{}])
-  const [visible, setVisible] = React.useState(false) 
+  const [visible, setVisible] = React.useState(false)
 
   const getProjects = async () => {
     try {
       const result = await fetch(`${process.env.REACT_APP_API_URL}/ProjectPage`)
       const res = await result.json()
       setProjects(res.data)
-      if(res?.status===RESPONSE_STATUS.SUCCESS){
-        return "projects retreived successfully" ;
-      }
-      else {
-        return "";
+      if (res?.status === RESPONSE_STATUS.SUCCESS) {
+        return 'projects retreived successfully'
+      } else {
+        return ''
       }
     } catch (err) {
       throw new Error('No data found !!!')
     }
   }
-
 
   useEffect(() => {
     getProjects()

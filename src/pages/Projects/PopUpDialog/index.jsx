@@ -3,7 +3,6 @@ import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
 
-
 const PopUpMessage = (props) => {
   const [data, setData] = React.useState({
     ProjectName: '',
@@ -31,9 +30,9 @@ const PopUpMessage = (props) => {
   console.log(Date(formattedDate))
 
   const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
-  const onChangeData = (key) => (e) =>setEditData({ ...editData, [key]: e.target.value })
+  const onChangeData = (key) => (e) =>
+    setEditData({ ...editData, [key]: e.target.value })
 
-    
   const createProject = async () => {
     try {
       const body = data
@@ -44,8 +43,8 @@ const PopUpMessage = (props) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
-      if(body==null){
-        return "you must to insert data"
+      if (body == null) {
+        return 'you must to insert data'
       }
     } catch (err) {
       throw new Error('failed to connect to the server')
@@ -64,7 +63,6 @@ const PopUpMessage = (props) => {
           body: JSON.stringify(body)
         }
       )
- 
     } catch (err) {
       throw new Error('failed to connect to the server,')
     }
