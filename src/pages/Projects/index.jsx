@@ -7,6 +7,7 @@ import PopUpMessage from './PopUpDialog'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import React from 'react'
+import { CSVLink } from 'react-csv'
 
 const RESPONSE_STATUS = {
   FAIL: false,
@@ -60,7 +61,17 @@ const Projects = () => {
           />
         </div>
         <div className={style.export}>
-          <button>Export as CSV</button>
+          <CSVLink
+            style={{
+              textDecoration: 'none'
+            }}
+            data={projects}
+            onClick={() => {
+              console.log('exporting')
+            }}
+          >
+            <button>Export as CSV</button>
+          </CSVLink>
         </div>
         <br />
       </div>
