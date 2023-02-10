@@ -4,6 +4,7 @@ import SearchBar from '../../components/SearchBar'
 import PageContainer from '../../components/PageContainer'
 import ContentsTable from '../../components/ContentsTable'
 import { CSVLink } from 'react-csv'
+import api from '../../config'
 
 const Projects = () => {
   const [projects, setProjects] = useState([{}])
@@ -11,7 +12,7 @@ const Projects = () => {
 
   const getProjects = async () => {
     try {
-      const result = await fetch('http://localhost:4000/Projects')
+      const result = await fetch(`${api.apiRequest}/Projects`)
       const res = await result.json()
       setProjects(res)
     } catch (err) {
