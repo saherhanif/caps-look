@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
+import api from '../../../config'
 
 const PopUpMessage = () => {
   const [data, setData] = React.useState({
@@ -11,19 +12,17 @@ const PopUpMessage = () => {
   })
   const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
 
-  const createProject = async (req, res) => {
+  const createProject = async () => {
     try {
       const body = data
-      await fetch(`${process.env.REACT_APP_API_URL}/AddingProject`, {
+      await fetch(`${api.apiRequest}/AddingProject`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
-      res.status(200).json({
-        massage: 'adding project is succssesfully'
-      })
+      return 'adding project is succssesfully'
     } catch (err) {
-      res.status(500).json({ message: `failed to add project, `, err })
+      return `failed to add project, `
     }
   }
   return (

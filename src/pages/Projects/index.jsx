@@ -8,21 +8,21 @@ import { Button } from 'primereact/button'
 import PopUpMessage from './PopUpDialog'
 import { Dialog } from 'primereact/dialog'
 import { CSVLink } from 'react-csv'
+import api from '../../config'
 
 const Projects = () => {
   const [projects, setProjects] = useState([{}])
   const [visible, setVisible] = React.useState(false)
 
-  const getProjects = async (req, res) => {
+  const getProjects = async () => {
     try {
-      const result = await fetch(`${process.env.REACT_APP_API_URL}/ProjectPage`)
+      const result = await fetch(`${api.apiRequest}/ProjectPage`)
       const res = await result.json()
+      console.log(res.data)
       setProjects(res.data)
-      res.status(200).json({
-        massage: 'projects retrieved succssesfully'
-      })
+      return 'projects retrieved succssesfully'
     } catch (err) {
-      res.status(500).json({ message: `failed to retrieve projects, `, err })
+      return `failed to retrieve projects `
     }
   }
   useEffect(() => {
