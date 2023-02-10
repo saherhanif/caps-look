@@ -9,6 +9,7 @@ import Projects from './pages/Projects/index'
 import NavBar from './components/NavBar'
 import Home from './pages/Home/index'
 import Absence from './pages/Absence/index'
+import Cadence from './pages/Cadence/index'
 import Employee from './pages/Employes/index'
 import Sidebar from './components/Sidebar'
 import Login from './pages/Login/Login'
@@ -43,6 +44,7 @@ function App() {
               <Route path="/Projects" element={<Projects />} />
               <Route path="/Absence" element={<Absence />} />
               <Route path="/Employes" element={<Employee />} />
+              <Route path="/Cadence" element={<Cadence />} />
             </Routes>
           </div>
         </div>
