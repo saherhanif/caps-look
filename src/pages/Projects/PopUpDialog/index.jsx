@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
-import {Message} from 'primereact/message'
+import { Message } from 'primereact/message'
 const PopUpMessage = (props) => {
   const [data, setData] = React.useState({
     ProjectName: '',
@@ -101,7 +101,6 @@ const PopUpMessage = (props) => {
           autoFocus
           onClick={createProject}
         />
-
       </div>
     )
   } else if (props.clicked == 'Edit') {
@@ -150,7 +149,6 @@ const PopUpMessage = (props) => {
           autoFocus
           onClick={updateProject}
         />
-
       </div>
     )
   }
