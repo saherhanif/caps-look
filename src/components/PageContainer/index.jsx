@@ -4,7 +4,7 @@ const PageContainer = (props) => {
   return (
     <div className={style.container}>
       <div>
-        <label className={style.MainLabel}>{props.namePage}</label>
+        <label className={style.MainLabel}>{props.name}</label>
       </div>
       <div>
         <br />
