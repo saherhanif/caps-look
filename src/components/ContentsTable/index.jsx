@@ -8,9 +8,9 @@ import { Button } from 'primereact/button'
 
 const ContentsTable = (props) => {
   const [visible, setVisible] = React.useState(false)
-  const [Edit, setEdit] = React.useState({})
+  const [edit, setEdit] = React.useState({})
 
-  const EditRow = (Edit) => {
+  const editRow = (Edit) => {
     setVisible(true)
     setEdit(Edit)
   }
@@ -52,9 +52,8 @@ const ContentsTable = (props) => {
                 id="Edit"
                 className={style.EditContainer}
                 onClick={() => {
-                  if (EditRow) {
-                    EditRow(data)
-                    setVisible(true)
+                  if (editRow) {
+                    editRow(data)
                   }
                 }}
               >
@@ -75,7 +74,7 @@ const ContentsTable = (props) => {
         visible={visible}
         onHide={() => setVisible(false)}
       >
-        <PopUpMessage clicked="Edit" Name="" source={Edit} />
+        <PopUpMessage clicked="Edit" Name="" source={edit} />
       </Dialog>
     </div>
   )

@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
-
+import {Message} from 'primereact/message'
 const PopUpMessage = (props) => {
   const [data, setData] = React.useState({
     ProjectName: '',
@@ -13,21 +13,8 @@ const PopUpMessage = (props) => {
   const [editData, setEditData] = React.useState({
     ProjectName: props.source.project_name,
     PiNumber: props.source.iteration_number,
-    StartDate: ''
+    StartDate: new Date(props.source.start_date)
   })
-
-  let date = new Date(props.source.start_date)
-  const yyyy = date.getFullYear()
-  let mm = date.getMonth() + 1
-  let dd = date.getDate()
-  if (dd < 10) {
-    dd = '0' + dd
-  }
-  if (mm < 10) {
-    mm = '0' + mm
-  }
-  const formattedDate = dd + '/' + mm + '/' + yyyy
-  console.log(Date(formattedDate))
 
   const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
   const onChangeData = (key) => (e) =>
@@ -36,8 +23,6 @@ const PopUpMessage = (props) => {
   const createProject = async () => {
     try {
       const body = data
-
-      console.log(data)
       await fetch(`${process.env.REACT_APP_API_URL}/AddingProject`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -116,6 +101,7 @@ const PopUpMessage = (props) => {
           autoFocus
           onClick={createProject}
         />
+
       </div>
     )
   } else if (props.clicked == 'Edit') {
@@ -148,11 +134,11 @@ const PopUpMessage = (props) => {
         <br />
         <Calendar
           id="icon"
-          value={formattedDate}
+          value={editData.StartDate}
           onChange={onChangeData('StartDate')}
           showIcon
           name="StartDate"
-          placeholder={formattedDate}
+          dateFormat="dd/mm/yy"
           style={{ width: '208px' }}
         />
         <br />
@@ -164,6 +150,7 @@ const PopUpMessage = (props) => {
           autoFocus
           onClick={updateProject}
         />
+
       </div>
     )
   }
