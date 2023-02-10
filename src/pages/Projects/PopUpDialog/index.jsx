@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
-import api from '../../config'
+import api from '../../../config'
 
 const PopUpMessage = (props) => {
   const [data, setData] = React.useState({
@@ -41,14 +41,11 @@ const PopUpMessage = (props) => {
   const updateProject = async () => {
     const body = editData
     try {
-      const res = await fetch(
-        `${api.apiRequest}/EditProject/${props.source.id}`,
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
-        }
-      )
+      await fetch(`${api.apiRequest}/EditProject/${props.source.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
     } catch (err) {
       throw new Error('failed to connect to the server,')
     }
