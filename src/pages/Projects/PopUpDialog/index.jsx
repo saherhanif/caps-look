@@ -4,74 +4,151 @@ import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
 import api from '../../../config'
 
-const PopUpMessage = () => {
+const PopUpMessage = (props) => {
   const [data, setData] = React.useState({
-    PiNumber: '',
-    StartDate: ' ',
-    ProjectName: ''
+    ProjectName: '',
+    StartDate: '',
+    PiNumber: ''
   })
+
+  const [editData, setEditData] = React.useState({
+    ProjectName: props.source.project_name,
+    PiNumber: props.source.iteration_number,
+    StartDate: new Date(props.source.start_date)
+  })
+
   const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
+  const onChangeData = (key) => (e) =>
+    setEditData({ ...editData, [key]: e.target.value })
 
   const createProject = async () => {
     try {
       const body = data
+
       await fetch(`${api.apiRequest}/AddingProject`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
-      return 'adding project is succssesfully'
+      if (body == null) {
+        return 'you must to insert data'
+      }
     } catch (err) {
-      return `failed to add project, `
+      throw new Error('failed to connect to the server')
     }
   }
-  return (
-    <div
-      className="card flex justify-content-center"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        margin: 'auto',
-        alignItems: 'center'
-      }}
-    >
-      <InputText
-        id="ProjectName"
-        value={data.ProjectName}
-        name="ProjectName"
-        placeholder="project name"
-        onChange={onChange('ProjectName')}
-      />
 
-      <br />
-      <InputText
-        id="PiNumber"
-        value={data.PiNumber}
-        type="number"
-        name="PiNumber"
-        placeholder="pi number"
-        style={{ width: '208px' }}
-        onChange={onChange('PiNumber')}
-      />
-      <br />
-      <Calendar
-        id="icon"
-        value={data.StartDate}
-        onChange={onChange('StartDate')}
-        showIcon
-        name="StartDate"
-        placeholder="choose date"
-        style={{ width: '208px' }}
-      />
-      <br />
-      <br />
-      <Button
-        label="add project"
-        icon="pi pi-check"
-        autoFocus
-        onClick={createProject}
-      />
-    </div>
-  )
+  const updateProject = async () => {
+    const body = editData
+    try {
+      await fetch(`${api.apiRequest}/EditProject/${props.source.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
+    } catch (err) {
+      throw new Error('failed to connect to the server,')
+    }
+  }
+
+  if (props.clicked == 'add') {
+    return (
+      <div
+        className="card flex justify-content-center"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          margin: 'auto',
+          alignItems: 'center'
+        }}
+      >
+        <InputText
+          id="ProjectName"
+          value={data.ProjectName}
+          name="ProjectName"
+          placeholder="ProjectName"
+          onChange={onChange('ProjectName')}
+        />
+
+        <br />
+        <InputText
+          id="PiNumber"
+          value={data.PiNumber}
+          type="number"
+          name="PiNumber"
+          placeholder="Pi Number"
+          style={{ width: '208px' }}
+          onChange={onChange('PiNumber')}
+        />
+        <br />
+        <Calendar
+          id="icon"
+          value={data.StartDate}
+          onChange={onChange('StartDate')}
+          showIcon
+          name="StartDate"
+          placeholder="choose date"
+          style={{ width: '208px' }}
+        />
+        <br />
+        <br />
+        <Button
+          id="add"
+          label="add project"
+          icon="pi pi-check"
+          autoFocus
+          onClick={createProject}
+        />
+      </div>
+    )
+  } else if (props.clicked == 'Edit') {
+    return (
+      <div
+        className="card flex justify-content-center"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          margin: 'auto',
+          alignItems: 'center'
+        }}
+      >
+        <InputText
+          id="pname"
+          value={editData.ProjectName}
+          name="ProjectName"
+          onChange={onChangeData('ProjectName')}
+        />
+
+        <br />
+        <InputText
+          id="PiNumber"
+          value={editData.PiNumber}
+          type="number"
+          name="PiNumber"
+          style={{ width: '208px' }}
+          onChange={onChangeData('PiNumber')}
+        />
+        <br />
+        <Calendar
+          id="icon"
+          value={editData.StartDate}
+          onChange={onChangeData('StartDate')}
+          showIcon
+          name="StartDate"
+          dateFormat="dd/mm/yy"
+          style={{ width: '208px' }}
+        />
+        <br />
+        <br />
+        <Button
+          id="Edit"
+          label="Edit"
+          icon="pi pi-check"
+          autoFocus
+          onClick={updateProject}
+        />
+      </div>
+    )
+  }
 }
 export default PopUpMessage

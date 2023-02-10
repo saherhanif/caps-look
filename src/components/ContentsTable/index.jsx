@@ -2,8 +2,18 @@ import React from 'react'
 import style from './style.module.scss'
 import { CiEdit } from 'react-icons/ci'
 import { BiArchiveIn } from 'react-icons/bi'
+import PopUpMessage from '../../pages/Projects/PopUpDialog'
+import { Dialog } from 'primereact/dialog'
+import { Button } from 'primereact/button'
 
 const ContentsTable = (props) => {
+  const [visible, setVisible] = React.useState(false)
+  const [edit, setEdit] = React.useState({})
+
+  const editRow = (Edit) => {
+    setVisible(true)
+    setEdit(Edit)
+  }
   return (
     <div className={style.innerContainer}>
       <div className={style.tableHeader}>
@@ -38,9 +48,19 @@ const ContentsTable = (props) => {
                   )
                 })}
               </div>
-              <button className={style.EditContainer}>
+              <Button
+                id="Edit"
+                className={style.EditContainer}
+                onClick={() => {
+                  if (editRow) {
+                    editRow(data)
+                  }
+                }}
+              >
+                {' '}
                 <CiEdit className={style.innerIcons} />
-              </button>
+              </Button>
+
               <button className={style.ArchiveContainer}>
                 <BiArchiveIn className={style.innerIcons} />
               </button>
@@ -48,7 +68,14 @@ const ContentsTable = (props) => {
           )
         })}
       </div>
-      1 1
+      <Dialog
+        header="Caps Lock"
+        style={{ textAlign: 'center' }}
+        visible={visible}
+        onHide={() => setVisible(false)}
+      >
+        <PopUpMessage clicked="Edit" Name="" source={edit} />
+      </Dialog>
     </div>
   )
 }
