@@ -4,17 +4,25 @@ import { useState, useEffect } from 'react'
 import SearchBar from '../../components/SearchBar'
 import PageContainer from '../../components/PageContainer'
 import ContentsTable from '../../components/ContentsTable'
+import { Button } from 'primereact/button'
+import PopUpMessage from './PopUpDialog'
+import { Dialog } from 'primereact/dialog'
 import { CSVLink } from 'react-csv'
+import api from '../../config'
 
 const Projects = () => {
   const [projects, setProjects] = useState([{}])
+  const [visible, setVisible] = React.useState(false)
+
   const getProjects = async () => {
     try {
-      const result = await fetch('http://localhost:4000/Projects')
+      const result = await fetch(`${api.apiRequest}/ProjectPage`)
       const res = await result.json()
-      setProjects(res)
+      console.log(res.data)
+      setProjects(res.data)
+      return 'projects retrieved succssesfully'
     } catch (err) {
-      throw new Error('No data found !!!')
+      return `failed to retrieve projects `
     }
   }
   useEffect(() => {
@@ -38,7 +46,7 @@ const Projects = () => {
       <br />
       <div className={style.buttonsContainer}>
         <div className={style.Create}>
-          <button> Create Project </button>
+          <Button label="Create Project" onClick={() => setVisible(true)} />
         </div>
         <div className={style.export}>
           <CSVLink
@@ -55,6 +63,14 @@ const Projects = () => {
         </div>
         <br />
       </div>
+      <Dialog
+        header="Caps Lock"
+        style={{ textAlign: 'center' }}
+        visible={visible}
+        onHide={() => setVisible(false)}
+      >
+        <PopUpMessage />
+      </Dialog>
     </PageContainer>
   )
 }
