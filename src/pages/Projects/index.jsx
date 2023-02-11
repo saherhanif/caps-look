@@ -7,10 +7,13 @@ import ContentsTable from '../../components/ContentsTable'
 import PopUpMessage from './PopUpDialog'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
+import { CSVLink } from 'react-csv'
 import api from '../../config'
+
 const Projects = () => {
   const [projects, setProjects] = useState([{}])
   const [visible, setVisible] = React.useState(false)
+
   const getProjects = async () => {
     try {
       const result = await fetch(`${api.apiRequest}/ProjectPage`)
@@ -33,7 +36,7 @@ const Projects = () => {
   ]
 
   return (
-    <PageContainer>
+    <PageContainer name={'Projects'}>
       <SearchBar PlaceholderItem={'Search a Project'} />
       <div style={{ width: '90%' }}>
         <ContentsTable source={projects} columns={columns} />
@@ -49,7 +52,17 @@ const Projects = () => {
           />
         </div>
         <div className={style.export}>
-          <button>Export as CSV</button>
+          <CSVLink
+            style={{
+              textDecoration: 'none'
+            }}
+            data={projects}
+            onClick={() => {
+              console.log('exporting')
+            }}
+          >
+            <button>Export as CSV</button>
+          </CSVLink>
         </div>
         <br />
       </div>

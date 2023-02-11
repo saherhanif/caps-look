@@ -4,31 +4,28 @@ import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
 import api from '../../../config'
 
-export default function PopUpMessage(props) {
-  const [data, setData] = React.useState({
-    ProjectName: '',
-    StartDate: '',
-    PiNumber: ''
+export default function EditPopUpMessage(props) {
+  const [editData, setEditData] = React.useState({
+    ProjectName: props.source.project_name,
+    PiNumber: props.source.iteration_number,
+    StartDate: new Date(props.source.start_date)
   })
-  const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
 
-  const createProject = async () => {
+  const onChangeData = (key) => (e) =>
+    setEditData({ ...editData, [key]: e.target.value })
+
+  const updateProject = async () => {
+    const body = editData
     try {
-      const body = data
-
-      await fetch(`${api.apiRequest}/AddingProject`, {
-        method: 'POST',
+      await fetch(`${api.apiRequest}/EditProject/${props.source.id}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
-      if (body == null) {
-        return 'you must to insert data'
-      }
     } catch (err) {
-      throw new Error('failed to connect to the server')
+      throw new Error('failed to connect to the server,')
     }
   }
-
   return (
     <div
       className="card flex justify-content-center"
@@ -40,41 +37,39 @@ export default function PopUpMessage(props) {
       }}
     >
       <InputText
-        id="ProjectName"
-        value={data.ProjectName}
+        id="pname"
+        value={editData.ProjectName}
         name="ProjectName"
-        placeholder="ProjectName"
-        onChange={onChange('ProjectName')}
+        onChange={onChangeData('ProjectName')}
       />
 
       <br />
       <InputText
         id="PiNumber"
-        value={data.PiNumber}
+        value={editData.PiNumber}
         type="number"
         name="PiNumber"
-        placeholder="Pi Number"
         style={{ width: '208px' }}
-        onChange={onChange('PiNumber')}
+        onChange={onChangeData('PiNumber')}
       />
       <br />
       <Calendar
         id="icon"
-        value={data.StartDate}
-        onChange={onChange('StartDate')}
+        value={editData.StartDate}
+        onChange={onChangeData('StartDate')}
         showIcon
         name="StartDate"
-        placeholder="choose date"
+        dateFormat="dd/mm/yy"
         style={{ width: '208px' }}
       />
       <br />
       <br />
       <Button
-        id="add"
-        label="add project"
+        id="Edit"
+        label="Edit"
         icon="pi pi-check"
         autoFocus
-        onClick={createProject}
+        onClick={updateProject}
       />
     </div>
   )
