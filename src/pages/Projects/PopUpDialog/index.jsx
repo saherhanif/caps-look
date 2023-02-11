@@ -1,31 +1,82 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
 import api from '../../../config'
+import { Messages } from 'primereact/messages'
 
 export default function PopUpMessage(props) {
   const [data, setData] = React.useState({
     ProjectName: '',
-    StartDate: '',
-    PiNumber: ''
+    StartDate: null,
+    PiNumber: null
   })
+  const msgs = useRef('null')
   const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
 
   const createProject = async () => {
     try {
       const body = data
 
-      await fetch(`${api.apiRequest}/AddingProject`, {
+      const result = await fetch(`${api.apiRequest}/AddingProject`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
-      if (body == null) {
-        return 'you must to insert data'
+      const resultBody = await result.json()
+      if (resultBody.message == 'create project is done successfully') {
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'success',
+            summary: '',
+            detail: resultBody.message,
+            closable: true
+          }
+        ])
+      } else if (resultBody.message == 'Please Inseat a name for the project') {
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: resultBody.message,
+            closable: true
+          }
+        ])
+      } else if (resultBody.message == 'Please Inseat number of iterations') {
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: resultBody.message,
+            closable: true
+          }
+        ])
+      } else if (
+        resultBody.message == 'Please Inseat starting date for the project'
+      ) {
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: resultBody.message,
+            closable: true
+          }
+        ])
       }
     } catch (err) {
-      throw new Error('failed to connect to the server')
+      return msgs.current.show([
+        {
+          sticky: false,
+          severity: 'error',
+          summary: '',
+          detail: err,
+          closable: true
+        }
+      ])
     }
   }
 
@@ -46,7 +97,6 @@ export default function PopUpMessage(props) {
         placeholder="ProjectName"
         onChange={onChange('ProjectName')}
       />
-
       <br />
       <InputText
         id="PiNumber"
@@ -76,6 +126,7 @@ export default function PopUpMessage(props) {
         autoFocus
         onClick={createProject}
       />
+      <Messages ref={msgs} />
     </div>
   )
 }
