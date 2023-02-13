@@ -4,38 +4,15 @@ import { Button } from 'primereact/button'
 import { Password } from 'primereact/password'
 import style from './Login.module.scss'
 import { useState } from 'react'
-function Login() {
-  const [Email, setEmail] = useState('')
+export default function Login() {
+  const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
-  const [error, setError] = useState(false)
-  const RESPONSE_STATUS = {
-    FAIL: false,
-    SUCSSESS: true
+  const sentData = () => {
+    const data = { username: userName, password: password }
+    checkuserNameAndPassword(data)
+    console.log('check')
   }
-  const submitUser = async () => {
-    try {
-      if (Email.length === 0 || password.length === 0) setError(true)
-      else {
-        const data = { Email: Email, password: password }
-        const response = await fetch('http://localhost:4000/login', {
-          method: 'POST',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        })
-        const result = await response.json()
-        if (result.success === RESPONSE_STATUS.SUCSSESS) {
-          window.location.href = '/home'
-        } else {
-          setError(true)
-        }
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   return (
     <div className={style.LoginContainer}>
       <form className={style.LoginFeilds}>
@@ -43,8 +20,8 @@ function Login() {
           <i className="pi pi-user" />
           <InputText
             name="username"
-            value={Email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
             placeholder="UserName"
           />
         </span>
@@ -80,15 +57,29 @@ function Login() {
         </div>
         <Button
           className={style.LIButton}
+          onClick={sentData}
           label="Log In"
-          onClick={submitUser}
-          type="button"
           aria-label="Submit"
         />
-        {error ? <label className="message"> Something went wrong!</label> : ''}
       </form>
     </div>
   )
 }
-
-export default Login
+async function checkuserNameAndPassword(data) {
+  console.log("I'm here")
+  try {
+    const response = await fetch('http://localhost:4000/login', {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    const json_response = await response.json()
+    console.log(response.body)
+  } catch (error) {
+    console.log(error)
+  }
+}
