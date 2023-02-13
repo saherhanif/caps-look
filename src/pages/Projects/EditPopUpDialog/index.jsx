@@ -22,10 +22,12 @@ export default function EditPopUpMessage(props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
+
     } catch (err) {
       throw new Error('failed to connect to the server,')
     }
   }
+
   return (
     <div
       className="card flex justify-content-center"

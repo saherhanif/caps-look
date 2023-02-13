@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
@@ -28,6 +28,8 @@ export default function PopUpMessage(props) {
       throw new Error('failed to connect to the server')
     }
   }
+  
+  
 
   return (
     <div
@@ -53,6 +55,7 @@ export default function PopUpMessage(props) {
         value={data.PiNumber}
         type="number"
         name="PiNumber"
+        
         placeholder="Pi Number"
         style={{ width: '208px' }}
         onChange={onChange('PiNumber')}

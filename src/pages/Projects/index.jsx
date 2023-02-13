@@ -1,5 +1,5 @@
 import style from './style.module.scss'
-import React from 'react'
+import React, { useReducer } from 'react'
 import { useState, useEffect } from 'react'
 import SearchBar from '../../components/SearchBar'
 import PageContainer from '../../components/PageContainer'
@@ -12,8 +12,11 @@ import api from '../../config'
 
 const Projects = () => {
   const [projects, setProjects] = useState([{}])
-  const [visible, setVisible] = React.useState(false)
-
+  const [visible, setVisible] =useState(false)
+ const [refresh,setRefresh]=useReducer(x=>x+1,0)
+ const func=()=>{
+  setRefresh()
+ }
   const getProjects = async () => {
     try {
       const result = await fetch(`${api.apiRequest}/ProjectPage`)
@@ -26,7 +29,8 @@ const Projects = () => {
 
   useEffect(() => {
     getProjects()
-  }, [])
+    func()
+  }, [projects])
 
   const columns = [
     { title: 'name', dataIndex: 'project_name' },

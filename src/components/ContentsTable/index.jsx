@@ -5,14 +5,24 @@ import { BiArchiveIn } from 'react-icons/bi'
 import EditPopUpMessage from '../../pages/Projects/EditPopUpDialog'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
+import ArchiveProject from '../../pages/Projects/ArchiveProject'
 
 const ContentsTable = (props) => {
   const [visible, setVisible] = React.useState(false)
   const [edit, setEdit] = React.useState({})
+  const [visible1, setVisible1] = React.useState(false)
+  const [edit1, setEdit1] = React.useState({})
 
   const editRow = (e) => {
     setVisible(true)
     setEdit(e)
+
+  }
+  const editRow1 = (e) => {
+    setVisible1(true)
+
+    setEdit1(e)
+
   }
   return (
     <div className={style.innerContainer}>
@@ -61,13 +71,27 @@ const ContentsTable = (props) => {
                 <CiEdit className={style.innerIcons} />
               </Button>
 
-              <button className={style.ArchiveContainer}>
+              <Button className={style.ArchiveContainer} 
+               onClick={() => {
+                  if (editRow1) {
+                    editRow1(data)
+                  }
+                }}>
                 <BiArchiveIn className={style.innerIcons} />
-              </button>
+              </Button>
             </div>
           )
         })}
       </div>
+      <Dialog
+        header="Caps Look"
+        style={{ textAlign: 'center', width: '20vw' }}
+        visible={visible1}
+        onHide={() => setVisible1(false)}
+      >
+        <ArchiveProject  data={edit1}/>
+      </Dialog>
+
       <Dialog
         header="Caps Look"
         style={{ textAlign: 'center' }}
