@@ -6,7 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('LIBackground.jpg');
+  background-image: url('Group 1.png');
   background-size: 1060px;
   background-repeat: no-repeat;
   background-position: center;
@@ -35,4 +35,9 @@
 
 .passwordI {
   display: inline;
+}
+
+.message {
+  font-style: normal;
+  background-color: red;
 }

@@ -20,18 +20,25 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css'
 import 'primereact/resources/primereact.css'
 import './reset.scss'
 import './App.scss'
-
+import React, { useEffect } from 'react'
 function App() {
-  if (window.location.pathname === '/') {
+  const isLoggedIn = document.cookie.indexOf('userToken') !== -1
+  useEffect(() => {
+    if (
+      window.location.pathname !== '/' &&
+      document.cookie.indexOf('userToken') === -1
+    ) {
+      window.location.href = '/'
+    }
+  }, [])
+  if (window.location.pathname === '/' || !isLoggedIn) {
     return (
       <div style={{ textAlign: 'center' }}>
         <NavBar />
-
         <Login />
       </div>
     )
   }
-
   return (
     <div style={{ textAlign: 'center' }}>
       <Router>
@@ -52,5 +59,4 @@ function App() {
     </div>
   )
 }
-
 export default App
