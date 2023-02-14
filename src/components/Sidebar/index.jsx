@@ -4,15 +4,13 @@ import { HiOutlineLogout } from 'react-icons/hi'
 import { AiOutlineSetting } from 'react-icons/ai'
 
 const Sidebar = (props) => {
-
   const logout = async () => {
     try {
-      await fetch("http://localhost:4000/Logout", {
-        credentials: "include"
+      await fetch('http://localhost:4000/Logout', {
+        credentials: 'include'
       })
       window.location.href = '/'
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err)
     }
   }
