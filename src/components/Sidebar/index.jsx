@@ -4,6 +4,18 @@ import { HiOutlineLogout } from 'react-icons/hi'
 import { AiOutlineSetting } from 'react-icons/ai'
 
 const Sidebar = (props) => {
+
+  const logout = async () => {
+    try {
+      await fetch("http://localhost:4000/Logout", {
+        credentials: "include"
+      })
+      window.location.href = '/'
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
   return (
     <div>
       <nav className={style.sidebar}>
@@ -29,7 +41,7 @@ const Sidebar = (props) => {
           Settings <AiOutlineSetting size="30px" />
         </Link>
         <Link to="/" className={style.link}>
-          Logout <HiOutlineLogout color="white" size="30px" />
+          Logout <HiOutlineLogout color="white" size="30px" onClick={logout} />
         </Link>
       </nav>
     </div>
