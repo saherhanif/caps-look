@@ -5,6 +5,7 @@ import SearchBar from '../../components/SearchBar'
 import PageContainer from '../../components/PageContainer'
 import ContentsTable from '../../components/ContentsTable'
 import PopUpMessage from './PopUpDialog'
+import EditPopUpMessage from './EditPopUpDialog'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { CSVLink } from 'react-csv'
@@ -13,10 +14,14 @@ import api from '../../config'
 const Projects = () => {
   const [projects, setProjects] = useState([{}])
   const [visible, setVisible] = React.useState(false)
+  const [visibleEdit, setVisibleEdit] = React.useState(false)
+  const [edit, setEdit] = React.useState({})
 
   const getProjects = async () => {
     try {
-      const result = await fetch(`${api.apiRequest}/ProjectPage`)
+      const result = await fetch(`${api.apiRequest}/ProjectPage`, {
+        credentials: 'include'
+      })
       const res = await result.json()
       setProjects(res.data)
     } catch (err) {
@@ -39,7 +44,14 @@ const Projects = () => {
     <PageContainer name={'Projects'}>
       <SearchBar PlaceholderItem={'Search a Project'} />
       <div style={{ width: '90%' }}>
-        <ContentsTable source={projects} columns={columns} />
+        <ContentsTable
+          source={projects}
+          columns={columns}
+          onEditRow={(e) => {
+            setVisibleEdit(true)
+            setEdit(e)
+          }}
+        />
       </div>
 
       <br />
@@ -72,7 +84,15 @@ const Projects = () => {
         visible={visible}
         onHide={() => setVisible(false)}
       >
-        <PopUpMessage clicked={'add'} />
+        <PopUpMessage clicked={'add'} Projects={projects} />
+      </Dialog>
+      <Dialog
+        header="Caps Look"
+        style={{ textAlign: 'center' }}
+        visible={visibleEdit}
+        onHide={() => setVisibleEdit(false)}
+      >
+        <EditPopUpMessage clicked="Edit" source={edit} />
       </Dialog>
     </PageContainer>
   )
