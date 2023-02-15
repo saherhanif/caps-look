@@ -15,21 +15,22 @@ export default function PopUpMessage(props) {
   const createProject = async () => {
     try {
       const body = data
+      if (body == null) {
+        return 'you must to insert data'
+      }
 
       await fetch(`${api.apiRequest}/AddingProject`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        credentials: 'include'
       })
-      if (body == null) {
-        return 'you must to insert data'
-      }
+
+      props.onSubmit()
     } catch (err) {
       throw new Error('failed to connect to the server')
     }
   }
-  
-  
 
   return (
     <div
@@ -55,7 +56,6 @@ export default function PopUpMessage(props) {
         value={data.PiNumber}
         type="number"
         name="PiNumber"
-        
         placeholder="Pi Number"
         style={{ width: '208px' }}
         onChange={onChange('PiNumber')}

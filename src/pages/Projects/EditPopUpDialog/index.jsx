@@ -20,8 +20,10 @@ export default function EditPopUpMessage(props) {
       await fetch(`${api.apiRequest}/EditProject/${props.source.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        credentials:'include'
       })
+      props.onSubmit()
 
     } catch (err) {
       throw new Error('failed to connect to the server,')

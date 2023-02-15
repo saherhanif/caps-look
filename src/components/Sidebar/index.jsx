@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { AiOutlineSetting } from 'react-icons/ai'
 
-const Sidebar = (props) => {
+const Sidebar = () => {
   return (
     <div>
       <nav className={style.sidebar}>
@@ -29,7 +29,7 @@ const Sidebar = (props) => {
           Settings <AiOutlineSetting size="30px" />
         </Link>
         <Link to="/" className={style.link}>
-          Logout <HiOutlineLogout color="white" size="30px" />
+          Logout <HiOutlineLogout color="white" size="30px"  />
         </Link>
       </nav>
     </div>
