@@ -38,9 +38,13 @@ const Sidebar = (props) => {
         <Link to="/Settings" className={style.link}>
           Settings <AiOutlineSetting size="30px" />
         </Link>
-        <Link to="/" className={style.link}>
+        {/* <Link to="/" className={style.link}>
           Logout <HiOutlineLogout color="white" size="30px" onClick={logout} />
-        </Link>
+        </Link> */}
+        <a href="/" className={style.link} onClick={logout}>
+          Logout
+          <HiOutlineLogout color="white" size="30px" />
+        </a>
       </nav>
     </div>
   )
