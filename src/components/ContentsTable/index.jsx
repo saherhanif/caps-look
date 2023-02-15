@@ -6,7 +6,6 @@ import { Button } from 'primereact/button'
 import ArchiveProject from '../../pages/Projects/ArchiveProject'
 
 const ContentsTable = (props) => {
- 
   return (
     <div className={style.innerContainer}>
       <div className={style.tableHeader}>
@@ -54,12 +53,13 @@ const ContentsTable = (props) => {
                 <CiEdit className={style.innerIcons} />
               </Button>
 
-              <Button className={style.ArchiveContainer} 
-               onClick={() => {
+              <Button
+                className={style.ArchiveContainer}
+                onClick={() => {
                   if (props.archiveProject) {
                     props.archiveProject(data)
                   }
-                }} 
+                }}
               >
                 <BiArchiveIn className={style.innerIcons} />
               </Button>

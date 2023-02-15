@@ -29,7 +29,7 @@ const Sidebar = () => {
           Settings <AiOutlineSetting size="30px" />
         </Link>
         <Link to="/" className={style.link}>
-          Logout <HiOutlineLogout color="white" size="30px"  />
+          Logout <HiOutlineLogout color="white" size="30px" />
         </Link>
       </nav>
     </div>

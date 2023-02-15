@@ -34,8 +34,7 @@ const ArchiveProject = (props) => {
         <Button
           icon="pi pi-times"
           label="No"
-          onClick={()=>props.onSubmit()}
-          
+          onClick={() => props.onSubmit()}
         />
       </div>
       <br />

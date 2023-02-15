@@ -21,10 +21,9 @@ export default function EditPopUpMessage(props) {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
-        credentials:'include'
+        credentials: 'include'
       })
       props.onSubmit()
-
     } catch (err) {
       throw new Error('failed to connect to the server,')
     }

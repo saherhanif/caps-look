@@ -93,7 +93,11 @@ const Projects = () => {
           setVisible(false)
         }}
       >
-        <PopUpMessage clicked={'add'} Project={projects} onSubmit={()=>setVisible(false)}/>
+        <PopUpMessage
+          clicked={'add'}
+          Project={projects}
+          onSubmit={() => setVisible(false)}
+        />
       </Dialog>
       <Dialog
         header="Caps Look"
@@ -101,7 +105,11 @@ const Projects = () => {
         visible={visibleEdit}
         onHide={() => setVisibleEdit(false)}
       >
-        <EditPopUpMessage clicked="Edit" source={edit} onSubmit={()=>setVisibleEdit(false)}/>
+        <EditPopUpMessage
+          clicked="Edit"
+          source={edit}
+          onSubmit={() => setVisibleEdit(false)}
+        />
       </Dialog>
       <Dialog
         header="Caps Look"
@@ -109,7 +117,10 @@ const Projects = () => {
         visible={visibleArchive}
         onHide={() => setVisibleArchive(false)}
       >
-        <ArchiveProject data={archive} onSubmit={()=>setVisibleArchive(false)}/>
+        <ArchiveProject
+          data={archive}
+          onSubmit={() => setVisibleArchive(false)}
+        />
       </Dialog>
     </PageContainer>
   )
