@@ -2,11 +2,12 @@ import style from './style.module.scss'
 import { Link } from 'react-router-dom'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { AiOutlineSetting } from 'react-icons/ai'
+import api from '../../config'
 
 const Sidebar = (props) => {
   const logout = async () => {
     try {
-      await fetch('http://localhost:4000/Logout', {
+      await fetch(`${api.apiRequest}/Logout`, {
         credentials: 'include'
       })
       window.location.href = '/'
