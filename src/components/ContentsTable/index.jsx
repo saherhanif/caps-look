@@ -3,7 +3,6 @@ import style from './style.module.scss'
 import { CiEdit } from 'react-icons/ci'
 import { BiArchiveIn } from 'react-icons/bi'
 import { Button } from 'primereact/button'
-import ArchiveProject from '../../pages/Projects/ArchiveProject'
 
 const ContentsTable = (props) => {
   return (
@@ -49,10 +48,8 @@ const ContentsTable = (props) => {
                   }
                 }}
               >
-                {' '}
                 <CiEdit className={style.innerIcons} />
               </Button>
-
               <Button
                 className={style.ArchiveContainer}
                 onClick={() => {
