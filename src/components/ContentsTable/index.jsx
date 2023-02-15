@@ -50,8 +50,14 @@ const ContentsTable = (props) => {
               >
                 <CiEdit className={style.innerIcons} />
               </Button>
-
-              <Button className={style.ArchiveContainer}>
+              <Button
+                className={style.ArchiveContainer}
+                onClick={() => {
+                  if (props.archiveProject) {
+                    props.archiveProject(data)
+                  }
+                }}
+              >
                 <BiArchiveIn className={style.innerIcons} />
               </Button>
             </div>

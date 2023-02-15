@@ -21,7 +21,8 @@ export default function PopUpMessage(props) {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        credentials: 'include'
       })
       const resultBody = await result.json()
       console.log('pi :', typeof resultBody.aa)
@@ -117,7 +118,7 @@ export default function PopUpMessage(props) {
           }
         ])
       } else if (
-        resultBody.message === 'PI should be a number between 1 and 99 letters'
+        resultBody.message === 'PI should be a number between 1 and 99'
       ) {
         return msgs.current.show([
           {
@@ -149,6 +150,7 @@ export default function PopUpMessage(props) {
           }
         ])
       }
+      props.onSubmit()
     } catch (err) {
       return msgs.current.show([
         {
