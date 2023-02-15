@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
@@ -15,15 +15,18 @@ export default function PopUpMessage(props) {
   const createProject = async () => {
     try {
       const body = data
+      if (body == null) {
+        return 'you must to insert data'
+      }
 
       await fetch(`${api.apiRequest}/AddingProject`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        credentials: 'include'
       })
-      if (body == null) {
-        return 'you must to insert data'
-      }
+
+      props.onSubmit()
     } catch (err) {
       throw new Error('failed to connect to the server')
     }
