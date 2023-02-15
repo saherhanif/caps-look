@@ -15,6 +15,7 @@ const Sidebar = (props) => {
       console.log(err)
     }
   }
+const Sidebar = () => {
   return (
     <div>
       <nav className={style.sidebar}>
