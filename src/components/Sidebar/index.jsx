@@ -4,17 +4,17 @@ import { HiOutlineLogout } from 'react-icons/hi'
 import { AiOutlineSetting } from 'react-icons/ai'
 import api from '../../config'
 
-const Sidebar = (props) => {
-  const logout = async () => {
-    try {
-      await fetch(`${api.apiRequest}/Logout`, {
-        credentials: 'include'
-      })
-      window.location.href = '/'
-    } catch (err) {
-      console.log(err)
-    }
+const logout = async () => {
+  try {
+    await fetch(`${api.apiRequest}/Logout`, {
+      credentials: 'include'
+    })
+    window.location.href = '/'
+  } catch (err) {
+    console.log(err)
   }
+}
+const Sidebar = () => {
   return (
     <div>
       <nav className={style.sidebar}>
