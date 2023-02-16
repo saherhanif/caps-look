@@ -27,15 +27,19 @@ export default function PopUpMessage(props) {
       const resultBody = await result.json()
       console.log('pi :', typeof resultBody.aa)
       if (resultBody.message === 'create project done successfully') {
-        return msgs.current.show([
-          {
-            sticky: false,
-            severity: 'success',
-            summary: '',
-            detail: resultBody.message,
-            closable: true
-          }
-        ])
+        return (
+          await msgs.current.show[
+            {
+              sticky: false,
+              severity: 'success',
+              summary: '',
+              detail: resultBody.message,
+              closable: true
+            }
+          ],
+          await setTimeout(() => {}, 30000),
+          props.onSubmit()
+        )
       } else if (
         resultBody.message === 'Please Insert a name for the project'
       ) {
@@ -150,7 +154,6 @@ export default function PopUpMessage(props) {
           }
         ])
       }
-      props.onSubmit()
     } catch (err) {
       return msgs.current.show([
         {
