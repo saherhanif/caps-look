@@ -5,9 +5,36 @@ import { Password } from 'primereact/password'
 import style from './Login.module.scss'
 import { useState } from 'react'
 function Login() {
-  const [userName, setUserName] = useState('')
+  const [Email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
+  const [error, setError] = useState(false)
+  const RESPONSE_STATUS = {
+    FAIL: false,
+    SUCSSESS: true
+  }
+  const submitUser = async () => {
+    try {
+      if (Email.length === 0 || password.length === 0) setError(true)
+      else {
+        const data = { Email: Email, password: password }
+        const response = await fetch('http://localhost:4000/login', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+        const result = await response.json()
+        if (result.success === RESPONSE_STATUS.SUCSSESS) {
+          window.location.href = '/home'
+        } else {
+          setError(true)
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className={style.LoginContainer}>
@@ -16,8 +43,8 @@ function Login() {
           <i className="pi pi-user" />
           <InputText
             name="username"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            value={Email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="UserName"
           />
         </span>
@@ -51,7 +78,14 @@ function Login() {
             Remember Me
           </label>
         </div>
-        <Button className={style.LIButton} label="Log In" aria-label="Submit" />
+        <Button
+          className={style.LIButton}
+          label="Log In"
+          onClick={submitUser}
+          type="button"
+          aria-label="Submit"
+        />
+        {error ? <label className="message"> Something went wrong!</label> : ''}
       </form>
     </div>
   )
