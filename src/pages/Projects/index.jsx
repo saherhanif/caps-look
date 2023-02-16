@@ -10,7 +10,6 @@ import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { CSVLink } from 'react-csv'
 import api from '../../config'
-import EditPopUpMessage from './EditPopUpDialog'
 import ArchiveProject from './ArchiveProject'
 
 const Projects = () => {
