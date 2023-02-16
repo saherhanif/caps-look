@@ -37,7 +37,6 @@ export default function PopUpMessage(props) {
               closable: true
             }
           ],
-          await setTimeout(() => {}, 30000),
           props.onSubmit()
         )
       } else if (
