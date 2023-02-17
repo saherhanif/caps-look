@@ -11,7 +11,6 @@ const ListItem = ({ item }) => {
       </div>
       <div className={style.item}>Project started in 19.03.2021</div>
       <div className={style.item}>19 PI made on this project</div>
-
     </div>
   )
 }
