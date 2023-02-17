@@ -13,7 +13,13 @@ export default function SiteMix() {
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' }
       })
-      const actual = await response.json()
+      const actData = await response.json()
+      let actual = []
+      let actualLabels = []
+      actData.data.forEach((element) => {
+        actualLabels.push(element.cost_level)
+        actual.push(parseInt(element.site_ee))
+      })
 
       const plannedresponse = await fetch(
         'http://localhost:4000/GetPlannedSiteMix/2',
@@ -23,8 +29,8 @@ export default function SiteMix() {
           headers: { 'Content-Type': 'application/json' }
         }
       )
-      const planned = await plannedresponse.json()
-
+      const planData = await plannedresponse.json()
+      let planned = planData.data[0].planned_site_mix
       const documentStyle = getComputedStyle(document.documentElement)
       const plannedData = {
         labels: Object.keys(planned),
@@ -46,11 +52,11 @@ export default function SiteMix() {
       }
 
       const actualData = {
-        labels: Object.keys(actual),
+        labels: actualLabels,
 
         datasets: [
           {
-            data: Object.values(actual),
+            data: actual,
             backgroundColor: [
               documentStyle.getPropertyValue('--blue-500'),
               documentStyle.getPropertyValue('--yellow-500'),
