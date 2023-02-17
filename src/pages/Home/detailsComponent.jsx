@@ -12,13 +12,6 @@ const ListItem = ({ item }) => {
       <div className={style.item}>Project started in 19.03.2021</div>
       <div className={style.item}>19 PI made on this project</div>
 
-      {/* <ul>
-                <li>ahmad abo lel</li>
-                <li>haitham badran</li>
-                <li>javascript bootcamp</li>
-                <li>kav mashve 2023</li>
-                <li>hello world !!</li>
-            </ul>  */}
     </div>
   )
 }
