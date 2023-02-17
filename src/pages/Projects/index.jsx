@@ -19,6 +19,8 @@ const Projects = () => {
   const [visibleArchive, setVisibleArchive] = React.useState(false)
   const [archive, setArchive] = React.useState({})
   const [edit, setEdit] = React.useState({})
+  const [selectedData, getSelectedData] = useState('')
+  const [searchResults, setSearchResults] = useState([])
 
   const getProjects = async () => {
     try {
@@ -29,6 +31,21 @@ const Projects = () => {
       setProjects(res.data)
     } catch (err) {
       throw new Error('No data found !!!')
+    }
+  }
+
+  const searchProject = (selectedData) => {
+    getSelectedData(selectedData)
+    if (selectedData !== '') {
+      const newProjectList = projects.filter((project) => {
+        return Object.values(project)
+          .join(' ')
+          .toLowerCase()
+          .includes(selectedData.toLowerCase())
+      })
+      setSearchResults(newProjectList)
+    } else {
+      setSearchResults(projects)
     }
   }
 
@@ -45,10 +62,15 @@ const Projects = () => {
 
   return (
     <PageContainer name={'Projects'}>
-      <SearchBar PlaceholderItem={'Search a Project'} />
+      <SearchBar
+        PlaceholderItem={'Search a Project'}
+        name={'project_name'}
+        selectedData={selectedData}
+        searchKeyword={searchProject}
+      />
       <div style={{ width: '90%' }}>
         <ContentsTable
-          source={projects}
+          source={selectedData.length < 1 ? projects : searchResults}
           columns={columns}
           onEditRow={(e) => {
             setVisibleEdit(true)
