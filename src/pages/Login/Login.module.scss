@@ -37,7 +37,9 @@
   display: inline;
 }
 
-.message {
-  font-style: normal;
-  background-color: red;
+.Error_message {
+  background-color: #e1cfe7;
+  border: solid #8a427a;
+  border-width: 0 0 0 6px;
+  color: #2c1e30;
 }

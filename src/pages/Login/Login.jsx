@@ -3,20 +3,32 @@ import { Checkbox } from 'primereact/checkbox'
 import { Button } from 'primereact/button'
 import { Password } from 'primereact/password'
 import style from './Login.module.scss'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { Messages } from 'primereact/messages'
+
 function Login() {
   const [Email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
-  const [error, setError] = useState(false)
+  const msgs = useRef('null')
+
   const RESPONSE_STATUS = {
     FAIL: false,
     SUCSSESS: true
   }
   const submitUser = async () => {
     try {
-      if (Email.length === 0 || password.length === 0) setError(true)
-      else {
+      if (Email.length === 0 || password.length === 0) {
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: 'missing email or password !',
+            closable: true
+          }
+        ])
+      } else {
         const data = { Email: Email, password: password }
         const response = await fetch('http://localhost:4000/login', {
           method: 'POST',
@@ -28,7 +40,15 @@ function Login() {
         if (result.success === RESPONSE_STATUS.SUCSSESS) {
           window.location.href = '/home'
         } else {
-          setError(true)
+          return msgs.current.show([
+            {
+              sticky: false,
+              severity: 'error',
+              summary: '',
+              detail: result.message,
+              closable: true
+            }
+          ])
         }
       }
     } catch (error) {
@@ -45,7 +65,7 @@ function Login() {
             name="username"
             value={Email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="UserName"
+            placeholder="example@gmail.com"
           />
         </span>
 
@@ -78,6 +98,7 @@ function Login() {
             Remember Me
           </label>
         </div>
+        <Messages ref={msgs} />
         <Button
           className={style.LIButton}
           label="Log In"
@@ -85,7 +106,6 @@ function Login() {
           type="button"
           aria-label="Submit"
         />
-        {error ? <label className="message"> Something went wrong!</label> : ''}
       </form>
     </div>
   )
