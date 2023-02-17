@@ -1,10 +1,15 @@
+import ContentsTable from '../../components/ContentsTable'
+import PageContainer from '../../components/PageContainer'
+import ListItem from './detailsComponent'
 import style from './style.module.scss'
 
 const Home = () => {
   return (
-    <div className={style.container}>
-      <h1 className={style.title}>Home</h1>
-    </div>
+    <PageContainer>
+      <div>
+        <ListItem />
+      </div>
+    </PageContainer>
   )
 }
 
