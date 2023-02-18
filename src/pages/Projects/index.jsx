@@ -51,7 +51,7 @@ const Projects = () => {
 
   useEffect(() => {
     getProjects()
-  }, [projects])
+  }, [])
 
   const columns = [
     { title: 'name', dataIndex: 'project_name' },
