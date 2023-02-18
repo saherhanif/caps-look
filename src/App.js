@@ -14,6 +14,7 @@ import Employee from './pages/Employes/index'
 import Sidebar from './components/Sidebar'
 import Login from './pages/Login/Login'
 import Style from './style.module.scss'
+import Sites from './pages/Sites/index'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
 import 'primereact/resources/themes/lara-light-indigo/theme.css'
@@ -52,6 +53,7 @@ function App() {
               <Route path="/Absence" element={<Absence />} />
               <Route path="/Employes" element={<Employee />} />
               <Route path="/Cadence" element={<Cadence />} />
+              <Route path="/Sites" element={<Sites />} />
             </Routes>
           </div>
         </div>
