@@ -5,14 +5,17 @@ export default function SiteMix() {
   const [chartPlannedData, setChartPlannedData] = useState({})
   const [chartActualData, setChartActualData] = useState({})
   const [chartOptions, setChartOptions] = useState({})
-
+  require('dotenv').config()
   useEffect(() => {
     async function getData() {
-      const response = await fetch('http://localhost:4000/GetActualSiteMix/2', {
-        method: 'GET',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' }
-      })
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/GetActualSiteMix/2`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
       const actData = await response.json()
       let actual = []
       let actualLabels = []
@@ -22,7 +25,7 @@ export default function SiteMix() {
       })
 
       const plannedresponse = await fetch(
-        'http://localhost:4000/GetPlannedSiteMix/2',
+        `${process.env.REACT_APP_API_URL}/GetPlannedSiteMix/2`,
         {
           method: 'GET',
           credentials: 'include',
