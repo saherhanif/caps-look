@@ -76,7 +76,7 @@ const Projects = () => {
             setVisibleEdit(true)
             setEdit(e)
           }}
-          archiveProject={(e) => {
+          archiveRow={(e) => {
             setVisibleArchive(true)
             setArchive(e)
           }}

@@ -4,34 +4,32 @@ import { HiOutlineLogout } from 'react-icons/hi'
 import { AiOutlineSetting } from 'react-icons/ai'
 import api from '../../config'
 
-const logout = async () => {
-  try {
-    await fetch(`${api.apiRequest}/Logout`, {
-      credentials: 'include'
-    })
-    window.location.href = '/'
-  } catch (err) {
-    console.log(err)
-  }
-}
 const Sidebar = () => {
-  return (
-    <div>
-      <nav className={style.sidebar}>
-        <Link to="/home" className={style.link}>
-          Home
-        </Link>
-        <Link to="/Sites" className={style.link}>
-          Sites
-        </Link>
-        <Link to="/Projects" className={style.link}>
-          Projects
-        </Link>
-
+  const logout = async () => {
+    try {
+      await fetch(`${api.apiRequest}/Logout`, {
+        credentials: 'include'
+      })
+      window.location.href = '/'
+    } catch (err) {
+      console.log(err)
+    }
+  }
+    return (
+      <div>
+        <nav className={style.sidebar}>
+          <Link to="/home" className={style.link}>
+            Home
+          </Link>
+          <Link to="/Sites" className={style.link}>
+            Sites
+          </Link>
+          <Link to="/Projects" className={style.link}>
+            Projects
+          </Link>
         <Link to="/Absence" className={style.link}>
           Absence
         </Link>
-
         <Link to="/Employes" className={style.link}>
           Employess
         </Link>
@@ -46,6 +44,7 @@ const Sidebar = () => {
       </nav>
     </div>
   )
+   
 }
 
 export default Sidebar
