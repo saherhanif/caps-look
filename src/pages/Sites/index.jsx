@@ -38,19 +38,7 @@ const Sites = () => {
             onClick={() => setVisible(true)}
           />
         </div>
-        <div className={style.export}>
-          {/* <CSVLink
-            style={{
-              textDecoration: 'none'
-            }}
-            onClick={() => {
-              console.log('exporting')
-            }}
-          >
-            // <button>Export as CSV</button>
-            //{' '}
-          </CSVLink> */}
-        </div>
+        <div className={style.export}></div>
         <br />
       </div>
     </PageContainer>
