@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { Chart } from 'primereact/chart'
+import apiRequest from '../../config'
 
 export default function SiteMix() {
   const [chartPlannedData, setChartPlannedData] = useState({})
   const [chartActualData, setChartActualData] = useState({})
   const [chartOptions, setChartOptions] = useState({})
-  require('dotenv').config()
   useEffect(() => {
     async function getData() {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/GetActualSiteMix/2`,
-        {
-          method: 'GET',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json' }
-        }
-      )
+      const response = await fetch(`${apiRequest}/GetActualSiteMix/2`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      })
       const actData = await response.json()
       let actual = []
       let actualLabels = []
@@ -24,14 +21,11 @@ export default function SiteMix() {
         actual.push(parseInt(element.site_ee))
       })
 
-      const plannedresponse = await fetch(
-        `${process.env.REACT_APP_API_URL}/GetPlannedSiteMix/2`,
-        {
-          method: 'GET',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json' }
-        }
-      )
+      const plannedresponse = await fetch(`${apiRequest}/GetPlannedSiteMix/2`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      })
       const planData = await plannedresponse.json()
       let planned = planData.data[0].planned_site_mix
       const documentStyle = getComputedStyle(document.documentElement)

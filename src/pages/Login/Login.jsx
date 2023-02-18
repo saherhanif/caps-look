@@ -5,6 +5,7 @@ import { Password } from 'primereact/password'
 import style from './Login.module.scss'
 import { useState, useRef } from 'react'
 import { Messages } from 'primereact/messages'
+import apiRequest from '../../config'
 
 function Login() {
   const [Email, setEmail] = useState('')
@@ -30,8 +31,7 @@ function Login() {
         ])
       } else {
         const data = { Email: Email, password: password }
-        require('dotenv').config()
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
+        const response = await fetch(`${apiRequest}/login`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
