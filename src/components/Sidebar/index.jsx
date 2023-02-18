@@ -15,18 +15,18 @@ const Sidebar = () => {
       console.log(err)
     }
   }
-    return (
-      <div>
-        <nav className={style.sidebar}>
-          <Link to="/home" className={style.link}>
-            Home
-          </Link>
-          <Link to="/Sites" className={style.link}>
-            Sites
-          </Link>
-          <Link to="/Projects" className={style.link}>
-            Projects
-          </Link>
+  return (
+    <div>
+      <nav className={style.sidebar}>
+        <Link to="/home" className={style.link}>
+          Home
+        </Link>
+        <Link to="/Sites" className={style.link}>
+          Sites
+        </Link>
+        <Link to="/Projects" className={style.link}>
+          Projects
+        </Link>
         <Link to="/Absence" className={style.link}>
           Absence
         </Link>
@@ -44,7 +44,6 @@ const Sidebar = () => {
       </nav>
     </div>
   )
-   
 }
 
 export default Sidebar

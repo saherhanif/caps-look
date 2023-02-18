@@ -24,7 +24,12 @@ const Employee = () => {
   const [sites, setSites] = useState([{}])
   const [jobs, setJobs] = useState([{}])
 
-  const arr=[{access_tier:'no_access'},{access_tier:'scrum_master'},{access_tier:'project_manager'},{access_tier:'resource_manager'}]
+  const arr = [
+    { access_tier: 'no_access' },
+    { access_tier: 'scrum_master' },
+    { access_tier: 'project_manager' },
+    { access_tier: 'resource_manager' }
+  ]
 
   const getEmployees = async () => {
     try {
@@ -32,9 +37,8 @@ const Employee = () => {
         credentials: 'include'
       })
       const res = await result.json()
-   console.log(res.data)
+      console.log(res.data)
       setEmployees(res.data)
-      
     } catch (err) {
       throw new Error('No data found !!!')
     }
