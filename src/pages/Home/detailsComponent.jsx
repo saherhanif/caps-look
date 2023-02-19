@@ -4,39 +4,46 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import config from '../../config'
 
-const ListItem = ({ projectId }) => {
+const ProjectDetails = ({ projectId }) => {
   const [startDay, setStartDay] = useState(null)
   const [countIterations, setCountIterations] = useState(0)
   const [countScrums, setCountScrums] = useState(0)
   const [countSites, setCountSite] = useState(0)
   const [countEmployees, setCountEmployees] = useState(0)
-
+  const fetches = [
+    axios.get(`${config.apiRequest}/home/projectStartDay/2`),
+    axios.get(`${config.apiRequest}/home/projectCountIterations/2`),
+    axios.get(`${config.apiRequest}/home/projectCountScrums/2`),
+    axios.get(`${config.apiRequest}/home/projectCountSites/2`),
+    axios.get(`${config.apiRequest}/home/projectCountEmployees/2`)
+  ]
   const fetchProjectDetails = async () => {
     try {
-      const startDayResult = await axios.get(
-        `${config.apiRequest}/home/projectStartDay/2`
-      )
-      setStartDay(startDayResult?.data?.data[0]?.start_date)
-      const countIterationsResult = await axios.get(
-        `${config.apiRequest}/home/projectCountIterations/2`
-      )
-      setCountIterations(countIterationsResult?.data?.data[0]?.count)
-      const countScrumsResult = await axios.get(
-        `${config.apiRequest}/home/projectCountScrums/2`
-      )
-      console.log(countScrumsResult, '4545454')
-      setCountScrums(countScrumsResult?.data?.data[0]?.count)
-      const CountSiteResult = await axios.get(
-        `${config.apiRequest}/home/projectCountSites/2`
-      )
-      setCountSite(CountSiteResult?.data?.data[0].count)
-      const countEmployeesResult = await axios.get(
-        `${config.apiRequest}/home/projectCountEmployees/2`
-      )
-      setCountEmployees(countEmployeesResult.data?.data[0]?.count)
+      const responses = await Promise.all(fetches)
+      setStartDay(responses[0]?.data?.data[0]?.start_date)
+      setCountIterations(responses[1]?.data?.data[0]?.count)
+      setCountScrums(responses[2]?.data?.data[0]?.count)
+      setCountSite(responses[3]?.data?.data[0].count)
+      setCountEmployees(responses[4].data?.data[0]?.count)
     } catch (error) {
       console.log(error)
     }
+
+    // try {
+    //   const startDayResult = await axios.get(`${config.apiRequest}/home/projectStartDay/2`)
+    //   setStartDay(startDayResult?.data?.data[0]?.start_date)
+    //   const countIterationsResult = await axios.get(`${config.apiRequest}/home/projectCountIterations/2`)
+    //   setCountIterations(countIterationsResult?.data?.data[0]?.count)
+    //   const countScrumsResult = await axios.get(`${config.apiRequest}/home/projectCountScrums/2`)
+    //   console.log(countScrumsResult, '4545454')
+    //   setCountScrums(countScrumsResult?.data?.data[0]?.count)
+    //   const CountSiteResult = await axios.get(`${config.apiRequest}/home/projectCountSites/2`)
+    //   setCountSite(CountSiteResult?.data?.data[0].count)
+    //   const countEmployeesResult = await axios.get(`${config.apiRequest}/home/projectCountEmployees/2`)
+    //   setCountEmployees(countEmployeesResult.data?.data[0]?.count)
+    // } catch (error) {
+    //   console.log(error)
+    // }
   }
 
   useEffect(() => {
@@ -44,7 +51,7 @@ const ListItem = ({ projectId }) => {
   }, [])
 
   return (
-    <div className={style.listItem}>
+    <div className={style.details}>
       <div className={style.item}>
         {countSites} sites are working on this project
       </div>
@@ -62,4 +69,4 @@ const ListItem = ({ projectId }) => {
   )
 }
 
-export default ListItem
+export default ProjectDetails
