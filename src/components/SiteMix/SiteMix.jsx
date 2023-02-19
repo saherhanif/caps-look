@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { Chart } from 'primereact/chart'
 import apiRequest from '../../config'
 
-export default function SiteMix() {
+export default function SiteMix(props) {
   const [chartPlannedData, setChartPlannedData] = useState({})
   const [chartActualData, setChartActualData] = useState({})
   const [chartOptions, setChartOptions] = useState({})
   useEffect(() => {
     async function getData() {
-      const response = await fetch(`${apiRequest}/GetActualSiteMix/2`, {
+      const response = await fetch(`${apiRequest}/GetActualSiteMix/${props.projectId}`, {
         method: 'GET',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' }
@@ -21,7 +21,7 @@ export default function SiteMix() {
         actual.push(parseInt(element.site_ee))
       })
 
-      const plannedresponse = await fetch(`${apiRequest}/GetPlannedSiteMix/2`, {
+      const plannedresponse = await fetch(`${apiRequest}/GetPlannedSiteMix/${props.projectId}`, {
         method: 'GET',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' }
@@ -76,6 +76,8 @@ export default function SiteMix() {
       setChartActualData(actualData)
       setChartOptions(options)
     }
+
+
     getData()
   }, [])
 
