@@ -14,7 +14,6 @@ import Employee from './pages/Employes/index'
 import Sidebar from './components/Sidebar'
 import Login from './pages/Login/Login'
 import Style from './style.module.scss'
-import Sites from './pages/Sites/index'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
 import 'primereact/resources/themes/lara-light-indigo/theme.css'
@@ -22,7 +21,10 @@ import 'primereact/resources/primereact.css'
 import './reset.scss'
 import './App.scss'
 import React, { useEffect } from 'react'
+import { getRole, isAuthorized } from './utils/useAuth'
+
 function App() {
+  const logToken = getRole(document.cookie.valueOf('userToken'))
   const isLoggedIn = document.cookie.indexOf('userToken') !== -1
   useEffect(() => {
     if (
@@ -48,12 +50,33 @@ function App() {
           <Sidebar />
           <div className={Style.mainPage}>
             <Routes>
-              <Route path="/home" element={<Home />} />
-              <Route path="/Projects" element={<Projects />} />
-              <Route path="/Absence" element={<Absence />} />
-              <Route path="/Employes" element={<Employee />} />
-              <Route path="/Cadence" element={<Cadence />} />
-              <Route path="/Sites" element={<Sites />} />
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/home" element={<Home />} />}
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master',
+                ''
+              ]) && <Route path="/Projects" element={<Projects />} />}
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master',
+                ''
+              ]) && <Route path="/Absence" element={<Absence />} />}
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/Employes" element={<Employee />} />}
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/Cadence" element={<Cadence />} />}
             </Routes>
           </div>
         </div>

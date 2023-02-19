@@ -3,49 +3,58 @@ import { Link } from 'react-router-dom'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { AiOutlineSetting } from 'react-icons/ai'
 import api from '../../config'
+import { getRole, isAuthorized } from '../../utils/useAuth'
 
-const logout = async () => {
-  try {
-    await fetch(`${api.apiRequest}/Logout`, {
-      credentials: 'include'
-    })
-    window.location.href = '/'
-  } catch (err) {
-    console.log(err)
-  }
-}
 const Sidebar = () => {
-  return (
-    <div>
-      <nav className={style.sidebar}>
-        <Link to="/home" className={style.link}>
-          Home
-        </Link>
-        <Link to="/Sites" className={style.link}>
-          Sites
-        </Link>
-        <Link to="/Projects" className={style.link}>
-          Projects
-        </Link>
+  const logToken = getRole(document.cookie.valueOf('userToken'))
+  const logout = async () => {
+    try {
+      await fetch(`${api.apiRequest}/Logout`, {
+        credentials: 'include'
+      })
+      window.location.href = '/'
+    } catch (err) {}
+  }
 
-        <Link to="/Absence" className={style.link}>
-          Absence
-        </Link>
+  if (
+    isAuthorized(logToken, [
+      'project_manager',
+      'resource_manager',
+      'scrum_master'
+    ])
+  ) {
+    return (
+      <div>
+        <nav className={style.sidebar}>
+          <Link to="/home" className={style.link}>
+            Home
+          </Link>
+          <Link to="/Sites" className={style.link}>
+            Sites
+          </Link>
+          <Link to="/Projects" className={style.link}>
+            Projects
+          </Link>
 
-        <Link to="/Employes" className={style.link}>
-          Employess
-        </Link>
-        <hr className={style.cutter} />
-        <Link to="/Settings" className={style.link}>
-          Settings <AiOutlineSetting size="30px" />
-        </Link>
-        <a href="/" className={style.link} onClick={logout}>
-          Logout
-          <HiOutlineLogout color="white" size="30px" />
-        </a>
-      </nav>
-    </div>
-  )
+          <Link to="/Absence" className={style.link}>
+            Absence
+          </Link>
+
+          <Link to="/Employes" className={style.link}>
+            Employees
+          </Link>
+          <hr className={style.cutter} />
+          <Link to="/Settings" className={style.link}>
+            Settings <AiOutlineSetting size="30px" />
+          </Link>
+          <a href="/" className={style.link} onClick={logout}>
+            Logout
+            <HiOutlineLogout color="white" size="30px" />
+          </a>
+        </nav>
+      </div>
+    )
+  }
 }
 
 export default Sidebar
