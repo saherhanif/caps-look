@@ -64,7 +64,8 @@ function App() {
               {isAuthorized(logToken, [
                 'project_manager',
                 'resource_manager',
-                'scrum_master'
+                'scrum_master',
+                ''
               ]) && <Route path="/Absence" element={<Absence />} />}
               {isAuthorized(logToken, [
                 'project_manager',
