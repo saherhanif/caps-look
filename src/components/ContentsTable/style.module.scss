@@ -25,9 +25,9 @@
   border-radius: 10px;
   display: flex;
   margin-bottom: 10px;
-  h3{
+  h3 {
     font-size: 150%;
-    color: #18122B;
+    color: #18122b;
     margin: 10px;
   }
 }
@@ -98,7 +98,6 @@
     .innerIcons {
       height: 100px;
       width: 100px;
-      
     }
   }
   .ArchiveContainer {
@@ -111,11 +110,10 @@
     margin-left: 10px;
     margin-right: 10px;
     padding: 10px;
-    
+
     .innerIcons {
       height: 100px;
       width: 100px;
-      
     }
   }
   .ArchiveContainer :hover {
@@ -123,6 +121,5 @@
       background-color: red($color: #000000);
       color: red($color: #000000);
     }
-}
-
+  }
 }

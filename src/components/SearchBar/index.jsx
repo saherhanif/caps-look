@@ -10,7 +10,7 @@ const SearchBar = (props) => {
   }
   return (
     <div
-    className={style.container}
+      className={style.container}
       style={{
         display: 'flex',
         justifyContent: 'center'

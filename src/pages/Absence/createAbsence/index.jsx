@@ -40,7 +40,7 @@ export default function CreateAbsence(props) {
   }, [])
 
   const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
-  
+
   const createAbsence = async () => {
     try {
       const body = data
@@ -119,13 +119,9 @@ export default function CreateAbsence(props) {
           inputId="dd-city"
           value={data.mandatory}
           onChange={onChange('mandatory')}
-          options={[
-            { mandatory: 'mandatory' },
-            { mandatory: 'optional'}
-          ]}
+          options={[{ mandatory: 'mandatory' }, { mandatory: 'optional' }]}
           optionLabel="mandatory"
           optionValue="mandatory"
-    
           className="w-full md:w-14rem"
         />
 

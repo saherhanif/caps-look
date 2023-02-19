@@ -24,12 +24,11 @@ export default function Absence() {
 
   const getAbsences = async () => {
     try {
-
       const data = await fetch(`${api.apiRequest}/absences`, {
         credentials: 'include'
       })
       const absences = await data.json()
-        
+
       setList(absences.data)
     } catch (error) {
       setList([])
@@ -38,8 +37,7 @@ export default function Absence() {
   }
   React.useEffect(() => {
     getAbsences()
-    console.log('1111111');
-    
+    console.log('1111111')
   }, [])
 
   const columns = [
@@ -50,7 +48,6 @@ export default function Absence() {
     { title: 'end date', dataIndex: 'absence_end_date' },
     { title: 'opti/mand', dataIndex: 'mandatory' }
   ]
-   
 
   const searchAbsence = (selectedData) => {
     setSelectedData(selectedData)
@@ -70,13 +67,14 @@ export default function Absence() {
   return (
     <div>
       <PageContainer name={'Absences'}>
-        <SearchBar  PlaceholderItem={'Search a Absence'}
-        name={'absence_name'}
-        selectedData={selectedData}
-        searchKeyword={searchAbsence}/>
+        <SearchBar
+          PlaceholderItem={'Search a Absence'}
+          name={'absence_name'}
+          selectedData={selectedData}
+          searchKeyword={searchAbsence}
+        />
         <ContentsTable
           source={selectedData.length < 1 ? list : searchResults}
-          
           columns={columns}
           archiveRow={(e) => {
             setVisibleArchive(true)

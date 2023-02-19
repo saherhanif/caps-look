@@ -119,17 +119,13 @@ export default function EditAbsence(props) {
       <br />
       <br />
       <span className="p-float-label">
-      <Dropdown
+        <Dropdown
           inputId="dd-city"
           value={data.mandatory}
           onChange={onChange('mandatory')}
-          options={[
-            { mandatory: 'mandatory' },
-            { mandatory: 'optional'}
-          ]}
+          options={[{ mandatory: 'mandatory' }, { mandatory: 'optional' }]}
           optionLabel="mandatory"
           optionValue="mandatory"
-    
           className="w-full md:w-14rem"
         />
 
