@@ -21,7 +21,7 @@ import 'primereact/resources/primereact.css'
 import './reset.scss'
 import './App.scss'
 import React, { useEffect } from 'react'
-import  {getRole,isAuthorized} from './utils/useAuth'
+import { getRole, isAuthorized } from './utils/useAuth'
 
 function App() {
   const logToken = getRole(document.cookie.valueOf('userToken'))
@@ -53,9 +53,13 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/Projects" element={<Projects />} />
               <Route path="/Absence" element={<Absence />} />
-              { (isAuthorized(logToken,['project_manager','resource_manager','scrum_master'])) && <Route path="/Employes" element={<Employee />} />}
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/Employes" element={<Employee />} />}
               <Route path="/Cadence" element={<Cadence />} />
-                          </Routes>
+            </Routes>
           </div>
         </div>
       </Router>

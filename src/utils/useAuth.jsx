@@ -1,8 +1,7 @@
 import jwtDecode from 'jwt-decode'
 
-const isAuthorized=(role,arrOfRoles)=>{
-  if(arrOfRoles.includes(role))
-  return true
+const isAuthorized = (role, arrOfRoles) => {
+  if (arrOfRoles.includes(role)) return true
 }
 const getRole = (tokenLog) => {
   let isRmanager = false
@@ -25,4 +24,4 @@ const getRole = (tokenLog) => {
     return status
   }
 }
-export {getRole,isAuthorized}
+export { getRole, isAuthorized }
