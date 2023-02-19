@@ -58,7 +58,8 @@ function App() {
               {isAuthorized(logToken, [
                 'project_manager',
                 'resource_manager',
-                'scrum_master'
+                'scrum_master',
+                ''
               ]) && <Route path="/Projects" element={<Projects />} />}
               {isAuthorized(logToken, [
                 'project_manager',
