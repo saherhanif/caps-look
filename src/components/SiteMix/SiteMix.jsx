@@ -8,11 +8,14 @@ export default function SiteMix(props) {
   const [chartOptions, setChartOptions] = useState({})
   useEffect(() => {
     async function getData() {
-      const response = await fetch(`${apiRequest}/GetActualSiteMix/${props.projectId}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' }
-      })
+      const response = await fetch(
+        `${apiRequest}/GetActualSiteMix/${props.projectId}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
       const actData = await response.json()
       let actual = []
       let actualLabels = []
@@ -21,11 +24,14 @@ export default function SiteMix(props) {
         actual.push(parseInt(element.site_ee))
       })
 
-      const plannedresponse = await fetch(`${apiRequest}/GetPlannedSiteMix/${props.projectId}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' }
-      })
+      const plannedresponse = await fetch(
+        `${apiRequest}/GetPlannedSiteMix/${props.projectId}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
       const planData = await plannedresponse.json()
       let planned = planData.data[0].planned_site_mix
       const documentStyle = getComputedStyle(document.documentElement)
@@ -76,7 +82,6 @@ export default function SiteMix(props) {
       setChartActualData(actualData)
       setChartOptions(options)
     }
-
 
     getData()
   }, [])
