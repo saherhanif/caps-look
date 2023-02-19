@@ -50,15 +50,31 @@ function App() {
           <Sidebar />
           <div className={Style.mainPage}>
             <Routes>
-              <Route path="/home" element={<Home />} />
-              <Route path="/Projects" element={<Projects />} />
-              <Route path="/Absence" element={<Absence />} />
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/home" element={<Home />} />}
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/Projects" element={<Projects />} />}
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/Absence" element={<Absence />} />}
               {isAuthorized(logToken, [
                 'project_manager',
                 'resource_manager',
                 'scrum_master'
               ]) && <Route path="/Employes" element={<Employee />} />}
-              <Route path="/Cadence" element={<Cadence />} />
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/Cadence" element={<Cadence />} />}
             </Routes>
           </div>
         </div>
