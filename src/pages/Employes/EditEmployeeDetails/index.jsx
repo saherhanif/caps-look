@@ -14,7 +14,6 @@ export default function EditEmployeeDetails(props) {
     jobId: props.source.job_id,
     accessTier: props.source.access_tier
   })
-  console.log(props.source)
   const onChangeData = (key) => (e) =>
     setEditData({ ...editData, [key]: e.target.value })
 

@@ -16,7 +16,6 @@ export default function AddEmployeePopUp(props) {
     jobId: null,
     accessTier: null
   })
-  console.log(data)
 
   const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
 

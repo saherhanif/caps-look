@@ -24,7 +24,7 @@ export default function PopUpMessage(props) {
         body: JSON.stringify(body)
       })
       const resultBody = await result.json()
-      console.log('pi :', typeof resultBody.aa)
+
       if (resultBody.message === 'create project done successfully') {
         return (
           await msgs.current.show[

@@ -11,9 +11,7 @@ const Sidebar = () => {
         credentials: 'include'
       })
       window.location.href = '/'
-    } catch (err) {
-      console.log(err)
-    }
+    } catch (err) {}
   }
   return (
     <div>
@@ -31,7 +29,7 @@ const Sidebar = () => {
           Absence
         </Link>
         <Link to="/Employes" className={style.link}>
-          Employess
+          Employees
         </Link>
         <hr className={style.cutter} />
         <Link to="/Settings" className={style.link}>
