@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { AiOutlineSetting } from 'react-icons/ai'
 import api from '../../config'
+import { getRole } from '../../utils/useAuth'
+ 
 
 const Sidebar = () => {
+  const tokenLog = getRole(document.cookie.valueOf('userToken'))
   const logout = async () => {
     try {
       await fetch(`${api.apiRequest}/Logout`, {
@@ -13,6 +16,8 @@ const Sidebar = () => {
       window.location.href = '/'
     } catch (err) {}
   }
+  
+  if(tokenLog === 'scrum_master'){
   return (
     <div>
       <nav className={style.sidebar}>
@@ -25,9 +30,11 @@ const Sidebar = () => {
         <Link to="/Projects" className={style.link}>
           Projects
         </Link>
+
         <Link to="/Absence" className={style.link}>
           Absence
         </Link>
+
         <Link to="/Employes" className={style.link}>
           Employees
         </Link>
@@ -41,7 +48,7 @@ const Sidebar = () => {
         </a>
       </nav>
     </div>
-  )
+  )}
 }
 
 export default Sidebar

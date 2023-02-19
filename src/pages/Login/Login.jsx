@@ -5,7 +5,7 @@ import { Password } from 'primereact/password'
 import style from './Login.module.scss'
 import { useState, useRef } from 'react'
 import { Messages } from 'primereact/messages'
-import apiRequest from '../../config'
+import api from '../../config'
 
 function Login() {
   const [Email, setEmail] = useState('')
@@ -31,7 +31,7 @@ function Login() {
         ])
       } else {
         const data = { Email: Email, password: password }
-        const response = await fetch(`${apiRequest}/login`, {
+        const response = await fetch(`${api.apiRequest}/login`, {
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
