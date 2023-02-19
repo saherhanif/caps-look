@@ -31,7 +31,7 @@ const Sidebar = () => {
           Absence
         </Link>
         <Link to="/Employes" className={style.link}>
-          Employess
+          Employees
         </Link>
         <hr className={style.cutter} />
         <Link to="/Settings" className={style.link}>
