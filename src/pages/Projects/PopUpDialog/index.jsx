@@ -21,8 +21,7 @@ export default function PopUpMessage(props) {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-        credentials: 'include'
+        body: JSON.stringify(body)
       })
       const resultBody = await result.json()
       console.log('pi :', typeof resultBody.aa)

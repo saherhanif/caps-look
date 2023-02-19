@@ -53,8 +53,8 @@ const ContentsTable = (props) => {
               <Button
                 className={style.ArchiveContainer}
                 onClick={() => {
-                  if (props.archiveProject) {
-                    props.archiveProject(data)
+                  if (props.archiveRow) {
+                    props.archiveRow(data)
                   }
                 }}
               >
