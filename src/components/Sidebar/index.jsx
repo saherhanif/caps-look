@@ -11,9 +11,7 @@ const Sidebar = () => {
         credentials: 'include'
       })
       window.location.href = '/'
-    } catch (err) {
-      console.log(err)
-    }
+    } catch (err) {}
   }
   return (
     <div>

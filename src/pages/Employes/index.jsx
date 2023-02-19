@@ -36,7 +36,6 @@ const Employee = () => {
         credentials: 'include'
       })
       const res = await result.json()
-      console.log(res.data)
       setEmployees(res.data)
     } catch (err) {
       throw new Error('No data found !!!')
@@ -49,7 +48,6 @@ const Employee = () => {
       })
       const res = await result.json()
       setSites(res.data)
-      console.log(res.data)
     } catch (err) {
       throw new Error('No data found !!!')
     }
@@ -61,7 +59,6 @@ const Employee = () => {
       })
       const res = await result.json()
       setJobs(res.data)
-      console.log(res.data)
     } catch (err) {
       throw new Error('No data found !!!')
     }

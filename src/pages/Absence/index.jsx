@@ -37,7 +37,6 @@ export default function Absence() {
   }
   React.useEffect(() => {
     getAbsences()
-    console.log('1111111')
   }, [])
 
   const columns = [
@@ -100,9 +99,6 @@ export default function Absence() {
                 textDecoration: 'none'
               }}
               data={list}
-              onClick={() => {
-                console.log('exporting')
-              }}
             >
               <button>Export as CSV</button>
             </CSVLink>

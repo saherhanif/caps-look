@@ -15,8 +15,6 @@ export default function EditAbsence(props) {
     mandatory: props.source.mandatory
   })
 
-  console.log(props.source)
-
   const fetchSites = async () => {
     try {
       const response = await fetch(`${api.apiRequest}/getAbsenceSites`, {
@@ -48,7 +46,6 @@ export default function EditAbsence(props) {
     try {
       const body = data
 
-      console.log(data)
       await fetch(`${api.apiRequest}/EditAbsence/${props.source.absence_id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
