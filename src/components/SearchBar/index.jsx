@@ -10,6 +10,7 @@ const SearchBar = (props) => {
   }
   return (
     <div
+      className={style.container}
       style={{
         display: 'flex',
         justifyContent: 'center'
@@ -26,9 +27,9 @@ const SearchBar = (props) => {
         completeMethod={props.search}
         onChange={getSelectedData}
       />
-      <button className={style.srchico}>
+      {/* <button className={style.srchico}>
         <BsSearch />
-      </button>
+      </button> */}
     </div>
   )
 }
