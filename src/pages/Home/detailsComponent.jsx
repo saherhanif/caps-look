@@ -29,21 +29,6 @@ const ProjectDetails = ({ projectId }) => {
       console.log(error)
     }
 
-    // try {
-    //   const startDayResult = await axios.get(`${config.apiRequest}/home/projectStartDay/2`)
-    //   setStartDay(startDayResult?.data?.data[0]?.start_date)
-    //   const countIterationsResult = await axios.get(`${config.apiRequest}/home/projectCountIterations/2`)
-    //   setCountIterations(countIterationsResult?.data?.data[0]?.count)
-    //   const countScrumsResult = await axios.get(`${config.apiRequest}/home/projectCountScrums/2`)
-    //   console.log(countScrumsResult, '4545454')
-    //   setCountScrums(countScrumsResult?.data?.data[0]?.count)
-    //   const CountSiteResult = await axios.get(`${config.apiRequest}/home/projectCountSites/2`)
-    //   setCountSite(CountSiteResult?.data?.data[0].count)
-    //   const countEmployeesResult = await axios.get(`${config.apiRequest}/home/projectCountEmployees/2`)
-    //   setCountEmployees(countEmployeesResult.data?.data[0]?.count)
-    // } catch (error) {
-    //   console.log(error)
-    // }
   }
 
   useEffect(() => {
