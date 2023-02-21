@@ -11,6 +11,7 @@ import { CSVLink } from 'react-csv'
 import api from '../../config'
 import ArchiveEmployee from './ArchiveEmployee'
 import EditEmployeeDetails from './EditEmployeeDetails'
+import DropdownProject from '../../components/DropDownProject'
 
 const Employee = () => {
   const [employees, setEmployees] = useState([{}])
@@ -84,6 +85,7 @@ const Employee = () => {
   return (
     <PageContainer name={'Employees'}>
       <SearchBar PlaceholderItem={'Search an employee'} />
+      <DropdownProject />
       <div style={{ width: '90%' }}>
         <ContentsTable
           source={employees}
