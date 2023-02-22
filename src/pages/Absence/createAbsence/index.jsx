@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
 import api from '../../../config'
 import { Dropdown } from 'primereact/dropdown'
+import { Messages } from 'primereact/messages'
 
 export default function CreateAbsence(props) {
   const [sites, setSites] = React.useState([])
@@ -14,6 +15,7 @@ export default function CreateAbsence(props) {
     endDate: null,
     mandatory: ''
   })
+  const msgs = useRef('null')
 
   const fetchSites = async () => {
     try {
@@ -44,16 +46,91 @@ export default function CreateAbsence(props) {
   const createAbsence = async () => {
     try {
       const body = data
-      await fetch(`${api.apiRequest}/addingAbsence`, {
+      let message = ''
+      const requiredFields = [
+        'absenceName',
+        'siteId',
+        'startDate',
+        'endDate',
+        'mandatory'
+      ]
+      const hasEmptyFields = requiredFields.some((field) => !data[field])
+
+      if (hasEmptyFields) {
+        message = 'Field are missing Please insert required data'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
+      if (!/^[A-Za-z0-9' ']*$/.test(data.absenceName)) {
+        message = 'the absence name can be english charcters and numbers only'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
+      if (data.absenceName.length > 20 || data.absenceName.length < 1) {
+        message =
+          'the absence name length should be between 1 and 20 characters'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
+
+      if (data.startDate > data.endDate) {
+        message = 'Start date cannot be after end date'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
+      const response = await fetch(`${api.apiRequest}/addingAbsence`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
         credentials: 'include'
       })
+      const jsonResponse = await response.json()
+
+      if (jsonResponse.success) {
+        message = 'Absence created successfully'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'success',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
 
       if (body == null) {
         return 'you must to insert data'
       }
+      props.updateState()
       props.onSubmit()
     } catch (err) {
       throw new Error('failed to connect to the server')
@@ -136,6 +213,7 @@ export default function CreateAbsence(props) {
         autoFocus
         onClick={createAbsence}
       />
+      <Messages ref={msgs} />
     </div>
   )
 }

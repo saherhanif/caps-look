@@ -6,7 +6,10 @@ import api from '../../config'
 import CreateAbsence from './createAbsence'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
-import { CSVLink } from 'react-csv'
+import { CSVLink, CSVReader } from 'react-csv'
+
+import { parse } from 'papaparse'
+
 import style from './style.module.scss'
 import ArchiveAbsence from './absenceArchive'
 import EditAbsence from './editAbsence'
@@ -14,13 +17,13 @@ import EditAbsence from './editAbsence'
 export default function Absence() {
   const [list, setList] = React.useState([])
   const [visible, setVisible] = React.useState(false)
-  const [visbleArchive, setVisibleArchive] = React.useState(false)
-  const [archive, setArchive] = React.useState({})
   const [visibleEdit, setVisibleEdit] = React.useState(false)
+  const [visibleArchive, setVisibleArchive] = React.useState(false)
+  const [archive, setArchive] = React.useState({})
   const [selectedData, setSelectedData] = React.useState('')
   const [searchResults, setSearchResults] = React.useState([])
-
   const [edit, setEdit] = React.useState({})
+  const [refresh, updateState] = React.useReducer((x) => x + 1, 0)
 
   const getAbsences = async () => {
     try {
@@ -35,9 +38,10 @@ export default function Absence() {
       throw new Error('No data found !!!')
     }
   }
+
   React.useEffect(() => {
     getAbsences()
-  }, [])
+  }, [refresh])
 
   const columns = [
     { title: 'absence', dataIndex: 'absence_name' },
@@ -53,7 +57,7 @@ export default function Absence() {
     if (selectedData !== '') {
       const newAbsenceList = list.filter((absence) => {
         return Object.values(absence.absence_name)
-          .join(' ')
+          .join('')
           .toLowerCase()
           .includes(selectedData.toLowerCase())
       })
@@ -61,6 +65,22 @@ export default function Absence() {
     } else {
       setSearchResults(list)
     }
+  }
+
+  const importCSV = (event) => {
+    const file = event.target.files[0]
+    const reader = new FileReader()
+    reader.onload = async () => {
+      const csvData = reader.result
+      const parsedData = parse(csvData, { header: true }).data
+      await fetch(`${api.apiRequest}/importAbsence`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(parsedData),
+        credentials: 'include'
+      })
+    }
+    reader.readAsText(file)
   }
 
   return (
@@ -86,24 +106,26 @@ export default function Absence() {
         />
         <br />
         <div className={style.buttonsContainer}>
-          <div className={style.Create}>
-            <Button
-              id="Create"
-              label="Create Absence"
-              onClick={() => setVisible(true)}
-            />
-          </div>
-          <div className={style.export}>
-            <CSVLink
-              style={{
-                textDecoration: 'none'
-              }}
-              data={list}
-            >
-              <button>Export as CSV</button>
-            </CSVLink>
-          </div>
-          <br />
+          <Button
+            id="Create"
+            label="Create Absence"
+            onClick={() => setVisible(true)}
+          />
+
+          <label htmlFor="myFileInput" className="custom-file-upload">
+            Import CSV
+          </label>
+          <input
+            type="file"
+            onChange={importCSV}
+            accept=".csv"
+            id="myFileInput"
+            style={{ display: 'none' }}
+          />
+
+          <CSVLink style={{ textDecoration: 'none' }} data={list}>
+            <button>Export as CSV</button>
+          </CSVLink>
         </div>
         <Dialog
           header="Caps Look"
@@ -111,7 +133,10 @@ export default function Absence() {
           visible={visible}
           onHide={() => setVisible(false)}
         >
-          <CreateAbsence onSubmit={() => setVisible(false)} />
+          <CreateAbsence
+            onSubmit={() => setVisible(false)}
+            updateState={updateState}
+          />
         </Dialog>
         <Dialog
           header="Caps Look"
@@ -119,17 +144,22 @@ export default function Absence() {
           visible={visibleEdit}
           onHide={() => setVisibleEdit(false)}
         >
-          <EditAbsence source={edit} onSubmit={() => setVisibleEdit(false)} />
+          <EditAbsence
+            source={edit}
+            onSubmit={() => setVisibleEdit(false)}
+            updateState={updateState}
+          />
         </Dialog>
         <Dialog
           header="Caps Look"
           style={{ textAlign: 'center', width: '20vw' }}
-          visible={visbleArchive}
+          visible={visibleArchive}
           onHide={() => setVisibleArchive(false)}
         >
           <ArchiveAbsence
             data={archive}
             onSubmit={() => setVisibleArchive(false)}
+            updateState={updateState}
           />
         </Dialog>
       </PageContainer>
