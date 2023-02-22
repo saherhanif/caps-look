@@ -12,6 +12,7 @@ import Absence from './pages/Absence/index'
 import Cadence from './pages/Cadence/index'
 import Employee from './pages/Employes/index'
 import Sidebar from './components/Sidebar'
+import Scrums from './pages/Scrums/index'
 import Login from './pages/Login/Login'
 import Style from './style.module.scss'
 import 'primeicons/primeicons.css'
@@ -77,6 +78,11 @@ function App() {
                 'resource_manager',
                 'scrum_master'
               ]) && <Route path="/Cadence" element={<Cadence />} />}
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/Scrums" element={<Scrums />} />}
             </Routes>
           </div>
         </div>

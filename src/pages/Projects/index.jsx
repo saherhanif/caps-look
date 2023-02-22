@@ -19,7 +19,7 @@ const Projects = () => {
   const [visibleArchive, setVisibleArchive] = React.useState(false)
   const [archive, setArchive] = React.useState({})
   const [edit, setEdit] = React.useState({})
-  const [selectedData, getSelectedData] = useState('')
+  const [selectedData, setSelectedData] = useState('')
   const [searchResults, setSearchResults] = useState([])
 
   const getProjects = async () => {
@@ -35,17 +35,17 @@ const Projects = () => {
   }
 
   const searchProject = (selectedData) => {
-    getSelectedData(selectedData)
+    setSelectedData(selectedData)
     if (selectedData !== '') {
       const newProjectList = projects.filter((project) => {
-        return Object.values(project)
-          .join(' ')
+        return Object.values(project.project_name)
+          .join('')
           .toLowerCase()
           .includes(selectedData.toLowerCase())
       })
       setSearchResults(newProjectList)
     } else {
-      setSearchResults(projects)
+      return searchResults(selectedData)
     }
   }
 

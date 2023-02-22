@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import style from './style.module.scss'
-import { AutoComplete } from 'primereact/autocomplete'
 import { BsSearch } from 'react-icons/bs'
 
 const SearchBar = (props) => {
