@@ -28,7 +28,6 @@ const ProjectDetails = ({ projectId }) => {
     } catch (error) {
       console.log(error)
     }
-
   }
 
   useEffect(() => {
