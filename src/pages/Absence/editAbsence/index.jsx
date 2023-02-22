@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
 import api from '../../../config'
 import { Dropdown } from 'primereact/dropdown'
+import { Messages } from 'primereact/messages'
 
 export default function EditAbsence(props) {
   const [sites, setSites] = React.useState([])
@@ -14,7 +15,7 @@ export default function EditAbsence(props) {
     endDate: new Date(props.source.absence_end_date),
     mandatory: props.source.mandatory
   })
-
+  const msgs = useRef('null')
   const fetchSites = async () => {
     try {
       const response = await fetch(`${api.apiRequest}/getAbsenceSites`, {
@@ -40,12 +41,70 @@ export default function EditAbsence(props) {
   }, [])
 
   const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
-  // const onChange = (key) => (value) => setData({ ...data, [key]: value })
 
   const editAbsence = async () => {
     try {
       const body = data
+      let message = ''
+      const requiredFields = [
+        'absenceName',
+        'siteId',
+        'startDate',
+        'endDate',
+        'mandatory'
+      ]
+      const hasEmptyFields = requiredFields.some((field) => !data[field])
 
+      if (hasEmptyFields) {
+        message = 'Field are missing Please insert required data'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
+      if (!/^[A-Za-z0-9' ']*$/.test(data.absenceName)) {
+        message = 'the absence name can be english charcters and numbers only'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
+      if (data.absenceName.length > 20 || data.absenceName.length < 1) {
+        message =
+          'the absence name length should be between 1 and 20 characters'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
+
+      if (data.startDate > data.endDate) {
+        message = 'Start date cannot be after end date'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
       await fetch(`${api.apiRequest}/EditAbsence/${props.source.absence_id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -55,6 +114,7 @@ export default function EditAbsence(props) {
       if (body == null) {
         return 'you must to insert data'
       }
+      props.updateState()
       props.onSubmit()
     } catch (err) {
       throw new Error('failed to connect to the server')
@@ -137,6 +197,7 @@ export default function EditAbsence(props) {
         autoFocus
         onClick={editAbsence}
       />
+      <Messages ref={msgs} />
     </div>
   )
 }
