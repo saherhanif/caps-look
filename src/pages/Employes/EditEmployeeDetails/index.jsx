@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import api from '../../../config'
 import { Dropdown } from 'primereact/dropdown'
+import { Messages } from 'primereact/messages'
 
 export default function EditEmployeeDetails(props) {
+  const msgs = useRef(null)
+
   const [editData, setEditData] = React.useState({
     Id: props.source.id_number,
     employeeName: props.source.employee_name,
@@ -19,6 +22,78 @@ export default function EditEmployeeDetails(props) {
 
   const updateEmployeeRow = async () => {
     const body = editData
+    let message = ''
+    if (
+      !(editData.employeeName.length > 1 && editData.employeeName.length < 15)
+    ) {
+      message = 'The employee name should be between 1 to 15 characters'
+      return msgs.current.show([
+        {
+          sticky: false,
+          severity: 'error',
+          summary: '',
+          detail: message,
+          closable: true
+        }
+      ])
+    } else if (!/^[A-Za-z]*$/.test(editData.employeeName)) {
+      message = 'Characters must be only in english'
+      return msgs.current.show([
+        {
+          sticky: false,
+          severity: 'error',
+          summary: '',
+          detail: message,
+          closable: true
+        }
+      ])
+    } else if (
+      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(editData.email)
+    ) {
+      message = 'format email must be name@gmail.com'
+      return msgs.current.show([
+        {
+          sticky: false,
+          severity: 'error',
+          summary: '',
+          detail: message,
+          closable: true
+        }
+      ])
+    } else if (!(editData.email.length > 1 && editData.email.length < 30)) {
+      message = 'email is too long'
+      return msgs.current.show([
+        {
+          sticky: false,
+          severity: 'error',
+          summary: '',
+          detail: message,
+          closable: true
+        }
+      ])
+    } else if (!(editData.phone.length >= 10 && editData.phone.length <= 15)) {
+      message = 'phone number must be between 10 and 15 numbers'
+      return msgs.current.show([
+        {
+          sticky: false,
+          severity: 'error',
+          summary: '',
+          detail: message,
+          closable: true
+        }
+      ])
+    } else if (!/^[0-9]*$/.test(editData.phone)) {
+      message = 'phone number must only numbers'
+      return msgs.current.show([
+        {
+          sticky: false,
+          severity: 'error',
+          summary: '',
+          detail: message,
+          closable: true
+        }
+      ])
+    }
     try {
       await fetch(`${api.apiRequest}/editEmployeeDetails/${props.source.id}`, {
         method: 'PUT',
@@ -26,6 +101,7 @@ export default function EditEmployeeDetails(props) {
         body: JSON.stringify(body),
         credentials: 'include'
       })
+      props.updateState()
       props.onSubmit()
     } catch (err) {
       throw new Error('failed to connect to the server,')
@@ -121,6 +197,7 @@ export default function EditEmployeeDetails(props) {
         autoFocus
         onClick={updateEmployeeRow}
       />
+      <Messages ref={msgs} />
     </div>
   )
 }

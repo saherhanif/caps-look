@@ -23,7 +23,7 @@ const SearchBar = (props) => {
         field={props.name}
         value={props.selectedData}
         suggestions={props.filteredData}
-        completeMethod={props.search}
+        //completeMethod={props.search}
         onChange={getSelectedData}
       />
       {/* <button className={style.srchico}>

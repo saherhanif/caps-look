@@ -36,6 +36,7 @@ export default function PopUpMessage(props) {
               closable: true
             }
           ],
+          props.refresh(),
           props.onSubmit()
         )
       } else if (
