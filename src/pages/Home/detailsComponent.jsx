@@ -11,11 +11,11 @@ const ProjectDetails = ({ projectId }) => {
   const [countSites, setCountSite] = useState(0)
   const [countEmployees, setCountEmployees] = useState(0)
   const fetches = [
-    axios.get(`${config.apiRequest}/home/projectStartDay/2`),
-    axios.get(`${config.apiRequest}/home/projectCountIterations/2`),
-    axios.get(`${config.apiRequest}/home/projectCountScrums/2`),
-    axios.get(`${config.apiRequest}/home/projectCountSites/2`),
-    axios.get(`${config.apiRequest}/home/projectCountEmployees/2`)
+    axios.get(`${config.apiRequest}/home/projectStartDay/${projectId}`),
+    axios.get(`${config.apiRequest}/home/projectCountIterations/${projectId}`),
+    axios.get(`${config.apiRequest}/home/projectCountScrums/${projectId}`),
+    axios.get(`${config.apiRequest}/home/projectCountSites/${projectId}`),
+    axios.get(`${config.apiRequest}/home/projectCountEmployees/${projectId}`)
   ]
   const fetchProjectDetails = async () => {
     try {
@@ -32,7 +32,7 @@ const ProjectDetails = ({ projectId }) => {
 
   useEffect(() => {
     fetchProjectDetails()
-  }, [])
+  }, [projectId])
 
   return (
     <div className={style.details}>

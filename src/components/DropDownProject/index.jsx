@@ -3,7 +3,7 @@ import style from './style.module.scss'
 import api from '../../config'
 import { Dropdown } from 'primereact/dropdown'
 
-const DropdownProject = () => {
+const DropdownProject = (props) => {
   const [projects, setProjects] = useState([])
   const [data, setData] = useState({
     project_name: ''
@@ -18,7 +18,8 @@ const DropdownProject = () => {
       })
       const res = await result.json()
       const dataItems = res.data.map((item) => ({
-        label: item.project_name
+        label: item.project_name,
+        value: item
       }))
       setProjects(dataItems)
     } catch (err) {
@@ -29,7 +30,10 @@ const DropdownProject = () => {
   useEffect(() => {
     fetchProjects()
   }, [])
-  const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
+  const onChange = (key) => (e) => {
+    setData({ ...data, [key]: e.target.value })
+    props.setProjId(e.target.value.id)
+  }
 
   return (
     <div
