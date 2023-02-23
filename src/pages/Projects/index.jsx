@@ -1,6 +1,6 @@
 import style from './style.module.scss'
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useReducer } from 'react'
 import SearchBar from '../../components/SearchBar'
 import PageContainer from '../../components/PageContainer'
 import ContentsTable from '../../components/ContentsTable'
@@ -21,6 +21,7 @@ const Projects = () => {
   const [edit, setEdit] = React.useState({})
   const [selectedData, setSelectedData] = useState('')
   const [searchResults, setSearchResults] = useState([])
+  const [refresh, updateState] = useReducer((x) => x + 1, 0)
 
   const getProjects = async () => {
     try {
@@ -51,7 +52,7 @@ const Projects = () => {
 
   useEffect(() => {
     getProjects()
-  }, [])
+  }, [refresh])
 
   const columns = [
     { title: 'name', dataIndex: 'project_name' },
@@ -116,6 +117,7 @@ const Projects = () => {
           clicked={'add'}
           Project={projects}
           onSubmit={() => setVisible(false)}
+          refresh={updateState}
         />
       </Dialog>
       <Dialog
@@ -128,6 +130,7 @@ const Projects = () => {
           clicked="Edit"
           source={edit}
           onSubmit={() => setVisibleEdit(false)}
+          refresh={updateState}
         />
       </Dialog>
       <Dialog
@@ -139,6 +142,7 @@ const Projects = () => {
         <ArchiveProject
           data={archive}
           onSubmit={() => setVisibleArchive(false)}
+          refresh={updateState}
         />
       </Dialog>
     </PageContainer>

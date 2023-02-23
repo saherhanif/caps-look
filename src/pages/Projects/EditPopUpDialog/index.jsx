@@ -24,6 +24,7 @@ export default function EditPopUpMessage(props) {
         credentials: 'include'
       })
       props.onSubmit()
+      props.refresh()
     } catch (err) {
       throw new Error('failed to connect to the server,')
     }

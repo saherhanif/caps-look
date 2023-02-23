@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import api from '../../../config'
 import { Dropdown } from 'primereact/dropdown'
+import { Messages } from 'primereact/messages'
+import { useRef } from 'react'
 
 export default function AddEmployeePopUp(props) {
-  const [selectTier, setTier] = useState(null)
-
+  const msgs = useRef(null)
   const [data, setData] = React.useState({
     Id: '',
     employeeName: '',
@@ -22,17 +23,113 @@ export default function AddEmployeePopUp(props) {
   const addEmployee = async () => {
     try {
       const body = data
+      let message = ''
+      const requiredFields = [
+        'Id',
+        'employeeName',
+        'email',
+        'phone',
+        'siteId',
+        'jobId',
+        'accessTier'
+      ]
+      const hasEmptyFields = requiredFields.some((field) => !data[field])
+
+      if (hasEmptyFields) {
+        message = 'Fields  are missing Please insert required data'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      } else if (
+        !(data.employeeName.length > 1 && data.employeeName.length < 15)
+      ) {
+        message = 'The employee name should be between 1 to 15 characters'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      } else if (!/^[A-Za-z]*$/.test(data.employeeName)) {
+        message = 'Characters must be only in english'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      } else if (
+        !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(data.email)
+      ) {
+        message = 'format email must be name@gmail.com'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      } else if (!(data.email.length > 1 && data.email.length < 30)) {
+        message = 'email is too long'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      } else if (!(data.phone.length >= 10 && data.phone.length <= 15)) {
+        message = 'phone number must be between 10 and 15 numbers'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      } else if (!/^[0-9]*$/.test(data.phone)) {
+        message = 'phone number must only numbers'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
+
       await fetch(`${api.apiRequest}/addingEmployee`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
+      props.updateState()
+      props.onSubmit()
     } catch (error) {
       throw new Error('adding employee failed')
     }
   }
-  useEffect(() => {}, [])
   return (
     <div
       className="card flex justify-content-center"
@@ -122,6 +219,7 @@ export default function AddEmployeePopUp(props) {
         autoFocus
         onClick={addEmployee}
       />
+      <Messages ref={msgs} />
     </div>
   )
 }

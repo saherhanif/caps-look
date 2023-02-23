@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import SearchBar from '../../components/SearchBar'
 import PageContainer from '../../components/PageContainer'
 import ContentsTable from '../../components/ContentsTable'
@@ -7,6 +7,7 @@ import CreateAbsence from './createAbsence'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
 import { CSVLink, CSVReader } from 'react-csv'
+import { Toast } from 'primereact/toast'
 
 import { parse } from 'papaparse'
 
@@ -24,7 +25,7 @@ export default function Absence() {
   const [searchResults, setSearchResults] = React.useState([])
   const [edit, setEdit] = React.useState({})
   const [refresh, updateState] = React.useReducer((x) => x + 1, 0)
-
+  const toast = useRef(null)
   const getAbsences = async () => {
     try {
       const data = await fetch(`${api.apiRequest}/absences`, {
@@ -134,7 +135,14 @@ export default function Absence() {
           onHide={() => setVisible(false)}
         >
           <CreateAbsence
-            onSubmit={() => setVisible(false)}
+            onSubmit={() => {
+              setVisible(false)
+              toast.current.show({
+                severity: 'success',
+                summary: 'Success Message',
+                detail: 'Creating an Absence Done Successfully'
+              })
+            }}
             updateState={updateState}
           />
         </Dialog>
@@ -146,7 +154,14 @@ export default function Absence() {
         >
           <EditAbsence
             source={edit}
-            onSubmit={() => setVisibleEdit(false)}
+            onSubmit={() => {
+              setVisibleEdit(false)
+              toast.current.show({
+                severity: 'success',
+                summary: 'Success Message',
+                detail: 'Updating an Absence Details Done Successfully'
+              })
+            }}
             updateState={updateState}
           />
         </Dialog>
@@ -158,10 +173,18 @@ export default function Absence() {
         >
           <ArchiveAbsence
             data={archive}
-            onSubmit={() => setVisibleArchive(false)}
             updateState={updateState}
+            onSubmit={() => {
+              setVisibleArchive(false)
+              toast.current.show({
+                severity: 'success',
+                summary: 'Success Message',
+                detail: 'remove employee done successfully'
+              })
+            }}
           />
         </Dialog>
+        <Toast ref={toast} />
       </PageContainer>
     </div>
   )

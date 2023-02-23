@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Chart } from 'primereact/chart'
+import { Chart } from 'primereact'
 import apiRequest from '../../config'
 
 export default function SiteMix(props) {
