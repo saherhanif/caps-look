@@ -77,7 +77,7 @@ const Projects = () => {
             setVisibleEdit(true)
             setEdit(e)
           }}
-          archiveRow={(e) => {
+          archiveProject={(e) => {
             setVisibleArchive(true)
             setArchive(e)
           }}
@@ -99,6 +99,9 @@ const Projects = () => {
               textDecoration: 'none'
             }}
             data={projects}
+            onClick={() => {
+              console.log('exporting')
+            }}
           >
             <button>Export as CSV</button>
           </CSVLink>
