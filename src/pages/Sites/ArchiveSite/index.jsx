@@ -1,11 +1,9 @@
-import React from 'react'
 import { Button } from 'primereact/button'
 import api from '../../../config'
-
-const ArchiveEmployee = (props) => {
-  const archiveEmployee = async () => {
+const ArchiveSite = (props) => {
+  const archiveSite = async () => {
     try {
-      await fetch(`${api.apiRequest}/ArchiveEmployee/${props.data.id}`, {
+      await fetch(`${api.apiRequest}/archiveSite/${props.data.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include'
@@ -29,7 +27,7 @@ const ArchiveEmployee = (props) => {
       }}
     >
       <p style={{ fontWeight: 'bold', marginBottom: '50px' }}>
-        Are you sure you want to remove this employee ?
+        Are you sure you want to remove this site ?
       </p>
       <div>
         <Button
@@ -44,10 +42,10 @@ const ArchiveEmployee = (props) => {
           icon="pi pi-check"
           label="Yes"
           autoFocus
-          onClick={archiveEmployee}
+          onClick={archiveSite}
         />
       </div>
     </div>
   )
 }
-export default ArchiveEmployee
+export default ArchiveSite

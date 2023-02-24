@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Chart } from 'primereact/chart'
+import { Chart } from 'primereact'
 import apiRequest from '../../config'
 
 export default function SiteMix(props) {
@@ -9,7 +9,7 @@ export default function SiteMix(props) {
   useEffect(() => {
     async function getData() {
       const response = await fetch(
-        `${apiRequest}/GetActualSiteMix/${props.projectId}`,
+        `${apiRequest.apiRequest}/GetActualSiteMix/${props.projectId}`,
         {
           method: 'GET',
           credentials: 'include',
@@ -25,7 +25,7 @@ export default function SiteMix(props) {
       })
 
       const plannedresponse = await fetch(
-        `${apiRequest}/GetPlannedSiteMix/${props.projectId}`,
+        `${apiRequest.apiRequest}/GetPlannedSiteMix/${props.projectId}`,
         {
           method: 'GET',
           credentials: 'include',
@@ -84,21 +84,21 @@ export default function SiteMix(props) {
     }
 
     getData()
-  }, [])
+  }, [props.projectId])
 
   return (
-    <div className=" card flex justify-content-center">
+    <div className="w-full mb-6 card flex justify-content-center">
       <Chart
         type="doughnut"
         data={chartPlannedData}
         options={chartOptions}
-        className="w-4"
+        className="w-3 h-3"
       />
       <Chart
         type="doughnut"
         data={chartActualData}
         options={chartOptions}
-        className="w-4"
+        className="w-3 h-3"
       />
     </div>
   )

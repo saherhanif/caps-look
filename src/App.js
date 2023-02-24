@@ -1,10 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  BrowserRouter,
-  useMatch
-} from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Projects from './pages/Projects/index'
 import NavBar from './components/NavBar'
 import Home from './pages/Home/index'
@@ -14,6 +8,7 @@ import Employee from './pages/Employes/index'
 import Sidebar from './components/Sidebar'
 import Scrums from './pages/Scrums/index'
 import Login from './pages/Login/Login'
+import Sites from './pages/Sites'
 import Style from './style.module.scss'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
@@ -83,6 +78,11 @@ function App() {
                 'resource_manager',
                 'scrum_master'
               ]) && <Route path="/Scrums" element={<Scrums />} />}
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/Sites" element={<Sites />} />}
             </Routes>
           </div>
         </div>
