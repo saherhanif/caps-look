@@ -1,9 +1,11 @@
 import React, { useRef } from 'react'
 import { Button } from 'primereact/button'
+import { Messages } from 'primereact/messages'
 
 import { InputText } from 'primereact/inputtext'
 import api from '../../../config'
-const Addingsite = () => {
+const Addingsite = (props) => {
+  const msgs = useRef(null)
   const [data, setData] = React.useState({
     site_name: '',
     country_name: ''
@@ -12,14 +14,64 @@ const Addingsite = () => {
 
   const createSite = async () => {
     try {
+      let message = ''
+      if (!(data.country_name.length > 1 && data.country_name.length < 30)) {
+        message = 'country name should be between 1 to 30 characters'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      } else if (!(data.site_name.length > 1 && data.site_name.length < 30)) {
+        message = 'site name should be between 1 to 30 characters'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      } else if (!/^[A-Za-z]*$/.test(data.site_name)) {
+        message = 'Characters must be only in english'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      } else if (!/^[A-Za-z]*$/.test(data.country_name)) {
+        message = 'Characters must be only in english'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
       const body = data
-      const result = await fetch(`${api.apiRequest}/createsite`, {
+      await fetch(`${api.apiRequest}/createsite`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       })
-    } catch (err) {}
+      props.updateState()
+      props.onSubmit()
+    } catch (err) {
+      throw new Error('adding site failed')
+    }
   }
 
   return (
@@ -61,6 +113,7 @@ const Addingsite = () => {
         autoFocus
         onClick={createSite}
       />
+      <Messages ref={msgs} />
     </div>
   )
 }

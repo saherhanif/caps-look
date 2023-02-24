@@ -1,6 +1,6 @@
 import style from './style.module.scss'
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useReducer, useRef } from 'react'
 import PageContainer from '../../components/PageContainer'
 import SearchBar from '../../components/SearchBar'
 import ContentsTable from '../../components/ContentsTable'
@@ -11,8 +11,9 @@ import api from '../../config'
 import Addingsite from './AddingSite/index'
 import EditSite from './EditSite'
 import ArchiveSite from './ArchiveSite'
-
+import { Toast } from 'primereact/toast'
 const Sites = () => {
+  const toast = useRef(null)
   const [locations, setLocations] = useState([{}])
   const [visible, setVisible] = useState(false)
   const [visibleEdit, setVisibleEdit] = React.useState(false)
@@ -22,11 +23,12 @@ const Sites = () => {
   const [sites, setSites] = React.useState([{}])
   const [selectedData, setSelectedData] = useState('')
   const [searchResults, setSearchResults] = useState([])
+  const [refresh, updateState] = useReducer((x) => x + 1, 0)
 
   const columns = [
     { title: 'Country', dataIndex: 'country_name' },
     { title: 'Location', dataIndex: 'site_name' },
-    { title: 'Employee Numbers', dataIndex: 'employee_number' }
+    { title: 'Number of Employees', dataIndex: 'employee_number' }
   ]
   const getSites = async () => {
     try {
@@ -40,18 +42,37 @@ const Sites = () => {
       throw new Error('No data found !!!')
     }
   }
+  const searchSite = (selectedData) => {
+    setSelectedData(selectedData)
+    if (selectedData !== '') {
+      const newSitesList = sites.filter((site) => {
+        return Object.values(site.site_name)
+          .join('')
+          .toLowerCase()
+          .includes(selectedData.toLowerCase())
+      })
+      setSearchResults(newSitesList)
+    } else {
+      return selectedData
+    }
+  }
 
   useEffect(() => {
     getSites()
-  }, [])
+  }, [refresh])
 
   return (
     <PageContainer name={'Sites'}>
-      <br />
+      <SearchBar
+        PlaceholderItem={'Search a Site'}
+        name={'site_name'}
+        selectedData={selectedData}
+        searchKeyword={searchSite}
+      />
       <div style={{ width: '90%' }}>
         <ContentsTable
           columns={columns}
-          source={sites}
+          source={selectedData.length < 1 ? sites : searchResults}
           onEditRow={(e) => {
             setVisibleEdit(true)
             setEdit(e)
@@ -76,9 +97,6 @@ const Sites = () => {
               textDecoration: 'none'
             }}
             data={sites}
-            onClick={() => {
-              console.log('exporting')
-            }}
           >
             <button>Export as CSV</button>
           </CSVLink>
@@ -92,7 +110,17 @@ const Sites = () => {
             setVisible(false)
           }}
         >
-          <Addingsite onSubmit={() => setVisible(false)} />
+          <Addingsite
+            onSubmit={() => {
+              setVisible(false)
+              toast.current.show({
+                severity: 'success',
+                summary: 'Success Message',
+                detail: 'creating site done successfully'
+              })
+            }}
+            updateState={updateState}
+          />
         </Dialog>
       </div>
       <Dialog
@@ -101,7 +129,18 @@ const Sites = () => {
         visible={visibleEdit}
         onHide={() => setVisibleEdit(false)}
       >
-        <EditSite source={edit} onSubmit={() => setVisibleEdit(false)} />
+        <EditSite
+          source={edit}
+          onSubmit={() => {
+            setVisibleEdit(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'updating site done successfully'
+            })
+          }}
+          updateState={updateState}
+        />
       </Dialog>
       <Dialog
         header="Caps Look"
@@ -109,8 +148,20 @@ const Sites = () => {
         visible={visibleArchive}
         onHide={() => setVisibleArchive(false)}
       >
-        <ArchiveSite data={archive} onSubmit={() => setVisibleArchive(false)} />
+        <ArchiveSite
+          data={archive}
+          onSubmit={() => {
+            setVisibleArchive(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'removing site done successfully'
+            })
+          }}
+          updateState={updateState}
+        />
       </Dialog>
+      <Toast ref={toast} />
     </PageContainer>
   )
 }

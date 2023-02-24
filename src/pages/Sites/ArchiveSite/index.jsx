@@ -8,6 +8,7 @@ const ArchiveSite = (props) => {
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include'
       })
+      props.updateState()
       props.onSubmit()
     } catch (err) {
       throw new Error('failed to connect to the server,')
