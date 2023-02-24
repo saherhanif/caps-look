@@ -28,7 +28,6 @@ const Scrums = () => {
   const [searchResults, setSearchResults] = useState([])
   const [filteredData, setFilteredData] = useState(null)
 
-
   const getScrums = async (id) => {
     try {
       const body = {
@@ -42,7 +41,6 @@ const Scrums = () => {
       })
       const res = await result.json()
       setScrums(res.data)
-      
     } catch (err) {
       throw new Error('No data found !!!')
     }
@@ -158,11 +156,8 @@ const Scrums = () => {
               setVisibleArchive(true)
               setArchive(e)
             }}
-            
-            />
-           
+          />
         )}
-       
       </div>
 
       <br />
