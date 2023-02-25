@@ -50,6 +50,9 @@ const Sidebar = () => {
           <Link to="/Capacity" className={style.link}>
             Capacity
           </Link>
+          <Link to="/cadence" className={style.link}>
+            Cadence
+          </Link>
           <hr className={style.cutter} />
           <Link to="/Settings" className={style.link}>
             Settings <AiOutlineSetting size="30px" />
