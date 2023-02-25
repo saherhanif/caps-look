@@ -1,6 +1,6 @@
 import style from './style.module.scss'
 import React from 'react'
-import { useState } from 'react'
+import { useState, useReducer } from 'react'
 import PageContainer from '../../components/PageContainer'
 import PITable from './PITable'
 import MilestoneTable from './MilestoneTable'
@@ -21,7 +21,12 @@ const Cadence = () => {
     visibilityIterationEditArchiveButton,
     setVisibilityIterationEditArchiveButton
   ] = useState('hidden')
-  //const [visibilityPIButton, setVisibilityPIButton] = useState('hidden')
+  const [refreshPITable, updateStatePITable] = useReducer((x) => x + 1, 0)
+  const [refreshPISelect, updateStatePISelect] = useReducer((x) => x + 1, 0)
+  const [refreshMilestonesTable, updateStateMilestonesTable] = useReducer(
+    (x) => x + 1,
+    0
+  )
   return (
     <PageContainer>
       <div style={{ width: '90%' }}></div>
@@ -45,6 +50,8 @@ const Cadence = () => {
           }
           visibilityPIMilestoneButton={visibilityPIMilestoneButton}
           setVisibilityPIMilestoneButton={setVisibilityPIMilestoneButton}
+          refreshPISelect={refreshPISelect}
+          updateStatePISelect={updateStatePISelect}
         ></SelectPI>
 
         <button
@@ -71,14 +78,20 @@ const Cadence = () => {
           selectPIState={selectPIState}
           selectProjectState={selectProjectState}
           onSubmit={() => setIterationForm(false)}
+          refreshPITable={updateStatePITable}
         ></PopupIteration>
 
-        <PITable selectPIState={selectPIState}></PITable>
+        <PITable
+          selectPIState={selectPIState}
+          refreshPITable={refreshPITable}
+          updateStatePITable={updateStatePITable}
+        ></PITable>
         <PopupPI
           PIForm={PIForm}
           setPIForm={setPIForm}
           selectProjectState={selectProjectState}
           onSubmit={() => setPIForm(false)}
+          refreshPISelect={updateStatePISelect}
         ></PopupPI>
         <h1
           style={{ fontSize: '40px', color: '#210f61', marginRight: '1000px' }}
@@ -99,10 +112,13 @@ const Cadence = () => {
           setMileStoneForm={setMileStoneForm}
           selectProjectState={selectProjectState}
           onSubmit={() => setMileStoneForm(false)}
+          refreshMilestonesTable={updateStateMilestonesTable}
         ></PopupMilestone>
 
         <MilestoneTable
           selectProjectState={selectProjectState}
+          refreshMilestonesTable={refreshMilestonesTable}
+          updateStateMilestonesTable={updateStateMilestonesTable}
         ></MilestoneTable>
       </div>
     </PageContainer>

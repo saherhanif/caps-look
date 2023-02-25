@@ -20,7 +20,7 @@ const EditIterationsPi = (props) => {
   console.log(props.source.id)
   const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
 
-  const addIteration = async () => {
+  const editIteration = async () => {
     try {
       const body = data
       await fetch(`${api.apiRequest}/editIteration/${props.source.id}`, {
@@ -30,6 +30,7 @@ const EditIterationsPi = (props) => {
         body: JSON.stringify(body)
       })
       props.onSubmit()
+      props.refreshPITable()
     } catch (error) {
       throw new Error('adding Iteration failed')
     }
@@ -91,7 +92,7 @@ const EditIterationsPi = (props) => {
         label="Edit iteration"
         icon="pi pi-check"
         autoFocus
-        onClick={addIteration}
+        onClick={editIteration}
       />
     </>
   )

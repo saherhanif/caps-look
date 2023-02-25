@@ -12,7 +12,8 @@ const Popupiteration = (prop) => {
     setIterationForm,
     selectPIState,
     selectProjectState,
-    onSubmit
+    onSubmit,
+    refreshPITable
   } = prop
   const [data, setData] = useState({
     iteration_name: '',
@@ -40,6 +41,7 @@ const Popupiteration = (prop) => {
         body: JSON.stringify(body)
       })
       onSubmit()
+      refreshPITable()
     } catch (error) {
       throw new Error('adding Iteration failed')
     }

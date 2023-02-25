@@ -6,7 +6,8 @@ import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import api from '../../../config'
 const PopupPI = (props) => {
-  const { PIForm, setPIForm, selectProjectState, onSubmit } = props
+  const { PIForm, setPIForm, selectProjectState, onSubmit, refreshPISelect } =
+    props
   console.log(selectProjectState)
 
   const [data, setData] = useState({
@@ -29,6 +30,7 @@ const PopupPI = (props) => {
         body: JSON.stringify(body)
       })
       onSubmit()
+      refreshPISelect()
     } catch (error) {
       throw new Error('adding Pi failed')
     }

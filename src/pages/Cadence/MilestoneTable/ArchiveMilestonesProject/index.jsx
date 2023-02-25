@@ -11,6 +11,7 @@ const ArchiveMilestone = (props) => {
         credentials: 'include'
       })
       props.onSubmit()
+      props.refreshMilestonesTable()
     } catch (err) {
       throw new Error('failed to connect to the server,')
     }

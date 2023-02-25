@@ -11,7 +11,9 @@ const SelectPI = ({
   visibilityIterationEditArchiveButton,
   setVisibilityIterationEditArchiveButton,
   visibilityPIMilestoneButton,
-  setVisibilityPIMilestoneButton
+  setVisibilityPIMilestoneButton,
+  refreshPISelect,
+  updateStatePISelect
 }) => {
   console.log(selectProjectState)
   console.log(typeof selectProjectState)
@@ -48,7 +50,7 @@ const SelectPI = ({
 
   useEffect(() => {
     getPIs()
-  }, [data])
+  }, [data, refreshPISelect])
   console.log(PIs)
   console.log(PIs[0])
   const PIsList = PIs.map((pi) => {
@@ -83,8 +85,14 @@ const SelectPI = ({
           visibility: visibilityIterationEditArchiveButton
         }}
       >
-        <EditPI PIobject={PIobject}></EditPI>
-        <ArchivePI PIobject={PIobject}></ArchivePI>
+        <EditPI
+          PIobject={PIobject}
+          refreshPISelect={updateStatePISelect}
+        ></EditPI>
+        <ArchivePI
+          PIobject={PIobject}
+          refreshPISelect={updateStatePISelect}
+        ></ArchivePI>
       </span>
     </>
   )

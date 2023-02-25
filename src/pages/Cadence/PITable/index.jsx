@@ -7,7 +7,7 @@ import EditIterationsPi from './EditIterationsPi'
 import ArchiveIteration from './ArchiveIterationsPI'
 import { Dialog } from 'primereact/dialog'
 import { CSVLink } from 'react-csv'
-const PITable = ({ selectPIState }) => {
+const PITable = ({ selectPIState, refreshPITable, updateStatePITable }) => {
   const [visibleEdit, setVisibleEdit] = React.useState(false)
   const [edit, setEdit] = React.useState({})
   const [visibleArchive, setVisibleArchive] = React.useState(false)
@@ -58,7 +58,7 @@ const PITable = ({ selectPIState }) => {
   }
   useEffect(() => {
     getIterationsPI()
-  }, [data])
+  }, [data, refreshPITable])
   return (
     <>
       <div style={{ width: '800px', marginTop: '50px' }}>
@@ -87,6 +87,7 @@ const PITable = ({ selectPIState }) => {
           <EditIterationsPi
             source={edit}
             onSubmit={() => setVisibleEdit(false)}
+            refreshPITable={updateStatePITable}
           ></EditIterationsPi>
         </Dialog>
         <Dialog
@@ -98,6 +99,7 @@ const PITable = ({ selectPIState }) => {
           <ArchiveIteration
             data={archive}
             onSubmit={() => setVisibleArchive(false)}
+            refreshPITable={updateStatePITable}
           />
         </Dialog>
       </div>

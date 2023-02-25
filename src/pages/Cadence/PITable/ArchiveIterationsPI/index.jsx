@@ -11,6 +11,7 @@ const ArchiveIteration = (props) => {
         credentials: 'include'
       })
       props.onSubmit()
+      props.refreshPITable()
     } catch (err) {
       throw new Error('failed to connect to the server,')
     }
@@ -34,7 +35,9 @@ const ArchiveIteration = (props) => {
         <Button
           icon="pi pi-times"
           label="No"
-          onClick={() => props.onSubmit()}
+          onClick={() => {
+            props.onSubmit()
+          }}
         />
       </div>
       <br />

@@ -5,7 +5,7 @@ import style from './style.module.scss'
 import { Dialog } from 'primereact/dialog'
 import React from 'react'
 import PopupEditPI from '../PopupEditPI'
-const EditPI = ({ PIobject }) => {
+const EditPI = ({ PIobject, refreshPISelect }) => {
   const [visibleEdit, setVisibleEdit] = React.useState(false)
   const [edit, setEdit] = React.useState({})
   return (
@@ -44,6 +44,7 @@ const EditPI = ({ PIobject }) => {
         <PopupEditPI
           source={PIobject}
           onSubmit={() => setVisibleEdit(false)}
+          refreshPISelect={refreshPISelect}
         ></PopupEditPI>
       </Dialog>
     </>
