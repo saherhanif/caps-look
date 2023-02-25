@@ -9,10 +9,10 @@ import EditPopUpMessage from './EditPopUpDialog'
 import ArchiveScrum from './ArchiveScrum'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
-import { Dropdown } from 'primereact/dropdown'
 import { AutoComplete } from 'primereact/autocomplete'
 import { CSVLink } from 'react-csv'
 import api from '../../config'
+import Pagination from '../../components/Pagination'
 
 const Scrums = () => {
   const [scrums, setScrums] = useState([])
