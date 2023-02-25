@@ -3,6 +3,7 @@ import style from './style.module.scss'
 import { CiEdit } from 'react-icons/ci'
 import { BiArchiveIn } from 'react-icons/bi'
 import { Button } from 'primereact/button'
+import Pagination from '../Pagination'
 
 const ContentsTable = (props) => {
   return (
@@ -22,10 +23,19 @@ const ContentsTable = (props) => {
         })}
       </div>
       <div className={style.tableBody}>
-        {props.source.map((data) => {
+        {props.source.map((data, index) => {
+          let color
+          if (index % 2 == 0) {
+            color = '#141432'
+          } else {
+            color = '#26264F'
+          }
           return (
             <div className={style.dataRow}>
-              <div className={style.dataContainer}>
+              <div
+                className={style.dataContainer}
+                style={{ background: color }}
+              >
                 {props.columns.map((e) => {
                   return (
                     <h3
@@ -42,6 +52,7 @@ const ContentsTable = (props) => {
               <Button
                 id="Edit"
                 className={style.EditContainer}
+                style={{ background: color }}
                 onClick={() => {
                   if (props.onEditRow) {
                     props.onEditRow(data)
@@ -52,6 +63,7 @@ const ContentsTable = (props) => {
               </Button>
               <Button
                 className={style.ArchiveContainer}
+                style={{ background: color }}
                 onClick={() => {
                   if (props.archiveRow) {
                     props.archiveRow(data)
@@ -64,6 +76,7 @@ const ContentsTable = (props) => {
           )
         })}
       </div>
+      <Pagination />
     </div>
   )
 }

@@ -15,6 +15,8 @@ import style from './style.module.scss'
 import ArchiveAbsence from './absenceArchive'
 import EditAbsence from './editAbsence'
 
+import Pagination from '../../components/Pagination'
+
 export default function Absence() {
   const [list, setList] = React.useState([])
   const [visible, setVisible] = React.useState(false)
@@ -25,6 +27,11 @@ export default function Absence() {
   const [searchResults, setSearchResults] = React.useState([])
   const [edit, setEdit] = React.useState({})
   const [refresh, updateState] = React.useReducer((x) => x + 1, 0)
+
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const [postsPerPage, setPostsPerPage] = React.useState(8)
+
+
   const toast = useRef(null)
   const getAbsences = async () => {
     try {
@@ -43,6 +50,10 @@ export default function Absence() {
   React.useEffect(() => {
     getAbsences()
   }, [refresh])
+
+  const lastPostIndex = currentPage * postsPerPage
+  const firstPostIndex = lastPostIndex - postsPerPage
+  const currentPosts = list.slice(firstPostIndex, lastPostIndex)
 
   const columns = [
     { title: 'absence', dataIndex: 'absence_name' },
@@ -94,7 +105,7 @@ export default function Absence() {
           searchKeyword={searchAbsence}
         />
         <ContentsTable
-          source={selectedData.length < 1 ? list : searchResults}
+          source={selectedData.length < 1 ? currentPosts : searchResults}
           columns={columns}
           archiveRow={(e) => {
             setVisibleArchive(true)
@@ -105,6 +116,13 @@ export default function Absence() {
             setEdit(e)
           }}
         />
+        <Pagination
+          totalPosts={list.length}
+          postsPerPage={postsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+
         <br />
         <div className={style.buttonsContainer}>
           <Button

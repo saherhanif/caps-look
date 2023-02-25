@@ -18,6 +18,7 @@ import './reset.scss'
 import './App.scss'
 import React, { useEffect } from 'react'
 import { getRole, isAuthorized } from './utils/useAuth'
+import Capacity from './pages/Capacity'
 
 function App() {
   const logToken = getRole(document.cookie.valueOf('userToken'))
@@ -83,6 +84,11 @@ function App() {
                 'resource_manager',
                 'scrum_master'
               ]) && <Route path="/Sites" element={<Sites />} />}
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/Capacity" element={<Capacity />} />}
             </Routes>
           </div>
         </div>

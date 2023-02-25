@@ -13,6 +13,7 @@ import { AutoComplete } from 'primereact/autocomplete'
 import { CSVLink } from 'react-csv'
 import api from '../../config'
 import { Toast } from 'primereact/toast'
+import Pagination from '../../components/Pagination'
 
 const Scrums = () => {
   const toast = useRef(null)
@@ -64,8 +65,8 @@ const Scrums = () => {
         credentials: 'include'
       })
       const res = await result.json()
-      console.log(res.data.rows)
       setscrumMaster(res.data.rows)
+
     } catch (err) {
       throw new Error('No data found !!!')
     }
