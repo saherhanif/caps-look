@@ -16,6 +16,7 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css'
 import 'primereact/resources/primereact.css'
 import './reset.scss'
 import './App.scss'
+import Capacity from './pages/Capacity'
 import React, { useEffect } from 'react'
 import { getRole, isAuthorized } from './utils/useAuth'
 
@@ -83,6 +84,11 @@ function App() {
                 'resource_manager',
                 'scrum_master'
               ]) && <Route path="/Sites" element={<Sites />} />}
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/Capacity" element={<Capacity />} />}
             </Routes>
           </div>
         </div>
