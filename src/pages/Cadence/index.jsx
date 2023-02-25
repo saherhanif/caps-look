@@ -80,7 +80,16 @@ const Cadence = () => {
           onSubmit={() => setIterationForm(false)}
           refreshPITable={updateStatePITable}
         ></PopupIteration>
-
+        <h1
+          style={{
+            fontSize: '30px',
+            color: '#595786',
+            marginRight: '1000px',
+            marginBottom: '-50px'
+          }}
+        >
+          Iterations
+        </h1>
         <PITable
           selectPIState={selectPIState}
           refreshPITable={refreshPITable}
@@ -94,7 +103,12 @@ const Cadence = () => {
           refreshPISelect={updateStatePISelect}
         ></PopupPI>
         <h1
-          style={{ fontSize: '40px', color: '#210f61', marginRight: '1000px' }}
+          style={{
+            fontSize: '30px',
+            color: '#595786',
+            marginRight: '1000px',
+            marginBottom: '-100px'
+          }}
         >
           Milestones
         </h1>

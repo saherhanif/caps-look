@@ -46,6 +46,9 @@ const Sidebar = () => {
           <Link to="/Scrums" className={style.link}>
             Scrums
           </Link>
+          <Link to="/cadence" className={style.link}>
+            Cadence
+          </Link>
           <hr className={style.cutter} />
           <Link to="/Settings" className={style.link}>
             Settings <AiOutlineSetting size="30px" />

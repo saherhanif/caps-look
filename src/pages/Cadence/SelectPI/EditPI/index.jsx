@@ -16,12 +16,12 @@ const EditPI = ({ PIobject, refreshPISelect }) => {
           style={{
             height: '50px',
             width: '50px',
-            background: '#8a84aa',
+            background: '#26264F',
             boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
             borderRadius: '10px',
             border: 'none',
             padding: '10px',
-            marginLeft: '270px',
+            marginLeft: '160px',
             top: '-40px'
           }}
           onClick={() => {
