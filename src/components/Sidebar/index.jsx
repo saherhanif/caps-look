@@ -43,8 +43,12 @@ const Sidebar = () => {
           <Link to="/Employes" className={style.link}>
             Employees
           </Link>
+
           <Link to="/Scrums" className={style.link}>
             Scrums
+          </Link>
+          <Link to="/Capacity" className={style.link}>
+            Capacity
           </Link>
           <Link to="/cadence" className={style.link}>
             Cadence
