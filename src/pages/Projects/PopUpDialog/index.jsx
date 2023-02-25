@@ -8,8 +8,8 @@ import { Messages } from 'primereact/messages'
 export default function PopUpMessage(props) {
   const [data, setData] = React.useState({
     ProjectName: '',
-    StartDate: null,
-    PiNumber: null
+    StartDate: '',
+    PiNumber: ''
   })
   const msgs = useRef('null')
   const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
@@ -25,23 +25,10 @@ export default function PopUpMessage(props) {
       })
       const resultBody = await result.json()
 
-      if (resultBody.message === 'create project done successfully') {
-        return (
-          await msgs.current.show[
-            {
-              sticky: false,
-              severity: 'success',
-              summary: '',
-              detail: resultBody.message,
-              closable: true
-            }
-          ],
-          props.refresh(),
-          props.onSubmit()
-        )
-      } else if (
-        resultBody.message === 'Please Insert a name for the project'
-      ) {
+      props.refresh()
+      props.onSubmit()
+
+      if (resultBody.message === 'Please Insert a name for the project') {
         return msgs.current.show([
           {
             sticky: false,
