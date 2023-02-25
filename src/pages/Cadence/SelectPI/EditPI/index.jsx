@@ -9,16 +9,28 @@ const EditPI = ({ PIobject }) => {
   const [visibleEdit, setVisibleEdit] = React.useState(false)
   const [edit, setEdit] = React.useState({})
   return (
-    <div className={style.editArchivePi}>
-      <Button
-        id="Edit"
-        className={style.EditContainer}
-        onClick={() => {
-          setVisibleEdit(true)
-        }}
-      >
-        <CiEdit className={style.innerIcons} />
-      </Button>
+    <>
+      <div>
+        <Button
+          id="Edit"
+          style={{
+            height: '50px',
+            width: '50px',
+            background: '#8a84aa',
+            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+            borderRadius: '10px',
+            border: 'none',
+            padding: '10px',
+            marginLeft: '270px',
+            top: '-40px'
+          }}
+          onClick={() => {
+            setVisibleEdit(true)
+          }}
+        >
+          <CiEdit style={{ height: '100px', width: '100px' }} />
+        </Button>
+      </div>
       <Dialog
         visible={visibleEdit}
         onHide={() => {
@@ -34,7 +46,7 @@ const EditPI = ({ PIobject }) => {
           onSubmit={() => setVisibleEdit(false)}
         ></PopupEditPI>
       </Dialog>
-    </div>
+    </>
   )
 }
 export default EditPI

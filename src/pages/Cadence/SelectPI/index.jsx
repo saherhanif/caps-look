@@ -1,11 +1,18 @@
 import style from './style.module.scss'
-import { TreeSelect } from 'primereact/treeselect'
 import { Dropdown } from 'primereact/dropdown'
 import { useState, useEffect } from 'react'
 import api from '../../../config'
 import EditPI from './EditPI'
 import ArchivePI from './ArchivePI'
-const SelectPI = ({ selectPIState, setSelectPIState, selectProjectState }) => {
+const SelectPI = ({
+  selectPIState,
+  setSelectPIState,
+  selectProjectState,
+  visibilityIterationEditArchiveButton,
+  setVisibilityIterationEditArchiveButton,
+  visibilityPIMilestoneButton,
+  setVisibilityPIMilestoneButton
+}) => {
   console.log(selectProjectState)
   console.log(typeof selectProjectState)
   const [PIobject, setPIobject] = useState([{}])
@@ -52,6 +59,7 @@ const SelectPI = ({ selectPIState, setSelectPIState, selectProjectState }) => {
   return (
     <>
       <Dropdown
+        style={{ visibility: visibilityPIMilestoneButton }}
         className={style.selectPI}
         id="PI"
         name="PI"
@@ -63,16 +71,21 @@ const SelectPI = ({ selectPIState, setSelectPIState, selectProjectState }) => {
         required
         onChange={(e) => {
           setSelectPIState(e.value)
+          setVisibilityIterationEditArchiveButton('visible')
           const result = PIs.filter((pi) => pi.id == e.value)
           setPIobject(result[0])
           console.log(result[0])
         }}
       />
-
-      <div className={style.editArchivePi}>
+      <span
+        style={{
+          marginLeft: '-20px',
+          visibility: visibilityIterationEditArchiveButton
+        }}
+      >
         <EditPI PIobject={PIobject}></EditPI>
         <ArchivePI PIobject={PIobject}></ArchivePI>
-      </div>
+      </span>
     </>
   )
 }

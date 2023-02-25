@@ -2,7 +2,12 @@ import style from './style.module.scss'
 import { TreeSelect } from 'primereact/treeselect'
 import { useState, useEffect } from 'react'
 import api from '../../../config'
-const SelectProject = ({ selectProjectState, setSelectProjectState }) => {
+const SelectProject = ({
+  selectProjectState,
+  setSelectProjectState,
+  visibilityPIMilestoneButton,
+  setVisibilityPIMilestoneButton
+}) => {
   const [projects, setProjects] = useState([{}])
   const getProjects = async () => {
     try {
@@ -32,6 +37,7 @@ const SelectProject = ({ selectProjectState, setSelectProjectState }) => {
       value={selectProjectState}
       onChange={(e) => {
         setSelectProjectState(e.value)
+        setVisibilityPIMilestoneButton('visible')
       }}
       options={projectsList}
       className={style.selectProject}

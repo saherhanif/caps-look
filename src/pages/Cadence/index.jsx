@@ -15,6 +15,13 @@ const Cadence = () => {
   const [mileStoneForm, setMileStoneForm] = useState(false)
   const [PIForm, setPIForm] = useState(false)
   const [iterationForm, setIterationForm] = useState(false)
+  const [visibilityPIMilestoneButton, setVisibilityPIMilestoneButton] =
+    useState('hidden')
+  const [
+    visibilityIterationEditArchiveButton,
+    setVisibilityIterationEditArchiveButton
+  ] = useState('hidden')
+  //const [visibilityPIButton, setVisibilityPIButton] = useState('hidden')
   return (
     <PageContainer>
       <div style={{ width: '90%' }}></div>
@@ -22,15 +29,27 @@ const Cadence = () => {
         <SelectProject
           selectProjectState={selectProjectState}
           setSelectProjectState={setSelectProjectState}
+          visibilityPIMilestoneButton={visibilityPIMilestoneButton}
+          setVisibilityPIMilestoneButton={setVisibilityPIMilestoneButton}
         ></SelectProject>
         <SelectPI
+          visibility={visibilityPIMilestoneButton}
           selectPIState={selectPIState}
           setSelectPIState={setSelectPIState}
           selectProjectState={selectProjectState}
+          visibilityIterationEditArchiveButton={
+            visibilityIterationEditArchiveButton
+          }
+          setVisibilityIterationEditArchiveButton={
+            setVisibilityIterationEditArchiveButton
+          }
+          visibilityPIMilestoneButton={visibilityPIMilestoneButton}
+          setVisibilityPIMilestoneButton={setVisibilityPIMilestoneButton}
         ></SelectPI>
 
         <button
           className={style.PI}
+          style={{ visibility: visibilityPIMilestoneButton }}
           onClick={() => {
             setPIForm(true)
           }}
@@ -42,6 +61,7 @@ const Cadence = () => {
           onClick={() => {
             setIterationForm(true)
           }}
+          style={{ visibility: visibilityIterationEditArchiveButton }}
         >
           + Add iteration
         </button>
@@ -60,12 +80,17 @@ const Cadence = () => {
           selectProjectState={selectProjectState}
           onSubmit={() => setPIForm(false)}
         ></PopupPI>
-
+        <h1
+          style={{ fontSize: '40px', color: '#210f61', marginRight: '1000px' }}
+        >
+          Milestones
+        </h1>
         <button
           className={style.mileStone}
           onClick={() => {
             setMileStoneForm(true)
           }}
+          style={{ visibility: visibilityPIMilestoneButton }}
         >
           + Add Milestone
         </button>
@@ -75,24 +100,11 @@ const Cadence = () => {
           selectProjectState={selectProjectState}
           onSubmit={() => setMileStoneForm(false)}
         ></PopupMilestone>
-        <h1
-          style={{ fontSize: '40px', color: '#210f61', marginRight: '1000px' }}
-        >
-          Milestones
-        </h1>
+
         <MilestoneTable
           selectProjectState={selectProjectState}
         ></MilestoneTable>
       </div>
-
-      {/* <CSVLink
-        style={{
-          textDecoration: 'none'
-        }}
-        data={projects}
-      >
-        <button className={style.exportbutton}>Export as CSV</button>
-      </CSVLink> */}
     </PageContainer>
   )
 }

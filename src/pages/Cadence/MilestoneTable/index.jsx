@@ -59,7 +59,7 @@ const MilestoneTable = ({ selectProjectState }) => {
   }, [data])
   return (
     <>
-      <div style={{ width: '90%' }}>
+      <div style={{ width: '800px', marginTop: '50px' }}>
         <ContentsTable
           source={milestonesProject}
           columns={columns}
@@ -109,7 +109,9 @@ const MilestoneTable = ({ selectProjectState }) => {
         }}
         data={milestonesProject}
       >
-        <button className={style.exportbutton}>Export as CSV</button>
+        <button className={style.exportbutton} style={{ marginLeft: '560px' }}>
+          Export as CSV
+        </button>
       </CSVLink>
     </>
   )

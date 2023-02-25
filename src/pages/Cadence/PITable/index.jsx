@@ -61,7 +61,7 @@ const PITable = ({ selectPIState }) => {
   }, [data])
   return (
     <>
-      <div style={{ width: '90%' }}>
+      <div style={{ width: '800px', marginTop: '50px' }}>
         <ContentsTable
           source={iterationsPI}
           columns={columns}
@@ -111,7 +111,9 @@ const PITable = ({ selectPIState }) => {
         }}
         data={iterationsPI}
       >
-        <button className={style.exportbutton}>Export as CSV</button>
+        <button className={style.exportbutton} style={{ marginLeft: '560px' }}>
+          Export as CSV
+        </button>
       </CSVLink>
     </>
   )

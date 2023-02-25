@@ -10,14 +10,24 @@ const ArchivePI = ({ PIobject }) => {
   const [archive, setArchive] = React.useState({})
   return (
     <>
-      <div className={style.editArchivePi}>
+      <div>
         <Button
-          className={style.ArchiveContainer}
+          style={{
+            height: '50px',
+            width: '50px',
+            background: '#8a84aa',
+            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+            borderRadius: '10px',
+            border: 'none',
+            marginLeft: '150px',
+            padding: '10px',
+            top: '-90px'
+          }}
           onClick={() => {
             setVisibleArchive(true)
           }}
         >
-          <BiArchiveIn className={style.innerIcons} />
+          <BiArchiveIn style={{ height: '100px', width: '100px' }} />
         </Button>
       </div>
       <Dialog
