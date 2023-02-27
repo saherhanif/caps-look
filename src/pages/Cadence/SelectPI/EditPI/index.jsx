@@ -5,7 +5,7 @@ import style from './style.module.scss'
 import { Dialog } from 'primereact/dialog'
 import React from 'react'
 import PopupEditPI from '../PopupEditPI'
-const EditPI = ({ PIobject }) => {
+const EditPI = ({ PIobject, refreshPISelect }) => {
   const [visibleEdit, setVisibleEdit] = React.useState(false)
   const [edit, setEdit] = React.useState({})
   return (
@@ -16,12 +16,12 @@ const EditPI = ({ PIobject }) => {
           style={{
             height: '50px',
             width: '50px',
-            background: '#8a84aa',
+            background: '#26264F',
             boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
             borderRadius: '10px',
             border: 'none',
             padding: '10px',
-            marginLeft: '270px',
+            marginLeft: '160px',
             top: '-40px'
           }}
           onClick={() => {
@@ -44,6 +44,7 @@ const EditPI = ({ PIobject }) => {
         <PopupEditPI
           source={PIobject}
           onSubmit={() => setVisibleEdit(false)}
+          refreshPISelect={refreshPISelect}
         ></PopupEditPI>
       </Dialog>
     </>

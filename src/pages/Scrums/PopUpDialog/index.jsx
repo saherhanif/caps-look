@@ -39,14 +39,55 @@ export default function PopUpMessage(props) {
   const createScrum = async () => {
     try {
       const body = data
-      const result = await fetch(`${api.apiRequest}/addScrum`, {
+      let message = ''
+      const requiredFields = [
+        'scrumName',
+        'scrumMasterName',
+        'project',
+        'application'
+      ]
+      const hasEmptyFields = requiredFields.some((field) => !data[field])
+
+      if (hasEmptyFields) {
+        message = 'Fields  are missing Please insert required data'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      } else if (!(data.scrumName.length > 1 && data.scrumName.length < 15)) {
+        message = ' scrum name should be between 1 to 15 characters'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      } else if (!/^[A-Za-z]*$/.test(data.scrumName)) {
+        message = 'Characters must be only in english'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
+      await fetch(`${api.apiRequest}/addScrum`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-        credentials: 'include'
+        body: JSON.stringify(body)
       })
-      const resultBody = await result.json()
       props.onSubmit()
     } catch (err) {
       return msgs.current.show([

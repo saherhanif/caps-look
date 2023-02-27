@@ -28,6 +28,7 @@ const EditMilestonesProject = (props) => {
         body: JSON.stringify(body)
       })
       props.onSubmit()
+      props.refreshMilestonesTable()
     } catch (error) {
       throw new Error('edit milestone failed')
     }

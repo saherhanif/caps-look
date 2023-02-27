@@ -1,6 +1,6 @@
 import style from './style.module.scss'
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useReducer } from 'react'
 import SearchBar from '../../components/SearchBar'
 import PageContainer from '../../components/PageContainer'
 import ContentsTable from '../../components/ContentsTable'
@@ -9,12 +9,14 @@ import EditPopUpMessage from './EditPopUpDialog'
 import ArchiveScrum from './ArchiveScrum'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
-import { Dropdown } from 'primereact/dropdown'
 import { AutoComplete } from 'primereact/autocomplete'
 import { CSVLink } from 'react-csv'
 import api from '../../config'
+import { Toast } from 'primereact/toast'
+import Pagination from '../../components/Pagination'
 
 const Scrums = () => {
+  const toast = useRef(null)
   const [scrums, setScrums] = useState([])
   const [projects, setProjects] = useState([{}])
   const [scrumMaster, setscrumMaster] = useState([{}])
@@ -64,6 +66,7 @@ const Scrums = () => {
       })
       const res = await result.json()
       setscrumMaster(res.data.rows)
+
     } catch (err) {
       throw new Error('No data found !!!')
     }
@@ -73,7 +76,7 @@ const Scrums = () => {
     setSelectedData(selectedData)
     if (selectedData !== '') {
       const newScrumList = scrums.filter((scrum) => {
-        return Object.values(scrum)
+        return Object.values(scrum.scrum_name)
           .join('')
           .toLowerCase()
           .includes(selectedData.toLowerCase())
@@ -140,13 +143,7 @@ const Scrums = () => {
       <div style={{ width: '90%' }}>
         {scrums.length && (
           <ContentsTable
-            source={scrums.filter((scrum) => {
-              if (!searchResults) {
-                return null
-              }
-
-              return scrum
-            })}
+            source={selectedData.length < 1 ? scrums : searchResults}
             columns={columns}
             onEditRow={(e) => {
               setVisibleEdit(true)
@@ -194,7 +191,14 @@ const Scrums = () => {
           clicked={'add'}
           Project={projects}
           scrumMaster={scrumMaster}
-          onSubmit={() => setVisible(false)}
+          onSubmit={() => {
+            setVisible(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'adding scrum done successfully'
+            })
+          }}
         />
       </Dialog>
       <Dialog
@@ -209,7 +213,14 @@ const Scrums = () => {
           scrumMaster={scrumMaster}
           Project={projects}
           selectedProject={selectedproject}
-          onSubmit={() => setVisibleEdit(false)}
+          onSubmit={() => {
+            setVisibleEdit(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'updating scrum done successfully'
+            })
+          }}
         />
       </Dialog>
       <Dialog
@@ -220,9 +231,17 @@ const Scrums = () => {
       >
         <ArchiveScrum
           data={archive}
-          onSubmit={() => setVisibleArchive(false)}
+          onSubmit={() => {
+            setVisibleArchive(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'removing scrum done successfully'
+            })
+          }}
         />
       </Dialog>
+      <Toast ref={toast} />
     </PageContainer>
   )
 }

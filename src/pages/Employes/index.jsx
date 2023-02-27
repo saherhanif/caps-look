@@ -139,7 +139,7 @@ const Employee = () => {
         selectedData={selectedData}
         searchKeyword={searchEmployee}
       />
-      <div style={{ width: '90%' }}>
+      <div style={{ width: '920px', marginLeft: '90px' }}>
         <ContentsTable
           source={selectedData.length < 1 ? employees : searchResults}
           columns={columns}

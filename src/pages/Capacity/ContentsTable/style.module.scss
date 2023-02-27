@@ -16,60 +16,54 @@
   overflow: auto;
   padding: 20px;
 }
-
 .tableHeader {
   min-height: 40px;
-  min-width: 40vw;
-  width: calc(100% - 150px);
-  background: #26264f;
+  min-width: 40vh;
+  width: calc(100% - 20vh);
+  background: #8a84aa;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   display: flex;
   margin-bottom: 10px;
+  width: 140vh;
   h3 {
     font-size: 150%;
-    color: #f4f8fd;
+    color: #18122b;
     margin: 10px;
-    font-family: 'Josefin Sans';
   }
 }
-
 .MaininfoText {
   font-family: 'Josefin Sans';
   font-size: 20px;
   color: #f4f8fd;
   // text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.7);
   margin: auto;
+  width: 140vh;
 }
-
 .dataRow {
   display: flex;
+  width: 155vh;
 }
-
 .tableBody {
   display: flex;
   flex-direction: column;
   // justify-content: space-between;
   overflow-y: auto;
   height: 400px;
-
   &::-webkit-scrollbar {
     width: 10px;
     border-radius: 18px;
   }
-
   &::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 18px;
     opacity: 0.8;
   }
-
   &::-webkit-scrollbar-thumb {
     background-color: rgb(132, 132, 139);
     border-radius: 18px;
     border: 2px solid rgba(255, 255, 255, 0.9);
   }
-
   .dataContainer {
     height: 50px;
     width: calc(100% - 140px);
@@ -81,7 +75,6 @@
     border-radius: 10px;
     margin-bottom: 10px;
     margin-right: 10px;
-
     .dataNode {
       font-family: 'Josefin Sans';
       font-size: 16px;
@@ -112,7 +105,6 @@
     margin-left: 10px;
     margin-right: 10px;
     padding: 10px;
-
     .innerIcons {
       height: 100px;
       width: 100px;
@@ -124,5 +116,26 @@
   .innerIcons {
     background-color: red($color: #bf3a3a) !important;
     color: red($color: #000000);
+  }
+}
+
+.export {
+  display: flex;
+  margin-left: 54vw;
+
+  button {
+    height: 28px;
+    width: 10vw;
+    font-family: 'Josefin Sans';
+    font-size: 15px;
+    background: #8a84aa;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    color: white;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: space-around;
+    border-radius: 10px;
+    border: none;
+    margin-right: 1vw;
   }
 }

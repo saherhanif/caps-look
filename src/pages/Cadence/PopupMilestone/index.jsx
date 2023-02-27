@@ -7,7 +7,13 @@ import { InputText } from 'primereact/inputtext'
 import api from '../../../config'
 import { InputTextarea } from 'primereact/inputtextarea'
 const PopupMilestone = (prop) => {
-  const { mileStoneForm, setMileStoneForm, selectProjectState, onSubmit } = prop
+  const {
+    mileStoneForm,
+    setMileStoneForm,
+    selectProjectState,
+    onSubmit,
+    refreshMilestonesTable
+  } = prop
   const [data, setData] = useState({
     milestone_name: '',
     project_id: selectProjectState,
@@ -31,6 +37,7 @@ const PopupMilestone = (prop) => {
         body: JSON.stringify(body)
       })
       onSubmit()
+      refreshMilestonesTable()
     } catch (error) {
       throw new Error('adding Iteration failed')
     }

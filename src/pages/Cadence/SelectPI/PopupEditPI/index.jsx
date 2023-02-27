@@ -23,6 +23,7 @@ const PopupEditPI = (props) => {
         body: JSON.stringify(body)
       })
       props.onSubmit()
+      props.refreshPISelect()
     } catch (error) {
       throw new Error('editing PI failed')
     }

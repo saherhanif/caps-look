@@ -5,7 +5,7 @@ import style from './style.module.scss'
 import { Dialog } from 'primereact/dialog'
 import React from 'react'
 import PopupArchivePI from '../PopupArchivePI'
-const ArchivePI = ({ PIobject }) => {
+const ArchivePI = ({ PIobject, refreshPISelect }) => {
   const [visibleArchive, setVisibleArchive] = React.useState(false)
   const [archive, setArchive] = React.useState({})
   return (
@@ -15,11 +15,11 @@ const ArchivePI = ({ PIobject }) => {
           style={{
             height: '50px',
             width: '50px',
-            background: '#8a84aa',
+            background: '#26264F',
             boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
             borderRadius: '10px',
             border: 'none',
-            marginLeft: '150px',
+            marginLeft: '280px',
             padding: '10px',
             top: '-90px'
           }}
@@ -39,6 +39,7 @@ const ArchivePI = ({ PIobject }) => {
         <PopupArchivePI
           data={PIobject}
           onSubmit={() => setVisibleArchive(false)}
+          refreshPISelect={refreshPISelect}
         />
       </Dialog>
     </>

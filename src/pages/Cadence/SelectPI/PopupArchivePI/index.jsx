@@ -11,6 +11,7 @@ const PopupArchivePI = (props) => {
         credentials: 'include'
       })
       props.onSubmit()
+      props.refreshPISelect()
     } catch (err) {
       throw new Error('failed to connect to the server,')
     }

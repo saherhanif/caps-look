@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Dropdown } from 'primereact/dropdown'
 import api from '../../../config'
+import { Messages } from 'primereact/messages'
 
 export default function EditPopUpMessage(props) {
   const [application, setApplication] = React.useState([{}])
@@ -12,7 +13,7 @@ export default function EditPopUpMessage(props) {
     project: props.selectedProject.id,
     application: props.source.app_id
   })
-
+  const msgs = useRef(null)
   const onChange = (key) => (e) =>
     setEditData({ ...editData, [key]: e.target.value })
 
@@ -38,6 +39,30 @@ export default function EditPopUpMessage(props) {
     console.log(body)
     console.log('body : ' + body + ' Id : ' + props.source.scrum_id)
     try {
+      let message = ''
+      if (!(editData.scrumName.length > 1 && editData.scrumName.length < 15)) {
+        message = ' scrum name should be between 1 to 15 characters'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      } else if (!/^[A-Za-z]*$/.test(editData.scrumName)) {
+        message = 'Characters must be only in english'
+        return msgs.current.show([
+          {
+            sticky: false,
+            severity: 'error',
+            summary: '',
+            detail: message,
+            closable: true
+          }
+        ])
+      }
       await fetch(`${api.apiRequest}/EditScrum/${props.source.scrum_id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -123,6 +148,7 @@ export default function EditPopUpMessage(props) {
         autoFocus
         onClick={updateScrum}
       />
+      <Messages ref={msgs} />
     </div>
   )
 }

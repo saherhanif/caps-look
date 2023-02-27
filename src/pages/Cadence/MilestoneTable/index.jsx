@@ -7,7 +7,11 @@ import api from '../../../config'
 import { Dialog } from 'primereact/dialog'
 import EditMilestonesProject from './EditMilestonesProject'
 import ArchiveMilestone from './ArchiveMilestonesProject'
-const MilestoneTable = ({ selectProjectState }) => {
+const MilestoneTable = ({
+  selectProjectState,
+  refreshMilestonesTable,
+  updateStateMilestonesTable
+}) => {
   const [visibleEdit, setVisibleEdit] = React.useState(false)
   const [edit, setEdit] = React.useState({})
   const [visibleArchive, setVisibleArchive] = React.useState(false)
@@ -56,7 +60,7 @@ const MilestoneTable = ({ selectProjectState }) => {
   }
   useEffect(() => {
     getMilestonesProject()
-  }, [data])
+  }, [data, refreshMilestonesTable])
   return (
     <>
       <div style={{ width: '800px', marginTop: '50px' }}>
@@ -86,6 +90,7 @@ const MilestoneTable = ({ selectProjectState }) => {
         <EditMilestonesProject
           source={edit}
           onSubmit={() => setVisibleEdit(false)}
+          refreshMilestonesTable={updateStateMilestonesTable}
         ></EditMilestonesProject>
       </Dialog>
       <Dialog
@@ -97,6 +102,7 @@ const MilestoneTable = ({ selectProjectState }) => {
         <ArchiveMilestone
           data={archive}
           onSubmit={() => setVisibleArchive(false)}
+          refreshMilestonesTable={updateStateMilestonesTable}
         />
       </Dialog>
       <br />

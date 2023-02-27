@@ -1,6 +1,5 @@
 import style from './style.module.scss'
-import React from 'react'
-import { useState, useEffect, useReducer } from 'react'
+import React, { useRef, useState, useEffect, useReducer } from 'react'
 import SearchBar from '../../components/SearchBar'
 import PageContainer from '../../components/PageContainer'
 import ContentsTable from '../../components/ContentsTable'
@@ -11,6 +10,7 @@ import { Button } from 'primereact/button'
 import { CSVLink } from 'react-csv'
 import api from '../../config'
 import ArchiveProject from './ArchiveProject'
+import { Toast } from 'primereact/toast'
 
 const Projects = () => {
   const [projects, setProjects] = useState([{}])
@@ -22,7 +22,7 @@ const Projects = () => {
   const [selectedData, setSelectedData] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [refresh, updateState] = useReducer((x) => x + 1, 0)
-
+  const toast = useRef(null)
   const getProjects = async () => {
     try {
       const result = await fetch(`${api.apiRequest}/ProjectPage`, {
@@ -99,9 +99,6 @@ const Projects = () => {
               textDecoration: 'none'
             }}
             data={projects}
-            onClick={() => {
-              console.log('exporting')
-            }}
           >
             <button>Export as CSV</button>
           </CSVLink>
@@ -119,7 +116,14 @@ const Projects = () => {
         <PopUpMessage
           clicked={'add'}
           Project={projects}
-          onSubmit={() => setVisible(false)}
+          onSubmit={() => {
+            setVisible(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'adding project done successfully'
+            })
+          }}
           refresh={updateState}
         />
       </Dialog>
@@ -132,7 +136,14 @@ const Projects = () => {
         <EditPopUpMessage
           clicked="Edit"
           source={edit}
-          onSubmit={() => setVisibleEdit(false)}
+          onSubmit={() => {
+            setVisibleEdit(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'updating  project  details done successfully'
+            })
+          }}
           refresh={updateState}
         />
       </Dialog>
@@ -144,10 +155,18 @@ const Projects = () => {
       >
         <ArchiveProject
           data={archive}
-          onSubmit={() => setVisibleArchive(false)}
+          onSubmit={() => {
+            setVisibleArchive(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'removing  project done successfully'
+            })
+          }}
           refresh={updateState}
         />
       </Dialog>
+      <Toast ref={toast} />
     </PageContainer>
   )
 }
