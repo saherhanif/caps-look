@@ -5,16 +5,24 @@ import { CSVLink } from 'react-csv'
 const ContentsTable = (props) => {
   return (
     <div className={style.innerContainer}>
-      <div className={style.tableHeader}>
+      <div
+        className={style.tableHeader}
+        style={{
+          width: props.columns.length > 8 ? `fit-content` : '100%'
+        }}
+      >
         {props.columns.map((e) => {
           return (
             <h3
               style={{
-                width: `${100 / props.columns.length}%`
+                width:
+                  props.columns.length > 8
+                    ? '100px'
+                    : `${100 / props.columns.length}%`
               }}
               className={style.MaininfoText}
             >
-              {e.title}
+              {e.title.replace('iteration-', 'I ')}
             </h3>
           )
         })}
@@ -23,16 +31,24 @@ const ContentsTable = (props) => {
         {props.source.map((data) => {
           return (
             <div className={style.dataRow}>
-              <div className={style.dataContainer}>
+              <div
+                className={style.dataContainer}
+                style={{
+                  width: props.columns.length > 8 ? `fit-content` : '100%'
+                }}
+              >
                 {props.columns.map((e) => {
                   return (
                     <h3
                       style={{
-                        width: `${100 / props.columns.length}%`
+                        width:
+                          props.columns.length > 8
+                            ? '100px'
+                            : `${100 / props.columns.length}%`
                       }}
                       className={style.dataNode}
                     >
-                      {data[e.dataIndex]}
+                      {data[e.dataIndex] || '178.8'}
                     </h3>
                   )
                 })}
@@ -41,11 +57,44 @@ const ContentsTable = (props) => {
           )
         })}
       </div>
-      <div className={style.export}>
+      {/* {props.footer && (
+        <div
+          className={style.dataRow}
+          style={{
+            position: 'absolute',
+            top: '250px',
+            width: '100%'
+          }}
+        >
+          <div
+            className={style.dataContainer}
+            style={{
+              width: props.columns.length > 8 ? `fit-content` : '100%'
+            }}
+          >
+            {props.columns.map((e) => {
+              return (
+                <h3
+                  style={{
+                    width:
+                      props.columns.length > 8
+                        ? '100px'
+                        : `${100 / props.columns.length}%`
+                  }}
+                  className={style.dataNode}
+                >
+                  {'total'}
+                </h3>
+              )
+            })}
+          </div>
+        </div>
+      )} */}
+      {/* <div className={style.export}>
         <CSVLink data={props.source}>
           <button>Export as CSV</button>
         </CSVLink>
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -29,23 +29,7 @@ export default function Capacity(props) {
   const [employeeAbsences, setEmployeeAbsences] = React.useState([])
   const [holidays, setHolidays] = React.useState([])
   const scrumIdExample = { scrumId: 1 }
-
-
   const [empAbs, setEmpAbs] = React.useState([])
-
-  // console.log('selectedScrum', selectedScrum)
-  // console.log('selectedproject', selectedproject)
-  //console.log('Itrationlist', Itrationlist)
-  // console.log('scrums', scrums)
-  // console.log('projects', projects)
-  // console.log('dataFrom', dataFrom)
-  //console.log('date', date)
-  // console.log('pi', pi)
-  // console.log('dataFrom', dataFrom)
-  // console.log('dataTo', dataTo)
-  // console.log('scrumEmployee', scrumEmployee)
-  // console.log('employeeAbsences', employeeAbsences)
-  // console.log('holidays', holidays)
 
   const getItrations = async (id) => {
     try {
@@ -115,9 +99,8 @@ export default function Capacity(props) {
       throw new Error('No data found !!!')
     }
   }
-  console.log('ItrationsTitles', itrationsTitles)
 
-  const getScrumEmployee = async (ids) => {
+  const getScrumEmployee = async () => {
     try {
       const result = await fetch(`${api.apiRequest}/getScrumAvailablity`, {
         method: 'POST',
@@ -144,7 +127,7 @@ export default function Capacity(props) {
         credentials: 'include'
       })
       const json = await result.json()
-      return json.data 
+      return json.data
     } catch (err) {
       console.log(err)
     }
@@ -204,23 +187,20 @@ export default function Capacity(props) {
     const fetchData = async () => {
       const promises = scrumEmployee.map(async (employee) => {
         let absences = await getEmployeeAbsence(employee.id)
-        return absences;
-      });
-  
-      const emps = await Promise.all(promises);
-      setEmpAbs(emps);
-      console.log('hereeee',emps);
-    };
-   fetchData()
+        return absences
+      })
 
-    getIterationByPi(selectedproject, selectedScrum, dataFrom, dataTo);
-  }, [refresh]);
-  
-  console.log('nowwwwww',empAbs);
-  
+      const emps = await Promise.all(promises)
+      setEmpAbs(emps)
+    }
+    fetchData()
+
+    getIterationByPi(selectedproject, selectedScrum, dataFrom, dataTo)
+  }, [refresh])
+
   const columns = [
-    { title: 'Itration Number', dataIndex: 'iterationName' },
-    { title: 'No.Weeks', dataIndex: 'weeksNumber' },
+    { title: 'Itration #', dataIndex: 'iterationName' },
+    { title: 'Weeks #', dataIndex: 'weeksNumber' },
     { title: 'Start Date', dataIndex: 'StartDate' }
   ]
 
@@ -233,9 +213,6 @@ export default function Capacity(props) {
     })
   })
 
-  console.log('employees :' ,scrumEmployee);
-  console.log('there details :' ,empAbs);
-
   const columns2 = [
     { title: 'Scrum', dataIndex: `scrum_name` },
     ...itrTitles,
@@ -243,6 +220,29 @@ export default function Capacity(props) {
   ]
 
   //=================================================================================
+
+  //console.log('selectedScrum', selectedScrum)
+  // console.log('selectedproject', selectedproject)
+  //console.log('Itrationlist', Itrationlist)
+  // console.log('scrums', scrums)
+  // console.log('projects', projects)
+  // console.log('dataFrom', dataFrom)
+  //console.log('date', date)
+  // console.log('pi', pi)
+  // console.log('dataFrom', dataFrom)
+  // console.log('dataTo', dataTo)
+  // console.log('scrumEmployee', scrumEmployee)
+  //console.log('employeeAbsences', employeeAbsences)
+  //console.log('holidays', holidays)
+  //console.log('ItrationsTitles', itrationsTitles)
+  //console.log('hereeee', emps)
+  //console.log('nowwwwww', empAbs)
+  //console.log('employees :', scrumEmployee)
+  //console.log('there details :', empAbs)
+  //console.log('arrayOfSums', arrayOfSums)
+  //console.log('not yet', arrayOfSums)
+  //console.log('we got here', combinedArray)
+
   const columns3 = [
     { title: 'ID', dataIndex: 'id_number' },
     { title: 'Name', dataIndex: 'employee_name' },
@@ -258,19 +258,10 @@ export default function Capacity(props) {
     { title: 'Army Duty', dataIndex: 'armyDuty' },
     { title: 'Vacation', dataIndex: 'vacation' },
     { title: 'total Absences', dataIndex: 'totalAbsences' }
-   
   ]
 
-  // console.log('holidays:', holidays)
-  // console.log('employeeAbsences:', employeeAbsences)
-  // console.log('111111', itrationsTitles)
-  // console.log(
-  //   'aaaaaa',
-  //   itrationsTitles[0],
-  //   itrationsTitles[itrationsTitles.length - 1]
-  // )
-  const arrayOfSums = [];
-
+  const arrayOfSums = []
+  console.log('empAbsss', empAbs)
   empAbs.forEach((emp) => {
     const absenceSum = {
       travelSum: 0,
@@ -278,60 +269,86 @@ export default function Capacity(props) {
       casualLeaveSum: 0,
       armyDuty: 0,
       vacation: 0,
-      holiday: 0,
-    };
-  
+      holiday: 0
+    }
+    console.log('emp:', emp)
+
     emp.employee_absence.forEach((e) => {
       if (e.absence_type === 'T') {
         const difference = getDaysBetweenDates(
           e.absence_type_start_date,
           e.absence_type_end_date
-        );
-        absenceSum.travelSum += difference;
+        )
+        console.log('twst11111', difference)
+        absenceSum.travelSum += difference
       }
       if (e.absence_type === 'SL') {
         const difference = getDaysBetweenDates(
           e.absence_type_start_date,
           e.absence_type_end_date
-        );
-        absenceSum.sickLeaveSum += difference;
+        )
+        absenceSum.sickLeaveSum += difference
       }
       if (e.absence_type === 'CL') {
         const difference = getDaysBetweenDates(
           e.absence_type_start_date,
           e.absence_type_end_date
-        );
-        absenceSum.casualLeaveSum += difference;
+        )
+        absenceSum.casualLeaveSum += difference
       }
       if (e.absence_type === 'AD') {
         const difference = getDaysBetweenDates(
           e.absence_type_start_date,
           e.absence_type_end_date
-        );
-        absenceSum.armyDuty += difference;
+        )
+        absenceSum.armyDuty += difference
       }
       if (e.absence_type === 'V') {
         const difference = getDaysBetweenDates(
           e.absence_type_start_date,
           e.absence_type_end_date
-        );
-        absenceSum.vacation += difference;
+        )
+        absenceSum.vacation += difference
       }
-    });
-  
-    emp.absences.forEach((e) => {
-      const date1 = new Date(e.absence_start_date);
-      const date2 = new Date(e.absence_end_date);
-      const difference = getDaysBetweenDates(date1, date2);
-      absenceSum.holiday += difference;
-    });
-  
-    arrayOfSums.push(absenceSum);
-  });
-  
-  console.log('arrayOfSums', arrayOfSums);
-  
-  
+    })
+
+    itrationsTitles.map((row) => {
+      row.map((col) => {
+        let date3 = new Date(col.iteration_start_date)
+        let date4 = new Date(col.iteration_end_date)
+        emp.absences.forEach((e) => {
+          let date1 = new Date(e.absence_start_date)
+          let date2 = new Date(e.absence_end_date)
+          // console.log('====================================')
+          // console.log('Name , date1', e.absence_name, date1)
+          // console.log('Name ,date2', e.absence_name, date2)
+          // console.log('date3', date3)
+          // console.log('date4', date4)
+          // console.log('====================================')
+          if (date1 >= date3 && date2 <= date4) {
+            const difference = getDaysBetweenDates(date1, date2)
+            absenceSum.holiday += difference
+            //console.log('absenceSum.holiday', absenceSum.holiday)
+          }
+        })
+      })
+    })
+
+    const daysOfIteration = getDaysBetweenDates(
+      iterationsDates[0],
+      iterationsDates[iterationsDates.length - 1]
+    )
+
+    const weekendsOfIteration = countWeekends(
+      iterationsDates[0],
+      iterationsDates[iterationsDates.length - 1]
+    )
+    const availablity = daysOfIteration
+    arrayOfSums.push(absenceSum)
+  })
+
+  // console.log('arrayOfSums', arrayOfSums)
+
   function getDaysBetweenDates(date1, date2) {
     date1 = new Date(date1)
     date2 = new Date(date2)
@@ -340,71 +357,105 @@ export default function Capacity(props) {
     return daysDiff
   }
 
-  // for (let i = 0; i < scrumEmployee.length; i++) {
-    //   scrumEmployee.push({
-      //     ...scrumEmployee[i],
-      //     attendanceCount: arrayOfSums[i]
-      //   });
-      // }
-      
-console.log('not yet',arrayOfSums);     
-const combinedArray = scrumEmployee.map((employee, index) => {
-  let item = arrayOfSums[index];
-  let sum =  (item ? item.travelSum : 0)+(item ? item.sickLeaveSum : 0)+(item ? item.casualLeaveSum : 0)+(item ? item.armyDuty : 0)+(item ? item.vacation : 0)+(item ? item.holiday : 0)
-  return {
-    ...employee,
-    travelSum: item ? item.travelSum : 0,
-    sickLeaveSum: item ? item.sickLeaveSum : 0,
-    casualLeaveSum: item ? item.casualLeaveSum : 0,
-    armyDuty: item ? item.armyDuty : 0,
-    vacation: item ? item.vacation : 0,
-    holiday: item ? item.holiday : 0,
-    totalAbsences: sum
-  };
-});
+  function countWeekends(startDate, endDate) {
+    let count = 0
+    let currentDate = new Date(startDate)
+    while (currentDate <= endDate) {
+      if (currentDate.getDay() === 0 || currentDate.getDay() === 6) {
+        count++
+      }
+      currentDate.setDate(currentDate.getDate() + 1)
+    }
+    return count
+  }
 
-console.log('we got here',combinedArray);
-      // console.log('employees: ', scrumEmployee)
-      
+  let iterationsDates = []
+  const day1ofIteration = itrationsTitles.map((row) => {
+    row.map((col) => {
+      iterationsDates.push(new Date(col.iteration_start_date))
+      iterationsDates.push(new Date(col.iteration_end_date))
+    })
+  })
+
+  const daysOfIteration = getDaysBetweenDates(
+    iterationsDates[0],
+    iterationsDates[iterationsDates.length - 1]
+  )
+
+  const weekendsOfIteration = countWeekends(
+    iterationsDates[0],
+    iterationsDates[iterationsDates.length - 1]
+  )
+
+  console.log('daysOfIteration', daysOfIteration)
+  console.log('weekendsOfIteration', weekendsOfIteration)
+
+  const combinedArray = scrumEmployee.map((employee, index) => {
+    let item = arrayOfSums[index]
+    let sum =
+      (item ? item.travelSum : 0) +
+      (item ? item.sickLeaveSum : 0) +
+      (item ? item.casualLeaveSum : 0) +
+      (item ? item.armyDuty : 0) +
+      (item ? item.vacation : 0) +
+      (item ? item.holiday : 0)
+    return {
+      ...employee,
+      travelSum: item ? item.travelSum : 0,
+      sickLeaveSum: item ? item.sickLeaveSum : 0,
+      casualLeaveSum: item ? item.casualLeaveSum : 0,
+      armyDuty: item ? item.armyDuty : 0,
+      vacation: item ? item.vacation : 0,
+      holiday: item ? item.holiday : 0,
+      totalAbsences: sum
+    }
+  })
+
   //=================================================================================
   //if (category === 'Pi') {
   return (
     <PageContainer name={'Capacity'}>
-      <Dropdown
-        id="Project"
-        name="Project"
-        value={selectedproject}
-        options={projects}
-        optionValue="id"
-        optionLabel="project_name"
-        placeholder="Project"
-        required
-        className="w-full md:w-14rem"
-        onChange={(e) => {
-          setSelectedproject(e.value)
-          getScrums(e.value)
-          getItrations(e.value)
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap'
         }}
-      />
-      <br />
-      <MultiSelect
-        id="scrums"
-        name="scrum"
-        value={selectedScrum}
-        options={scrums}
-        optionLabel="scrum_name"
-        optionValue="scrum_id"
-        placeholder="choose Scrum"
-        required
-        className="w-full md:w-14rem"
-        onChange={(e) => {
-          setSelectedScrum(e.value)
-          fetchPi(selectedproject)
-          fetchDatePi(selectedproject)
-        }}
-      />
-      <br />
-      {/* <div className={style.containerSelector}>
+      >
+        <Dropdown
+          id="Project"
+          name="Project"
+          value={selectedproject}
+          options={projects}
+          optionValue="id"
+          optionLabel="project_name"
+          placeholder="Project"
+          required
+          className="w-full md:w-14rem"
+          onChange={(e) => {
+            setSelectedproject(e.value)
+            getScrums(e.value)
+            getItrations(e.value)
+          }}
+        />
+        <span>&nbsp;</span>
+        <MultiSelect
+          id="scrums"
+          name="scrum"
+          value={selectedScrum}
+          options={scrums}
+          optionLabel="scrum_name"
+          optionValue="scrum_id"
+          placeholder="choose Scrum"
+          required
+          className="w-full md:w-14rem"
+          onChange={(e) => {
+            setSelectedScrum(e.value)
+            fetchPi(selectedproject)
+            fetchDatePi(selectedproject)
+          }}
+        />
+        <br />
+        {/* <div className={style.containerSelector}>
           <label>select one</label>
           <div className={style.card}>
             <div className={style.pi}>
@@ -440,20 +491,45 @@ console.log('we got here',combinedArray);
           </div>
         </div> */}
 
-      <PiDropDown
-        pi={pi}
-        setDataFrom={setDataFrom}
-        setDataTo={setDataTo}
-        update={updateState}
-      />
+        <PiDropDown
+          pi={pi}
+          setDataFrom={setDataFrom}
+          setDataTo={setDataTo}
+          update={updateState}
+        />
+      </div>
+
       <br />
-      <span className={style.iterationTables}>
-        <ContentsTable source={Itrationlist} columns={columns} />
-        <br />
-        <ContentsTable source={Itrationlist} columns={columns2} />
-      </span>
-      <ContentsTable source={combinedArray} columns={columns3} />
+      <div className={style.iterationTables}>
+        <div className={style.leftTable}>
+          <ContentsTable source={Itrationlist} columns={columns} />
+        </div>
+        <div className={style.rightTable}>
+          <ContentsTable source={Itrationlist} columns={columns2} footer />
+          <div
+            style={{
+              // position: 'absolute',
+              bottom: '10px',
+              // width: '100%',
+              backgroundColor: 'red'
+            }}
+          >
+            Total
+          </div>
+        </div>
+      </div>
+
       <br />
+      <div
+        style={{
+          width: '98%',
+          padding: '10px',
+          backgroundColor: 'white',
+          borderRadius: '10px'
+        }}
+      >
+        <ContentsTable source={combinedArray} columns={columns3} />
+      </div>
     </PageContainer>
   )
   //}

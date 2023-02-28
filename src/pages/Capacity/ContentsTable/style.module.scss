@@ -1,55 +1,12 @@
 .innerContainer {
-  width: 100%;
-  max-height: 500px;
-  background: rgba(255, 255, 255, 0.9);
-  opacity: 90%;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-  border-radius: 18px;
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  max-width: 90%;
   max-height: 90%;
   background: white;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  // box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   overflow: auto;
-  padding: 20px;
-}
-.tableHeader {
-  min-height: 40px;
-  min-width: 40vh;
-  width: calc(100% - 20vh);
-  background: #8a84aa;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  display: flex;
-  margin-bottom: 10px;
-  width: 140vh;
-  h3 {
-    font-size: 150%;
-    color: #18122b;
-    margin: 10px;
-  }
-}
-.MaininfoText {
-  font-family: 'Josefin Sans';
-  font-size: 20px;
-  color: #f4f8fd;
-  // text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.7);
-  margin: auto;
-  width: 140vh;
-}
-.dataRow {
-  display: flex;
-  width: 155vh;
-}
-.tableBody {
-  display: flex;
-  flex-direction: column;
-  // justify-content: space-between;
-  overflow-y: auto;
-  height: 400px;
+
   &::-webkit-scrollbar {
     width: 10px;
     border-radius: 18px;
@@ -64,9 +21,42 @@
     border-radius: 18px;
     border: 2px solid rgba(255, 255, 255, 0.9);
   }
+}
+
+.tableHeader {
+  min-height: 30px;
+  background: #8a84aa;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  display: flex;
+  margin-bottom: 10px;
+
+  h3 {
+    font-size: 16px;
+    color: #18122b;
+    margin: auto 6px;
+  }
+}
+
+.MaininfoText {
+  font-family: 'Josefin Sans';
+  font-size: 20px;
+  color: #f4f8fd;
+  // text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.7);
+  margin: auto;
+  // width: 140vh;
+}
+.dataRow {
+  display: flex;
+}
+.tableBody {
+  display: flex;
+  flex-direction: column;
+  // justify-content: space-between;
+  height: 400px;
+
   .dataContainer {
     height: 50px;
-    width: calc(100% - 140px);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -74,14 +64,16 @@
     // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
     margin-bottom: 10px;
-    margin-right: 10px;
+
     .dataNode {
       font-family: 'Josefin Sans';
       font-size: 16px;
       color: #f4f8fd;
+      margin: auto 6px;
       // text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.7);
     }
   }
+
   .EditContainer {
     height: 50px;
     width: 50px;
@@ -90,6 +82,7 @@
     border-radius: 10px;
     border: none;
     padding: 10px;
+
     .innerIcons {
       height: 100px;
       width: 100px;
@@ -121,7 +114,7 @@
 
 .export {
   display: flex;
-  margin-left: 54vw;
+  // margin-left: 54vw;
 
   button {
     height: 28px;

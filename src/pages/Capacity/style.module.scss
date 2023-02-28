@@ -1,6 +1,26 @@
 .iterationTables {
   display: flex;
-  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+
+  .leftTable {
+    width: 28%;
+    background-color: white;
+    height: max-content;
+    padding: 10px;
+    height: 400px;
+    border-radius: 10px;
+  }
+
+  .rightTable {
+    background-color: white;
+    width: 70%;
+    height: max-content;
+    padding: 10px;
+    height: 400px;
+    border-radius: 10px;
+    position: relative;
+  }
 }
 
 .containerSelector {
