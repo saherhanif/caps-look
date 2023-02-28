@@ -30,10 +30,12 @@ export default function Capacity(props) {
   const [holidays, setHolidays] = React.useState([])
   const scrumIdExample = { scrumId: 1 }
 
+
+  const [empAbs, setEmpAbs] = React.useState([])
+
   // console.log('selectedScrum', selectedScrum)
   // console.log('selectedproject', selectedproject)
   //console.log('Itrationlist', Itrationlist)
-  console.log('itrationsTitles', itrationsTitles)
   // console.log('scrums', scrums)
   // console.log('projects', projects)
   // console.log('dataFrom', dataFrom)
@@ -142,8 +144,7 @@ export default function Capacity(props) {
         credentials: 'include'
       })
       const json = await result.json()
-      setEmployeeAbsences(json.data.employee_absence)
-      setHolidays(json.data.absences)
+      return json.data 
     } catch (err) {
       console.log(err)
     }
@@ -189,7 +190,7 @@ export default function Capacity(props) {
       throw new Error('No data found !!!')
     }
   }
-  //console.log('scrumEmployee', scrumEmployee)
+
   React.useEffect(() => {
     getProjectsName()
     getScrums()
@@ -197,11 +198,26 @@ export default function Capacity(props) {
     fetchPi()
     fetchDatePi()
     getScrumEmployee(scrumIdExample)
-    getEmployeeAbsence(1)
   }, [])
+
   React.useEffect(() => {
-    getIterationByPi(selectedproject, selectedScrum, dataFrom, dataTo)
-  }, [refresh])
+    const fetchData = async () => {
+      const promises = scrumEmployee.map(async (employee) => {
+        let absences = await getEmployeeAbsence(employee.id)
+        return absences;
+      });
+  
+      const emps = await Promise.all(promises);
+      setEmpAbs(emps);
+      console.log('hereeee',emps);
+    };
+   fetchData()
+
+    getIterationByPi(selectedproject, selectedScrum, dataFrom, dataTo);
+  }, [refresh]);
+  
+  console.log('nowwwwww',empAbs);
+  
   const columns = [
     { title: 'Itration Number', dataIndex: 'iterationName' },
     { title: 'No.Weeks', dataIndex: 'weeksNumber' },
@@ -216,6 +232,9 @@ export default function Capacity(props) {
       })
     })
   })
+
+  console.log('employees :' ,scrumEmployee);
+  console.log('there details :' ,empAbs);
 
   const columns2 = [
     { title: 'Scrum', dataIndex: `scrum_name` },
@@ -232,11 +251,14 @@ export default function Capacity(props) {
     { title: 'App', dataIndex: 'application_name' },
     { title: 'Weekend', dataIndex: 'weekend_days' },
     { title: 'Productivity', dataIndex: 'productivity' },
-    { title: 'Travel', dataIndex: 'absence_type_start_date' },
-    { title: 'Absence Type', dataIndex: 'absence_type_end_date' },
+    { title: 'Travel', dataIndex: 'travelSum' },
+    { title: 'Sick Leave', dataIndex: 'sickLeaveSum' },
+    { title: 'Casual Leave', dataIndex: 'casualLeaveSum' },
     { title: 'Holiday', dataIndex: 'holiday' },
-    { title: 'Army Duty', dataIndex: 'absence_type' },
-    { title: 'Vacation', dataIndex: '' }
+    { title: 'Army Duty', dataIndex: 'armyDuty' },
+    { title: 'Vacation', dataIndex: 'vacation' },
+    { title: 'total Absences', dataIndex: 'totalAbsences' }
+   
   ]
 
   // console.log('holidays:', holidays)
@@ -247,53 +269,69 @@ export default function Capacity(props) {
   //   itrationsTitles[0],
   //   itrationsTitles[itrationsTitles.length - 1]
   // )
-  const absenceSum = {
-    travelSum: 0,
-    sickLeaveSum: 0,
-    casualLeaveSum: 0,
-    armyDuty: 0,
-    vacation: 0,
-    holiday: 0
-  }
+  const arrayOfSums = [];
 
-  employeeAbsences.map((e) => {
-    if (e.absence_type == 'T') {
-      const differnce = getDaysBetweenDates(
-        e.absence_type_start_date,
-        e.absence_type_end_date
-      )
-      absenceSum.travelSum += differnce
-    }
-    if (e.absence_type == 'SL') {
-      const differnce = getDaysBetweenDates(
-        e.absence_type_start_date,
-        e.absence_type_end_date
-      )
-      absenceSum.sickLeaveSum += differnce
-    }
-    if (e.absence_type == 'CL') {
-      const differnce = getDaysBetweenDates(
-        e.absence_type_start_date,
-        e.absence_type_end_date
-      )
-      absenceSum.casualLeaveSum += differnce
-    }
-    if (e.absence_type == 'AD') {
-      const differnce = getDaysBetweenDates(
-        e.absence_type_start_date,
-        e.absence_type_end_date
-      )
-      absenceSum.armyDuty += differnce
-    }
-    if (e.absence_type == 'V') {
-      const differnce = getDaysBetweenDates(
-        e.absence_type_start_date,
-        e.absence_type_end_date
-      )
-      absenceSum.vacation += differnce
-    }
-  })
-
+  empAbs.forEach((emp) => {
+    const absenceSum = {
+      travelSum: 0,
+      sickLeaveSum: 0,
+      casualLeaveSum: 0,
+      armyDuty: 0,
+      vacation: 0,
+      holiday: 0,
+    };
+  
+    emp.employee_absence.forEach((e) => {
+      if (e.absence_type === 'T') {
+        const difference = getDaysBetweenDates(
+          e.absence_type_start_date,
+          e.absence_type_end_date
+        );
+        absenceSum.travelSum += difference;
+      }
+      if (e.absence_type === 'SL') {
+        const difference = getDaysBetweenDates(
+          e.absence_type_start_date,
+          e.absence_type_end_date
+        );
+        absenceSum.sickLeaveSum += difference;
+      }
+      if (e.absence_type === 'CL') {
+        const difference = getDaysBetweenDates(
+          e.absence_type_start_date,
+          e.absence_type_end_date
+        );
+        absenceSum.casualLeaveSum += difference;
+      }
+      if (e.absence_type === 'AD') {
+        const difference = getDaysBetweenDates(
+          e.absence_type_start_date,
+          e.absence_type_end_date
+        );
+        absenceSum.armyDuty += difference;
+      }
+      if (e.absence_type === 'V') {
+        const difference = getDaysBetweenDates(
+          e.absence_type_start_date,
+          e.absence_type_end_date
+        );
+        absenceSum.vacation += difference;
+      }
+    });
+  
+    emp.absences.forEach((e) => {
+      const date1 = new Date(e.absence_start_date);
+      const date2 = new Date(e.absence_end_date);
+      const difference = getDaysBetweenDates(date1, date2);
+      absenceSum.holiday += difference;
+    });
+  
+    arrayOfSums.push(absenceSum);
+  });
+  
+  console.log('arrayOfSums', arrayOfSums);
+  
+  
   function getDaysBetweenDates(date1, date2) {
     date1 = new Date(date1)
     date2 = new Date(date2)
@@ -301,27 +339,33 @@ export default function Capacity(props) {
     const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24))
     return daysDiff
   }
-  if (itrationsTitles[0] && itrationsTitles[0][0]) {
-    //   console.log(
-    //     'itrationsTitles::: ',
-    //     itrationsTitles[0][0].iteration_start_date
-    //   )
-    const iterationStart = new Date(itrationsTitles[0][0].iteration_start_date)
-    const iterationEnd = new Date(itrationsTitles[1][1].iteration_end_date)
-    holidays.map((e) => {
-      const date1 = new Date(e.absence_start_date)
-      const date2 = new Date(e.absence_end_date)
-      if (date1 >= iterationStart && date2 <= iterationEnd) {
-        const differnce = getDaysBetweenDates(date1, date2)
-        absenceSum.holiday += differnce
-        console.log('test', absenceSum.holiday)
-      }
-    })
-  }
-  // console.log('dataFrom', dataFrom)
-  // console.log('date', date)
-  console.log('absenceSum', absenceSum)
 
+  // for (let i = 0; i < scrumEmployee.length; i++) {
+    //   scrumEmployee.push({
+      //     ...scrumEmployee[i],
+      //     attendanceCount: arrayOfSums[i]
+      //   });
+      // }
+      
+console.log('not yet',arrayOfSums);     
+const combinedArray = scrumEmployee.map((employee, index) => {
+  let item = arrayOfSums[index];
+  let sum =  (item ? item.travelSum : 0)+(item ? item.sickLeaveSum : 0)+(item ? item.casualLeaveSum : 0)+(item ? item.armyDuty : 0)+(item ? item.vacation : 0)+(item ? item.holiday : 0)
+  return {
+    ...employee,
+    travelSum: item ? item.travelSum : 0,
+    sickLeaveSum: item ? item.sickLeaveSum : 0,
+    casualLeaveSum: item ? item.casualLeaveSum : 0,
+    armyDuty: item ? item.armyDuty : 0,
+    vacation: item ? item.vacation : 0,
+    holiday: item ? item.holiday : 0,
+    totalAbsences: sum
+  };
+});
+
+console.log('we got here',combinedArray);
+      // console.log('employees: ', scrumEmployee)
+      
   //=================================================================================
   //if (category === 'Pi') {
   return (
@@ -408,7 +452,7 @@ export default function Capacity(props) {
         <br />
         <ContentsTable source={Itrationlist} columns={columns2} />
       </span>
-      <ContentsTable source={scrumEmployee} columns={columns3} />
+      <ContentsTable source={combinedArray} columns={columns3} />
       <br />
     </PageContainer>
   )
