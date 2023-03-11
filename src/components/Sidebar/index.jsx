@@ -35,7 +35,9 @@ const Sidebar = () => {
           <Link to="/Projects" className={style.link}>
             Projects
           </Link>
-
+          <Link to="/Milstones" className={style.link}>
+            Milestone
+          </Link>
           <Link to="/Absence" className={style.link}>
             Absence
           </Link>

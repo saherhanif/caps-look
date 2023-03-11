@@ -8,9 +8,13 @@ import { Dialog } from 'primereact/dialog'
 import CreatePi from './CreatePi'
 import ContentsTable from '../../components/ContentsTable'
 import { TreeSelect } from 'primereact/treeselect'
+import { CSVLink } from 'react-csv'
 import AddPi from './addPi'
 import DeletePi from './deletePi'
 import CreateIteration from './CreateIteration'
+import EditIterationDetails from './EditIterationDetails'
+import ContentsTableIterations from '../ContentTableIteration'
+import DeleteIteration from './DeleteIteration'
 const Cadence = () => {
   const toast = useRef(null)
   const [projects, setProjects] = useState([{}])
@@ -23,10 +27,13 @@ const Cadence = () => {
   const [visibleCreatePi, setVisibleCreatePi] = useState(false)
   const [visibleAddPi, setVisibleAddPi] = useState(false)
   const [visibleAddIteration, setVisibleAddIteration] = useState(false)
-
+  const [hideShowIteration, setHideShowIeration] = useState(false)
   const [visibleDeletePi, setVisibleDeletePi] = useState(false)
+  const [visibleDeleteIteration, setVisibleDeleteIteration] = useState(false)
   const [showHideCreate, setShowHideCreate] = useState(false)
   const [showHideAdd, setShowHideAdd] = useState(false)
+  const [showHideDeleteIteration, setShowHideDeleteIteration] = useState(false)
+
   const [expandedKeys, setExpandedKeys] = useState({})
   const [visibleEdit, setVisibleEdit] = useState(false)
   const [deletePis, setDeletePi] = useState({})
@@ -66,9 +73,13 @@ const Cadence = () => {
       if (res.data.length == 0) {
         setShowHideCreate(true)
         setShowHideAdd(false)
+        setHideShowIeration(false)
+        setShowHideDeleteIteration(false)
       } else {
         setShowHideAdd(true)
         setShowHideCreate(false)
+        setHideShowIeration(true)
+        setShowHideDeleteIteration(true)
       }
     } catch (err) {
       throw new Error('No data found !!!')
@@ -191,13 +202,16 @@ const Cadence = () => {
           }}
           filter
         />
+        <br />
+
         <div>
           <Button
+            style={{ marginRight: '15px' }}
             visible={showHideAdd}
             label="add pi"
             onClick={() => setVisibleAddPi(true)}
           />
-          <br />
+
           <Button
             visible={showHideAdd}
             label="delete pi"
@@ -212,12 +226,33 @@ const Cadence = () => {
           onClick={() => setVisibleCreatePi(true)}
         />
       </div>
-      <ContentsTable source={iterations} columns={columns} />
-      <Button
-        id="Create ieration"
-        label="Create iteration"
-        onClick={() => setVisibleAddIteration(true)}
-      />
+      <ContentsTableIterations source={iterations} columns={columns} />
+      <br />
+      <div className={style.export}>
+        <CSVLink
+          style={{
+            textDecoration: 'none'
+          }}
+          data={iterations}
+        >
+          <button>Export as CSV</button>
+        </CSVLink>
+      </div>
+      <div>
+        <Button
+          style={{ marginRight: '15px' }}
+          visible={hideShowIteration}
+          id="Create ieration"
+          label="Create iteration"
+          onClick={() => setVisibleAddIteration(true)}
+        />
+        <Button
+          visible={showHideDeleteIteration}
+          label="delete Iteration"
+          onClick={() => setVisibleDeleteIteration(true)}
+        />
+      </div>
+
       <Dialog
         header="Caps Look"
         style={{ textAlign: 'center' }}
@@ -290,13 +325,48 @@ const Cadence = () => {
       >
         <CreateIteration
           project={selectedproject}
-          pis={selectedpi}
+          pis={pis}
           onSubmit={() => {
             setVisibleAddIteration(false)
             toast.current.show({
               severity: 'success',
               summary: 'Success Message',
               detail: 'adding iteration done successfully'
+            })
+          }}
+        />
+      </Dialog>
+      <Dialog
+        header="Caps Look"
+        style={{ textAlign: 'center' }}
+        visible={visibleEdit}
+        onHide={() => {
+          setVisibleEdit(false)
+        }}
+      >
+        <EditIterationDetails
+          source={edit}
+          onSubmit={() => {
+            setVisibleEdit(false)
+          }}
+        />
+      </Dialog>
+      <Dialog
+        header="Caps Look"
+        style={{ textAlign: 'center', width: '20vw' }}
+        visible={visibleDeleteIteration}
+        onHide={() => setVisibleDeleteIteration(false)}
+      >
+        <DeleteIteration
+          project={selectedproject}
+          pis={selectedpi}
+          iterations={iterations}
+          onSubmit={() => {
+            setVisibleDeleteIteration(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'removing site done successfully'
             })
           }}
         />

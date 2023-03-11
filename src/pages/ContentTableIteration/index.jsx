@@ -48,29 +48,6 @@ const ContentsTable = (props) => {
                   )
                 })}
               </div>
-              <Button
-                id="Edit"
-                className={style.EditContainer}
-                style={{ background: color }}
-                onClick={() => {
-                  if (props.onEditRow) {
-                    props.onEditRow(data)
-                  }
-                }}
-              >
-                <CiEdit className={style.innerIcons} />
-              </Button>
-              <Button
-                className={style.ArchiveContainer}
-                style={{ background: color }}
-                onClick={() => {
-                  if (props.archiveRow) {
-                    props.archiveRow(data)
-                  }
-                }}
-              >
-                <BiArchiveIn className={style.innerIcons} />
-              </Button>
             </div>
           )
         })}
