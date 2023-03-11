@@ -1,140 +1,306 @@
 import style from './style.module.scss'
-import React from 'react'
-import { useState, useReducer } from 'react'
+import api from '../../config'
+import { React, useState, useEffect, useRef, useReducer } from 'react'
 import PageContainer from '../../components/PageContainer'
-import PITable from './PITable'
-import MilestoneTable from './MilestoneTable'
-import SelectProject from './SelectProject'
-import SelectPI from './SelectPI'
-import PopupMilestone from './PopupMilestone'
-import PopupPI from './PopupPI'
-import PopupIteration from './PopupIteration'
+import { Button } from 'primereact/button'
+import { Dropdown } from 'primereact/dropdown'
+import { Dialog } from 'primereact/dialog'
+import CreatePi from './CreatePi'
+import ContentsTable from '../../components/ContentsTable'
+import { TreeSelect } from 'primereact/treeselect'
+import AddPi from './addPi'
+import DeletePi from './deletePi'
+import CreateIteration from './CreateIteration'
 const Cadence = () => {
-  const [selectProjectState, setSelectProjectState] = useState('')
-  const [selectPIState, setSelectPIState] = useState('')
-  const [mileStoneForm, setMileStoneForm] = useState(false)
-  const [PIForm, setPIForm] = useState(false)
-  const [iterationForm, setIterationForm] = useState(false)
-  const [visibilityPIMilestoneButton, setVisibilityPIMilestoneButton] =
-    useState('hidden')
-  const [
-    visibilityIterationEditArchiveButton,
-    setVisibilityIterationEditArchiveButton
-  ] = useState('hidden')
-  const [refreshPITable, updateStatePITable] = useReducer((x) => x + 1, 0)
-  const [refreshPISelect, updateStatePISelect] = useReducer((x) => x + 1, 0)
-  const [refreshMilestonesTable, updateStateMilestonesTable] = useReducer(
-    (x) => x + 1,
-    0
-  )
+  const toast = useRef(null)
+  const [projects, setProjects] = useState([{}])
+  const [selectedproject, setSelectedproject] = useState(null)
+  const [pis, setPis] = useState([])
+  const [iterations, setIterations] = useState([])
+  const [selectedpi, setSelectedpi] = useState(null)
+  const [nodes, setNodes] = useState(null)
+  const [selectedNodeKey, setSelectedNodeKey] = useState(null)
+  const [visibleCreatePi, setVisibleCreatePi] = useState(false)
+  const [visibleAddPi, setVisibleAddPi] = useState(false)
+  const [visibleAddIteration, setVisibleAddIteration] = useState(false)
+
+  const [visibleDeletePi, setVisibleDeletePi] = useState(false)
+  const [showHideCreate, setShowHideCreate] = useState(false)
+  const [showHideAdd, setShowHideAdd] = useState(false)
+  const [expandedKeys, setExpandedKeys] = useState({})
+  const [visibleEdit, setVisibleEdit] = useState(false)
+  const [deletePis, setDeletePi] = useState({})
+  const [edit, setEdit] = useState({})
+  const [selectedData, setSelectedData] = useState('')
+  const [searchResults, setSearchResults] = useState([])
+  const [filteredData, setFilteredData] = useState(null)
+  const [filteredPi, setFilteredPi] = useState(null)
+
+  console.log('selectedpi', selectedpi)
+
+  const getProjectsName = async () => {
+    try {
+      const result = await fetch(`${api.apiRequest}/projects`, {
+        credentials: 'include'
+      })
+      const res = await result.json()
+      setProjects(res.data)
+    } catch (err) {
+      throw new Error('No data found !!!')
+    }
+  }
+
+  const getPi = async (id) => {
+    try {
+      const body = {
+        id: id
+      }
+      const result = await fetch(`${api.apiRequest}/pisProject`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        credentials: 'include'
+      })
+      const res = await result.json()
+      setPis(res.data)
+      if (res.data.length == 0) {
+        setShowHideCreate(true)
+        setShowHideAdd(false)
+      } else {
+        setShowHideAdd(true)
+        setShowHideCreate(false)
+      }
+    } catch (err) {
+      throw new Error('No data found !!!')
+    }
+  }
+  const getIterationsByPi = async (project_id, pi_id) => {
+    try {
+      const body = {
+        project_id: project_id,
+        pi_id: pi_id
+      }
+      const result = await fetch(`${api.apiRequest}/iterationsPi`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        credentials: 'include'
+      })
+      const res = await result.json()
+      setIterations(res.data)
+    } catch (err) {
+      throw new Error('No data found !!!')
+    }
+  }
+  const search = (event) => {
+    setTimeout(() => {
+      let filtered
+      if (!event.query.trim().length) {
+        filtered = [projects]
+      } else {
+        filtered = projects.filter((item) => {
+          return item.project_name
+            .toLowerCase()
+            .startsWith(event.query.toLowerCase())
+        })
+      }
+      setFilteredData(filtered)
+    }, 250)
+  }
+
+  const searchPi = (event) => {
+    setTimeout(() => {
+      let filtered
+      if (!event.query.trim().length) {
+        filtered = [pis]
+      } else {
+        filtered = pis.filter((item) => {
+          return item.pi_name
+            .toLowerCase()
+            .startsWith(event.query.toLowerCase())
+        })
+      }
+      setFilteredPi(filtered)
+    }, 250)
+  }
+
+  const searchNodeKey = (event) => {
+    setTimeout(() => {
+      let filtered
+      if (!event.query.trim().length) {
+        filtered = [pis]
+      } else {
+        filtered = pis.filter((item) => {
+          return item.pi_name
+            .toLowerCase()
+            .startsWith(event.query.toLowerCase())
+        })
+      }
+      setFilteredPi(filtered)
+    }, 250)
+  }
+
+  useEffect(() => {
+    getProjectsName()
+  }, [])
+
+  const columns = [
+    { title: 'Number', dataIndex: 'iteration_number' },
+    { title: 'Iteration Name', dataIndex: 'iteration_name' },
+    { title: 'Start Date', dataIndex: 'iteration_start_date' },
+    { title: 'End Date', dataIndex: 'iteration_end_date' }
+  ]
+
   return (
-    <PageContainer>
-      <div style={{ width: '90%' }}></div>
-      <div className={style.innerContainer}>
-        <SelectProject
-          selectProjectState={selectProjectState}
-          setSelectProjectState={setSelectProjectState}
-          visibilityPIMilestoneButton={visibilityPIMilestoneButton}
-          setVisibilityPIMilestoneButton={setVisibilityPIMilestoneButton}
-        ></SelectProject>
-        <SelectPI
-          visibility={visibilityPIMilestoneButton}
-          selectPIState={selectPIState}
-          setSelectPIState={setSelectPIState}
-          selectProjectState={selectProjectState}
-          visibilityIterationEditArchiveButton={
-            visibilityIterationEditArchiveButton
-          }
-          setVisibilityIterationEditArchiveButton={
-            setVisibilityIterationEditArchiveButton
-          }
-          visibilityPIMilestoneButton={visibilityPIMilestoneButton}
-          setVisibilityPIMilestoneButton={setVisibilityPIMilestoneButton}
-          refreshPISelect={refreshPISelect}
-          updateStatePISelect={updateStatePISelect}
-        ></SelectPI>
+    <PageContainer name={'Cadence'}>
+      <div className="card flex justify-content-center">
+        <Dropdown
+          style={{ margin: 10 }}
+          type="search"
+          className="w-full md:w-14rem"
+          placeholder="Select a Project"
+          field="project_name"
+          value={selectedproject}
+          suggestions={filteredData}
+          completeMethod={search}
+          options={projects}
+          optionLabel="project_name"
+          optionValue="id"
+          onChange={(e) => {
+            setSelectedproject(e.value)
+            getPi(e.value)
+          }}
+          filter
+        />
+        <Dropdown
+          style={{ margin: 10 }}
+          type="search"
+          className="w-full md:w-14rem"
+          placeholder="Select a Pi"
+          field="pi_name"
+          value={selectedpi}
+          suggestions={filteredPi}
+          completeMethod={searchPi}
+          options={pis}
+          optionLabel="pi_name"
+          optionValue="id"
+          onChange={(e) => {
+            console.log('TEST', e.value)
+            setSelectedpi(e.value)
+            getIterationsByPi(selectedproject, e.value)
+          }}
+          filter
+        />
+        <div>
+          <Button
+            visible={showHideAdd}
+            label="add pi"
+            onClick={() => setVisibleAddPi(true)}
+          />
+          <br />
+          <Button
+            visible={showHideAdd}
+            label="delete pi"
+            onClick={() => setVisibleDeletePi(true)}
+          />
+        </div>
 
-        <button
-          className={style.PI}
-          style={{ visibility: visibilityPIMilestoneButton }}
-          onClick={() => {
-            setPIForm(true)
-          }}
-        >
-          + Add PI
-        </button>
-        <button
-          className={style.iteration}
-          onClick={() => {
-            setIterationForm(true)
-          }}
-          style={{ visibility: visibilityIterationEditArchiveButton }}
-        >
-          + Add iteration
-        </button>
-        <PopupIteration
-          iterationForm={iterationForm}
-          setIterationForm={setIterationForm}
-          selectPIState={selectPIState}
-          selectProjectState={selectProjectState}
-          onSubmit={() => setIterationForm(false)}
-          refreshPITable={updateStatePITable}
-        ></PopupIteration>
-        <h1
-          style={{
-            fontSize: '30px',
-            color: '#595786',
-            marginRight: '1000px',
-            marginBottom: '-50px'
-          }}
-        >
-          Iterations
-        </h1>
-        <PITable
-          selectPIState={selectPIState}
-          refreshPITable={refreshPITable}
-          updateStatePITable={updateStatePITable}
-        ></PITable>
-        <PopupPI
-          PIForm={PIForm}
-          setPIForm={setPIForm}
-          selectProjectState={selectProjectState}
-          onSubmit={() => setPIForm(false)}
-          refreshPISelect={updateStatePISelect}
-        ></PopupPI>
-        <h1
-          style={{
-            fontSize: '30px',
-            color: '#595786',
-            marginRight: '1000px',
-            marginBottom: '-100px'
-          }}
-        >
-          Milestones
-        </h1>
-        <button
-          className={style.mileStone}
-          onClick={() => {
-            setMileStoneForm(true)
-          }}
-          style={{ visibility: visibilityPIMilestoneButton }}
-        >
-          + Add Milestone
-        </button>
-        <PopupMilestone
-          mileStoneForm={mileStoneForm}
-          setMileStoneForm={setMileStoneForm}
-          selectProjectState={selectProjectState}
-          onSubmit={() => setMileStoneForm(false)}
-          refreshMilestonesTable={updateStateMilestonesTable}
-        ></PopupMilestone>
-
-        <MilestoneTable
-          selectProjectState={selectProjectState}
-          refreshMilestonesTable={refreshMilestonesTable}
-          updateStateMilestonesTable={updateStateMilestonesTable}
-        ></MilestoneTable>
+        <Button
+          visible={showHideCreate}
+          id="Create PI"
+          label="Create PI"
+          onClick={() => setVisibleCreatePi(true)}
+        />
       </div>
+      <ContentsTable source={iterations} columns={columns} />
+      <Button
+        id="Create ieration"
+        label="Create iteration"
+        onClick={() => setVisibleAddIteration(true)}
+      />
+      <Dialog
+        header="Caps Look"
+        style={{ textAlign: 'center' }}
+        visible={visibleCreatePi}
+        onHide={() => {
+          setVisibleCreatePi(false)
+        }}
+      >
+        <CreatePi
+          project={selectedproject}
+          pis={pis}
+          onSubmit={() => {
+            setVisibleCreatePi(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'adding Pi done successfully'
+            })
+          }}
+        />
+      </Dialog>
+
+      <Dialog
+        header="Caps Look"
+        style={{ textAlign: 'center' }}
+        visible={visibleAddPi}
+        onHide={() => {
+          setVisibleAddPi(false)
+        }}
+      >
+        <AddPi
+          project={selectedproject}
+          pis={pis}
+          onSubmit={() => {
+            setVisibleAddPi(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'adding Pi done successfully'
+            })
+          }}
+        />
+      </Dialog>
+      <Dialog
+        header="Caps Look"
+        style={{ textAlign: 'center', width: '20vw' }}
+        visible={visibleDeletePi}
+        onHide={() => setVisibleDeletePi(false)}
+      >
+        <DeletePi
+          project={selectedproject}
+          pis={pis}
+          onSubmit={() => {
+            setVisibleDeletePi(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'removing site done successfully'
+            })
+          }}
+        />
+      </Dialog>
+      <Dialog
+        header="Caps Look"
+        style={{ textAlign: 'center' }}
+        visible={visibleAddIteration}
+        onHide={() => {
+          setVisibleAddIteration(false)
+        }}
+      >
+        <CreateIteration
+          project={selectedproject}
+          pis={selectedpi}
+          onSubmit={() => {
+            setVisibleAddIteration(false)
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success Message',
+              detail: 'adding iteration done successfully'
+            })
+          }}
+        />
+      </Dialog>
     </PageContainer>
   )
 }
