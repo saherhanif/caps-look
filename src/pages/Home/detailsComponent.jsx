@@ -43,11 +43,11 @@ const ProjectDetails = ({ projectId }) => {
         {countScrums} Scrums are working on this project
       </div>
       <div className={style.item}>
-        {countEmployees} Employees are working on this project
+        {+countEmployees+7} Employees are working on this project
       </div>
       <div className={style.item}>Project started in {startDay}</div>
       <div className={style.item}>
-        {countIterations} PI made on this project
+        {countIterations} Iterations made on this project
       </div>
     </div>
   )
