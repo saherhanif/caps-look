@@ -25,7 +25,6 @@ const PiDropdown = (props) => {
           value={data.from_iteration}
           onChange={(e) => {
             setSelectedFrom(e.value)
-            console.log('From:', e.value)
             onChange('from_iteration')(e)
             props.setDataFrom(e.value)
           }}
@@ -42,7 +41,6 @@ const PiDropdown = (props) => {
           onChange={(e) => {
             setSelectedTo(e.value)
             onChange('to_iteration')(e)
-            console.log('To:', e.value)
             props.setDataTo(e.value)
             props.update(e.value)
           }}
