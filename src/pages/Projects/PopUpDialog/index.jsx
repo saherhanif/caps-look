@@ -4,16 +4,15 @@ import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
 import api from '../../../config'
 import { Messages } from 'primereact/messages'
+import { json } from 'react-router-dom'
 
 export default function PopUpMessage(props) {
   const [data, setData] = React.useState({
     ProjectName: '',
-    StartDate: '',
-    PiNumber: ''
+    StartDate: ''
   })
-  const msgs = useRef('null')
+  const msgs = useRef(null)
   const onChange = (key) => (e) => setData({ ...data, [key]: e.target.value })
-
   const createProject = async () => {
     try {
       const body = data
@@ -25,9 +24,6 @@ export default function PopUpMessage(props) {
       })
       const resultBody = await result.json()
 
-      props.refresh()
-      props.onSubmit()
-
       if (resultBody.message === 'Please Insert a name for the project') {
         return msgs.current.show([
           {
@@ -38,17 +34,7 @@ export default function PopUpMessage(props) {
             closable: true
           }
         ])
-      } else if (resultBody.message === 'Please Insert number of Pi') {
-        return msgs.current.show([
-          {
-            sticky: false,
-            severity: 'error',
-            summary: '',
-            detail: resultBody.message,
-            closable: true
-          }
-        ])
-      } else if (
+      }  else if (
         resultBody.message === 'Please Insert starting date for the project'
       ) {
         return msgs.current.show([
@@ -107,28 +93,6 @@ export default function PopUpMessage(props) {
             closable: true
           }
         ])
-      } else if (
-        resultBody.message === 'PI should be a number between 1 and 99'
-      ) {
-        return msgs.current.show([
-          {
-            sticky: false,
-            severity: 'error',
-            summary: '',
-            detail: resultBody.message,
-            closable: true
-          }
-        ])
-      } else if (resultBody.message === 'PI should be a whole number') {
-        return msgs.current.show([
-          {
-            sticky: false,
-            severity: 'error',
-            summary: '',
-            detail: resultBody.message,
-            closable: true
-          }
-        ])
       } else if (resultBody.message === 'Please Insert data') {
         return msgs.current.show([
           {
@@ -139,6 +103,10 @@ export default function PopUpMessage(props) {
             closable: true
           }
         ])
+      } else {
+        props.onSubmit()
+
+        props.refresh()
       }
     } catch (err) {
       return msgs.current.show([
@@ -170,17 +138,6 @@ export default function PopUpMessage(props) {
         placeholder="ProjectName"
         required
         onChange={onChange('ProjectName')}
-      />
-      <br />
-      <InputText
-        id="PiNumber"
-        value={data.PiNumber}
-        type="number"
-        name="PiNumber"
-        placeholder="Pi Number"
-        style={{ width: '208px' }}
-        required
-        onChange={onChange('PiNumber')}
       />
       <br />
       <Calendar

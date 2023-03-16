@@ -8,9 +8,11 @@ import { useState } from 'react'
 const Home = () => {
   const [projId, setProjId] = useState(1)
   return (
-    <PageContainer name={'Site Mix'}>
-      <DropdownProject setProjId={setProjId} /><br/><br/>
-      <ProjectDetails projectId={projId}/> 
+    <PageContainer name={'Home'}>
+      <DropdownProject setProjId={setProjId} />
+      <br />
+      <ProjectDetails projectId={projId} />
+
       <SiteMix projectId={projId} />
     </PageContainer>
   )

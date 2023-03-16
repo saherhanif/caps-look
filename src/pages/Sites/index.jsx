@@ -83,6 +83,7 @@ const Sites = () => {
           }}
         />
       </div>
+      <br />
       <div className={style.buttonsContainer}>
         <div className={style.Create}>
           <Button
@@ -101,7 +102,6 @@ const Sites = () => {
             <button>Export as CSV</button>
           </CSVLink>
         </div>
-        <br />
         <Dialog
           header="Caps Look"
           style={{ textAlign: 'center' }}

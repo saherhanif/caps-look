@@ -19,6 +19,7 @@ import './App.scss'
 import Capacity from './pages/Capacity'
 import React, { useEffect } from 'react'
 import { getRole, isAuthorized } from './utils/useAuth'
+import Milestone from './pages/Milestone'
 
 function App() {
   const logToken = getRole(document.cookie.valueOf('userToken'))
@@ -89,6 +90,11 @@ function App() {
                 'resource_manager',
                 'scrum_master'
               ]) && <Route path="/Capacity" element={<Capacity />} />}
+              {isAuthorized(logToken, [
+                'project_manager',
+                'resource_manager',
+                'scrum_master'
+              ]) && <Route path="/Milstones" element={<Milestone />} />}
             </Routes>
           </div>
         </div>
