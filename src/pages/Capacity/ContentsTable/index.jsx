@@ -48,7 +48,7 @@ const ContentsTable = (props) => {
                       }}
                       className={style.dataNode}
                     >
-                      {data[e.dataIndex] || '178.8'}
+                      {data[e.dataIndex]}
                     </h3>
                   )
                 })}

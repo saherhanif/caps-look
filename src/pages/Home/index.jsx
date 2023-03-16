@@ -12,6 +12,7 @@ const Home = () => {
       <DropdownProject setProjId={setProjId} />
       <br />
       <ProjectDetails projectId={projId} />
+
       <SiteMix projectId={projId} />
     </PageContainer>
   )
